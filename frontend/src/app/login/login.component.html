@@ -1,0 +1,127 @@
+﻿
+<div class="header">
+        <div class="container" style="flex: none;">
+            <div class="row login_wrapper">
+                <div class="col-6">
+                    <div class="logo">
+                        <a href="">
+                            <img class="logo_img" src="assets/images/logo.png"
+                                 alt="logo">
+                        </a>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="headerLogin">
+                        <a [routerLink]="['/register/register-free']"
+                           class="loginButton">
+                            {{'BTN_REGISTER' | translate}}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+<main role="main"
+      class="main">
+    <div class="container">
+        <div class="pt-2">
+            <alert></alert>
+        </div>
+        <h1 class="title">
+            {{'TITLE_LOGIN' | translate}}
+        </h1>
+        <form name="form"
+              class="form"
+              (ngSubmit)="f.form.valid && login()"
+              #f="ngForm"
+              validate>
+            <div class="form-group"  [ngClass]="{ 'has-danger': f.submitted && !email.valid }">
+                <label class="form-control-label" for="email">{{'LABEL_EMAIL' | translate}}</label>
+                <input type="email"
+                       id="email"
+                       class="form-control"
+                       name="email"
+                       [(ngModel)]="model.email"
+                       #email="ngModel"
+                       required
+                       placeholder="{{'LABEL_EMAIL' | translate}}"
+                       email
+                       [ngClass]="{ 'form-control-danger': f.submitted && !email.valid }"/>
+                <div *ngIf="f.submitted && !email.valid"
+                     class="form-control-feedback">
+                    {{'ERR_EMAIL_REQUIRED' | translate}}
+                </div>
+            </div>
+            <div class="form-group passwordCol" [ngClass]="{ 'has-danger': f.submitted && !password.valid }">
+                <label class="form-control-label" for="inputPassword">{{'LABEL_PASSWORD' | translate}}</label>
+                <input class="form-control"
+                       id="inputPassword"
+                       name="password"
+                       [(ngModel)]="model.password"
+                       #password="ngModel"
+                       required
+                       placeholder="{{'LABEL_PASSWORD' | translate}}"
+                       [type]="showPass ? 'text' : 'password'"
+                       [ngClass]="{ 'form-control-danger': f.submitted && !password.valid }"/>
+                <div *ngIf="!showPass"
+                     (click)="showPassword()"
+                     class="field-icon toggle-password">
+                    <img src="assets/images/hidePass.svg">
+                </div>
+                <div *ngIf="showPass"
+                     (click)="showPassword()"
+                     class="field-icon toggle-password">
+                    <img src="assets/images/showPass.svg">
+                </div>
+                <div *ngIf="f.submitted && !password.valid"
+                     class="form-control-feedback">
+                    {{'ERR_PASSWORD_REQUIRED' | translate}}
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col">
+                    <label class="custom-control fill-checkbox checkbox_body">
+                        <input type="checkbox"
+                               class="fill-control-input"
+                               id="remember"
+                               name="remember"
+                               [(ngModel)]="model.remember"
+                               #remember="ngModel"/>
+                        <span class="fill-control-indicator"></span>
+                        <span class="fill-control-description">{{'BTN_REMEMBER_ME' | translate}}</span>
+                    </label>
+                </div>
+            </div>
+            <button class="btn btn-lg btn-primary btn-block login"
+                    type="submit">
+                {{'BTN_LOGIN' | translate}}
+                <img class="form_spinner" *ngIf="isLoading" src="./../../../assets/images/Spinner-form.svg" alt="">
+            </button>
+            <a [routerLink]="['/login/restore-password']"
+               class="link">
+                {{'BTN_FORGOT_PASSWORD' | translate}}
+            </a>
+        </form>
+    </div>
+</main>
+<footer></footer>
+<modal id="custom-modal-2">
+    <div class="modal">
+        <div class="modal-body">            
+            <button (click)="closeModal('custom-modal-2');"
+                    class="closeModal">
+                <i class="fa fa-close"></i>
+            </button>
+            <div class="content">
+                <div class="image">
+                    <img src="assets/images/sucess.png"
+                         alt="logo">
+                </div>
+                <div>
+                    {{'MODAL_CONFIRM_EMAIL' | translate}}
+                </div>
+            </div>
+        </div>
+    </div>
+     <div class="modal-background"></div>
+</modal>

@@ -1,0 +1,108 @@
+﻿<header (passQuery)="searchV($event)" (openModalRegister)="productLink()"></header>
+<section class="dashboardNav">
+    <div class="container">
+        <app-sort-selector
+                (filter)="selectSortBy($event)">
+        </app-sort-selector>
+    </div>
+</section>
+<main role="main"
+      class="main pb-5 visitor_wrapper">
+      <div class="container">
+            <div class="searchResultTitle">
+                <b>Search results by:</b> {{productSearch}}
+            </div>
+        </div> 
+    <div class="container">
+        <div class="row">
+            <app-filters class="col-2"
+                         (filter)="onFilterChenge($event)">
+            </app-filters>
+            <section class="col-10">
+                <div class="row catalog">
+                    <div class="col-3" *ngIf="noProducts">
+                        No products.
+                    </div>
+                    <div class="spinner" *ngIf="!products">
+                        <img src="./../../../assets/images/Spinner-product.svg" alt="Loading...">
+                    </div>
+                    <div class="bestProduct" *ngFor="let product of products">
+                        <div class="productInfo">
+                            <div class="discount-label"
+                                 *ngIf="product.has_discount && checkDiscountDate(product.discount_end_date)">
+                                {{ (100-100*product.discount_price/product.price > 1)?
+                                (-(100-100*product.discount_price/product.price | number : '1.0-0')) :  ('<1')
+                                }}%
+                            </div>
+                            <div class="productRef">
+                                Ref. {{product.ref_number}}
+                            </div>
+                            <!--<a href="javascript:void(0);">-->
+                            <!--<div class="productBookmark">-->
+                            <!--</div>-->
+                            <!--</a>-->
+                            <div class="productImage">
+                                <a href="javascript:void(0);" (click)="productLink(product.id)">
+                                    <img class="card-img-top" src="{{product.default_image.url}}">
+                                </a>
+                            </div>
+                            <div class="productDesc">
+                                <div class="productPrice discount" *ngIf="product.has_discount &&
+                                checkDiscountDate(product.discount_end_date)">
+                                    <p class="discount-price">{{product.discount_price | number:'0.2'}} {{product.currency}}</p>
+                                    <div *ngIf="product.price">
+                                        <div class="strikethrough">
+                                            {{product.price | number:'0.2'}} {{product.currency}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="productPrice"
+                                     *ngIf="product.price && !product.discount_price || !checkDiscountDate(product.discount_end_date)">
+                                    {{product.price | number:'0.2'}} {{product.currency}}
+                                </div>
+                                <p class="discount-end" *ngIf="product.has_discount && checkDiscountDate(product.discount_end_date)">
+                                    Discount till {{product.discount_end_date | date : 'dd/MM/yy'}}
+                                </p>
+                                <p class="productShortDesc">{{product.title | slice:0:30}}</p>
+                                <p class="productShortSize">{{product.min_size_eu}} - {{product.max_size_eu}}</p>
+                            </div>
+                            <div class="productButton">
+                                <a href="javascript:void(0);" (click)="productLink(product.id)">
+                                    <div class="addButton">
+                                        Add to My Selection
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <app-pagination class="pagi_navi" pageSize="40"
+                        (pageChanged)="onPageChanged($event)">
+
+        </app-pagination>
+    </div>
+</main>
+<footer></footer>
+<modal id="custom-modal-2">
+    <div class="modal">
+        <div class="modal-body">            
+            <button (click)="closeModal('custom-modal-2');"
+                    class="closeModal">
+                <i class="fa fa-close"></i>
+            </button>
+            <div class="content">
+                <div class="image">
+                    <img src="assets/images/sucess.png"
+                         alt="logo">
+                </div>
+                <div>
+                    Please, buy a PRO account
+                </div>
+            </div>
+        </div>
+    </div>
+     
+    <div class="modal-background"></div>
+</modal>

@@ -1,0 +1,431 @@
+<div [formGroup]="form_group">
+    <div class="row col">
+        <div class="form-group add_product_form">
+            <app-select label="*{{'LABEL_GENDER' | translate}}" formControlName="gender"
+                        [listArray]="genders" (change)="selectMethod(j)">
+            </app-select>
+        </div>
+    </div>
+    <div class="row col">
+        <div class="form-group add_product_form">
+            <app-select label="{{'LABEL_STYLE' | translate}}" formControlName="style"
+                        [listArray]="styles">
+            </app-select>
+        </div>
+    </div>
+    <span class="bottom_line"> </span>
+    <h2 class="title">{{'TITLE_COMPOSITION_LABEL' | translate}}</h2>
+    <div class="row col composition">
+        <div class="form-group small_select" *ngIf="composition_inner">
+            <app-select
+                    label="{{'LABEL_UPPER' | translate}}" formControlName="composition_upper"
+                    [listArray]="composition_inner">
+            </app-select>
+        </div>
+        <div class="form-group small_select" *ngIf="composition_inner">
+            <app-select
+                    label="{{'LABEL_SOCK' | translate}}" formControlName="composition_sock"
+                    [listArray]="composition_inner">
+            </app-select>
+        </div>
+    </div>
+    <div class="row col composition">
+        <div class="form-group small_select" *ngIf="composition_inner">
+            <app-select
+                    label="{{'LABEL_LINING' | translate}}" formControlName="composition_lining"
+                    [listArray]="composition_inner">
+            </app-select>
+        </div>
+        <div class="form-group small_select" *ngIf="composition_outer">
+            <app-select
+                    label="{{'LABEL_OUTER' | translate}}" formControlName="composition_outer_sole"
+                    [listArray]="composition_outer">
+            </app-select>
+        </div>
+    </div>
+    <span class="bottom_line"> </span>
+    <div class="row col">
+        <div class="form-group small_select">
+            <app-select
+                    label="{{'LABEL_COLOR' | translate}}" formControlName="color"
+                    [listArray]="colors">
+            </app-select>
+        </div>
+    </div>
+    <span class="bottom_line"> </span>
+
+    <div class="row col">
+        <div class="form-group add_product_form">
+            <app-select
+                    label="{{'LABEL_BRAND' | translate}}" formControlName="brand" [listArray]="brands"
+                    (valueChange)="onSelectBrand($event)">
+            </app-select>
+        </div>
+    </div>
+
+    <div class="row col">
+        <div class="form-group add_product_form">
+            <app-select
+                    label="{{'LABEL_COLLECTION_STOCK' | translate}}" formControlName="is_collection"
+                    [listArray]="collectionOrStockTranslated">
+            </app-select>
+        </div>
+    </div>
+    <div *ngIf="form_group.controls.is_collection.value.value" class="form-group row col">
+        <app-data-picker
+                label="{{'LABEL_DATE_COLLECTION' | translate}}"
+                formControlName="collection_shipping_date">
+        </app-data-picker>
+    </div>
+    <span class="bottom_line"> </span>
+
+    <div class="form-group row col"
+         [ngClass]="{ 'has-danger': !form_group.controls.saleType.pristine &&
+  form_group.controls.saleType.hasError('required') }">
+        <div class="control-group">
+            <label
+                    class="form-control-label">*{{'LABEL_SALE_TYPE' | translate}}
+                <label class="control control--radio">{{'FILTERS_SALE_TYPE_1' | translate}}
+                    <input type="radio" value="sizes" (click)="setType('pairs');" formControlName="saleType">
+                    <div class="control__indicator"></div>
+                </label>
+                <label class="control control--radio">{{'FILTERS_SALE_TYPE_2' | translate}}
+                    <input type="radio"
+                           (click)="setType('prepacks');"
+                           value="prepacks" formControlName="saleType">
+                    <div class="control__indicator"></div>
+                </label>
+                <div *ngIf="!form_group.controls.saleType.pristine &&
+  form_group.controls.saleType.hasError('required')">{{'ERR_REQUIRED' | translate}}
+                </div>
+            </label>
+        </div>
+    </div>
+    <span class="error_message" *ngIf="!form_group.controls.gender.value &&
+    form_group.controls.saleType.value"> {{'ERR_NO_GENDER' | translate}}</span>
+    <div class="row"
+         *ngIf="form_group.controls.saleType.value === 'prepacks' && form_group.controls.gender.value"
+         formArrayName="prepacks">
+        <div class="form-group col">
+            <label class="form-control-label">{{'LABEL_PREPACK' | translate}}</label>
+            <div *ngFor="let prepack of this.form_group.controls.prepacks.controls; let i = index"
+                 style="margin-bottom: 20px; margin-left:0"
+                 class="row">
+                <div style="width: 298px"  [ngClass]="{ 'has-danger': prepack.invalid}">
+                <app-select [listArray]="prepacks"
+                            [formControl]="prepack.controls['item']"
+                            (valueChange)="onSelectPrepack($event, i)" class="select_prepack">
+                </app-select>
+                <p *ngIf="form_group.controls.prepacks.hasError('emptyArray')"
+                   class="has_danger">
+                    {{'ERR_REQUIRED' | translate}}
+                </p>
+                </div>
+                <div *ngIf="!showCustomPrepack[i]" class="moz_position"
+                     [ngClass]="{ 'has-danger':prepack.controls['available_quantity'].invalid && !prepack.controls['available_quantity'].pristine}">
+                    <label class="form-control-label prepack_quantity_label">
+                        <span class="prep_quantity">{{'TEXT_QUANTITY' | translate}}</span>
+                        <input type="number"
+                               min="0"
+                               [formControl]="prepack.controls['available_quantity']"
+                               class="form-control prepack_quantity">
+                    </label>
+                    <p *ngIf="prepack.controls['available_quantity'].invalid && !prepack.controls['available_quantity'].pristine">
+                                    <span *ngIf="prepack.controls['available_quantity'].hasError('invalidNumber')"
+                                          class="has_danger pad_left">
+                                        {{'ERR_INVALID_INT' | translate}}
+                                    </span>
+                    </p>
+                </div>
+                <a (click)="removePrepack(i)" class="removePrepack" href="javascript:void(0);">
+                    <img src="assets/images/group.svg" alt="x">
+                </a>
+                <div class="w-100"
+                     *ngIf="showCustomPrepack[i]">
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group"
+                                 style="margin-top: 20px;">
+                                <div class="custom_prepack_name">
+                                    <div [ngClass]="{ 'has-danger':prepack.controls['name'].invalid && !prepack.controls['name'].pristine}">
+                                        <label class="form-control-label">{{'TEXT_PREPACK_NAME' | translate}}
+                                            <input type="text"
+                                                   class="form-control prepack_name"
+                                                   [disabled]="form_group.controls.prepacks.disabled"
+                                                   placeholder="{{'TEXT_PREPACK_NAME' | translate}}"
+                                                   [formControl]="prepack.controls['name']"
+                                                   [ngClass]="{ 'form-control-danger': enterPrepackName[i] }"/>
+                                        </label>
+                                        <p *ngIf="prepack.controls['name'].invalid && !prepack.controls['name'].pristine">
+                                    <span *ngIf="prepack.controls['name'].hasError('required')"
+                                          class="has_danger">
+                                        {{'ERR_REQUIRED' | translate}}
+                                    </span>
+                                        </p>
+                                    </div>
+                                    <div [ngClass]="{ 'has-danger':prepack.controls['available_quantity'].invalid && !prepack.controls['available_quantity'].pristine}">
+                                        <label class="form-control-label prepack_quantity_label" style="margin-top: 0">{{'TEXT_QUANTITY' | translate}}
+                                            <input type="number"
+                                                   min="0"
+                                                   [formControl]="prepack.controls['available_quantity']"
+                                                   class="form-control prepack_quantity">
+                                        </label>
+                                        <p *ngIf="prepack.controls['available_quantity'].invalid && !prepack.controls['available_quantity'].pristine">
+                                    <span *ngIf="prepack.controls['available_quantity'].hasError('invalidNumber')"
+                                          class="has_danger pad_left">
+                                        {{'ERR_INVALID_INT' | translate}}
+                                    </span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="size_type col-form-label">
+                                <app-select [formControl]="prepack.controls['size_type']" [listArray]="sizeType"
+                                            label="{{'LABEL_SIZE_TYPE' | translate}}"
+                                            (change)="selectMethod(i)"></app-select>
+                            </div>
+                            <div *ngIf="showPrepackSizes[i]" class="form-group">
+                                <label class="form-control-label">{{'PRODUCT_SIZE_QUANTITY' | translate}}</label>
+                                <div style="width: 426px;display: flex; flex-wrap: wrap;">
+                                    <div *ngFor="let size of CustomPrepacksizes[i]  | ObjNgFor | slice:0:showNumber;">
+                                        <div class="size-container" style=" position: relative;">
+                                            <span class="size">{{size}}</span>
+                                            <input type="text"
+                                                   (keypress)="_keyPress($event)"
+                                                   (ngModelChange)="onInputSize('prepacks', i)"
+                                                   [(ngModel)]="CustomPrepacksizes[i][size]"
+                                                   [ngModelOptions]="{standalone: true}"
+                                                   class="quantity"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="show">
+                                    <a href="javascript:void(0);"
+                                       (click)="seeMoreDesc()">
+                                        {{showAll ? ('BTN_SHOW_LESS' | translate) : ('BTN_SHOW_MORE' | translate)}}
+                                    </a>
+                                </div>
+                            </div>
+                            <p *ngIf="prepack.controls['sizes'].invalid && !prepack.controls['sizes'].pristine">
+                                    <span *ngIf="prepack.controls['sizes'].hasError('invalidSizes')"
+                                          class="has_danger">
+                                        {{'ERR_NO_SIZE' | translate}}
+                                    </span>
+                            </p>
+                            <div *ngIf="prepack.controls['sizes'].errors"
+                                 class="has_danger">
+                                {{prepack.controls['sizes'].errors.message}}
+                            </div>
+                        </div>
+                    </div>
+                    <button *ngIf="marginAddPrepack" class="save_prepack_button" (click)="onPrepackSave(prepack)">Save prepack</button>
+                </div>
+            </div>
+            <div *ngIf="emptyPrepack"
+                 class="form-control-feedback">
+                <span style="color:red; font-size: 14px;">{{'ERR_EMPTY_PREPACK' | translate}}</span>
+            </div>
+            <div *ngIf="emptyCustomPrepack"
+                 class="form-control-feedback">
+                <span style="color:red; font-size: 14px;">{{'ERR_EMPTY_CUSTOM_PREPACK'| translate}}</span>
+            </div>
+            <div class="addPrepacks">
+                <a [ngClass]="{'with_add_to_prepacks': marginAddPrepack}" href="javascript:void(0);" (click)="addPrepack()">
+                    + {{'BTN_ADD_PREPACK' | translate}}
+                </a>
+            </div>
+        </div>
+
+
+    </div>
+    <div *ngIf="form_group.controls.saleType.value === 'sizes' &&
+                form_group.controls.gender.value" class="form-group row">
+        <div class="col">
+            <div class="size_type col-form-label">
+                <app-select formControlName="size_type" [listArray]="sizeType" label="{{'LABEL_SIZE_TYPE' | translate}}"
+                            (change)="selectMethod()"></app-select>
+            </div>
+            <div *ngIf="showSizes" class="form-group">
+                <label class="form-control-label">{{'PRODUCT_SIZE_QUANTITY' | translate}}</label>
+                <div style="width: 426px;display: flex; flex-wrap: wrap;">
+                    <div *ngFor="let size of sizes  | ObjNgFor | slice:0:showNumber; let i = index;">
+                        <div class="size-container" style=" position: relative;">
+                            <span class="size">{{size}}</span>
+                            <input type="text"
+                                   (keypress)="_keyPress($event)"
+                                   (ngModelChange)="onInputSize('sizes')"
+                                   [disabled]="form_group.controls.sizes.disabled"
+                                   [(ngModel)]="sizes[size]"
+                                   [ngModelOptions]="{standalone: true}"
+                                   class="quantity"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="show">
+                    <a href="javascript:void(0);"
+                       (click)="seeMoreDesc()">
+                        {{showAll ? ('BTN_SHOW_LESS'| translate) : ('BTN_SHOW_MORE' | translate)}}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="this.form_group.controls.sizes.hasError('invalidSizes')"
+         style="color:red; font-size: 14px;">
+        {{'ERR_NO_SIZE' | translate}}
+    </div>
+    <div *ngIf="this.form_group.controls.sizes.errors"
+         style="color:red; font-size: 14px;">
+        {{this.form_group.controls.sizes.errors.message}}
+    </div>
+    <div *ngIf="this.form_group.controls.prepacks.errors"
+         style="color:red; font-size: 14px;">
+        {{this.form_group.controls.prepacks.errors.message}}
+    </div>
+    <span class="bottom_line"> </span>
+    <div class="row col">
+        <div class="form-group add_product_form">
+            <app-select
+                    label="{{'LABEL_PRICE_TYPE' | translate}}" formControlName="price_type"
+                    [listArray]="priceTypeTranslated">
+            </app-select>
+        </div>
+    </div>
+    <div class="row col">
+
+
+        <div class="form-group midle_select">
+            <app-input-number label="*{{'LABEL_PRICE' | translate}}" placeholder="{{'LABEL_PRICE' | translate}}" step="0.01"
+                              min="0" formControlName="price">
+
+            </app-input-number>
+        </div>
+        <div class="form-group small_select">
+            <app-select label="*{{'LABEL_CURRENCY' | translate}}" formControlName="currency" [listArray]="currencies">
+            </app-select>
+        </div>
+    </div>
+    <div>
+        <div *ngIf="form_group.controls.price_type.value.value" class="row col">
+            <div class="form-group midle_select margin_btm">
+                <app-input-number label="{{'LABEL_MIN_SALE_PRICE' | translate}}"
+                                  min="0" formControlName="minimal_price" step="0.01"
+                                  placeholder="{{'LABEL_MIN_SALE_PRICE' | translate}}">
+                </app-input-number>
+            </div>
+        </div>
+        <div class="row col">
+            <div class="form-group midle_select margin_btm">
+                <app-input-number label="{{'LABEL_RETAIL_PRICE' | translate}}"
+                                  min="0" formControlName="recommended_retail_price" step="0.01"
+                                  placeholder="{{'LABEL_RETAIL_PRICE' | translate}}">
+                </app-input-number>
+            </div>
+        </div>
+        <div class="row col" *ngIf="this.form_group.controls.price_type.value.id === 0">
+            <div class="form-group midle_select">
+                <app-input-number label="{{'LABEL_PROM_PRICE' | translate}}" placeholder="{{'LABEL_PROM_PRICE' | translate}}" step="0.01"
+                                  min="0" formControlName="discount_price">
+
+                </app-input-number>
+            </div>
+            <div class="form-group">
+                <app-data-picker
+                        label="{{'LABEL_DUE_DATE' | translate}}"
+                        formControlName="discount_end_date">
+                </app-data-picker>
+            </div>
+        </div>
+    </div>
+</div>
+<modal id="modal-add-brand" (click)="onBgClick('modal-add-brand', $event)">
+    <div class="modal">
+        <div class="modal-body">
+            <button (click)="closeModal('modal-add-brand');"
+                class="closeModal">
+            </button>
+            <div class="content">
+                <div *ngIf="errorMessage" class="alert_danger">
+                    {{errorMessage}}
+                </div>
+                <h4>{{'MODAL_TITLE_ADD_NEW_BRAND' | translate}}</h4>
+                <form name="form"
+                    class="form companyForm"
+                    (ngSubmit)="saveBrandNew()"
+                    [formGroup]="form_brand"
+                    validate>
+                    <div class="row">
+                        <div class="form-wrapper">
+                            <div class="form-group">
+                                <app-input-text label="{{'LABEL_BRAND_NAME' | translate}}" placeholder="{{'LABEL_BRAND_NAME' | translate}}"
+                                formControlName="name">
+                                </app-input-text>
+                            </div>
+                            <div class="form-group">
+                                <app-input-text label="{{'LABEL_WEBPAGE' | translate}}" placeholder="http://example.com"
+                                                formControlName="website_address">
+                                </app-input-text>
+                            </div>
+                            <div class="form-group">
+                                <app-input-textarea label="{{'LABEL_DESCRIPTION' | translate}}" placeholder="{{'LABEL_DESCRIPTION' | translate}}"
+                                    formControlName="sub_title" [styles]="brandsStyle">
+                                </app-input-textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="buttons">
+                        <button type="button" (click)="closeModal('modal-add-brand')" class="cancel">{{'BTN_CANCEL' | translate}}</button>
+                        <button
+                            class="btn btn-lg btn-primary btn-block login save"
+                            type="submit">
+                            {{'BTN_SAVE' | translate}}
+                        </button>
+                    </div>
+                </form>
+                </div>
+            </div>
+        </div>
+    <div class="modal-background"></div>
+</modal>
+<modal id="save_prepack">
+    <div class="modal">
+        <div class="modal-body">            
+            <button (click)="closeModal('save_prepack');"
+                    class="closeModal">
+                <i class="fa fa-close"></i>
+            </button>
+            <div class="content">
+                <div class="image">
+                    <img src="assets/images/sucess.png"
+                         alt="logo">
+                </div>
+                <div>
+                    Your prepack has been saved
+                </div>
+            </div>
+        </div>
+    </div>
+     
+    <div class="modal-background"></div>
+</modal>
+<modal id="save_brand">
+    <div class="modal">
+        <div class="modal-body">            
+            <button (click)="closeModal('save_brand');"
+                    class="closeModal">
+                <i class="fa fa-close"></i>
+            </button>
+            <div class="content">
+                <div class="image">
+                    <img src="assets/images/sucess.png"
+                         alt="logo">
+                </div>
+                <div>
+                    {{'MODAL_SAVED_BRAND' | translate}}
+                </div>
+            </div>
+        </div>
+    </div>
+     
+    <div class="modal-background"></div>
+</modal>

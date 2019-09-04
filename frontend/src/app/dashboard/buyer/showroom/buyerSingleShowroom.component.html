@@ -1,0 +1,48 @@
+<header *ngIf="!shop"></header>
+<div class="wrapper">
+<main role="main"
+      class="main pb-5 seller_wrapper">
+      <div class="container">
+            <div class="showroomPreview">
+                <div class="showroomPreviewInfo">
+                    <h1 class="showroomName">{{showroom?.name}}</h1>
+                    <p class="showroomDesc">{{showroom?.description}}</p>
+                </div>
+                <div class="showroomImg">
+                    <img *ngIf="showroom?.photo && !showroom?.photo.thumbnail_500" src="{{showroom.photo.url}}" alt=""/>
+                    <img *ngIf="showroom?.photo && showroom?.photo.thumbnail_500" src="{{showroom.photo.thumbnail_500}}" alt=""/>
+                </div>
+            </div>
+            <hr class="display_none"/>
+            <section class="products">
+                    <app-full-page-spinner *ngIf="isLoading"></app-full-page-spinner>
+                    <div class="productList" *ngIf="showroom?.products && !isLoading">
+                        <div class="productInfo" *ngFor="let product of showroom?.products; let i = index">
+                            <div class="productImage">
+                                <a href="javascript:void(0);" (click)="productLink(product.id)">
+                                    <img *ngIf="!product.default_image.thumbnail_200" class="card-img-top" src="{{product.default_image.url}}">
+                                    <img *ngIf="product.default_image.thumbnail_200" class="card-img-top" src="{{product.default_image.thumbnail_200}}">
+                                </a>
+                            </div>
+                            <hr/>
+                            <div class="productDesc">
+                                    <div class="productPrice"
+                                            *ngIf="product.price">
+                                            {{product.price | number:'0.2'}} {{product.currency}}
+                                    </div>
+                                    <p class="productShortDesc">{{product.title | slice:0:30}}</p>
+                                    <p class="productShortSize">{{product.min_size_eu}} - {{product.max_size_eu}}</p>
+                                    <div class="productRef">
+                                        Ref. {{product.ref_number}}
+                                    </div>
+                                    <div class="customerRef">
+                                        CRef. {{product.customer_ref_number ? product.customer_ref_number : '-'}}
+                                    </div>
+                            </div>
+                        </div> 
+                    </div>
+            </section>
+      </div>
+</main>
+</div>
+<footer></footer>

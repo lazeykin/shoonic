@@ -1,0 +1,77 @@
+<header></header>
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <section class="dashboardNavBuyerAccount">
+        <ul class="accountNavTop">
+          <li>
+            <a [routerLink]="['/dashboard/seller/account']">
+              Personal info
+            </a>
+          </li>
+          <li>
+            <a [routerLink]="['/dashboard/seller/account/security']">
+              Security
+            </a>
+          </li>
+          <li [ngClass]="{'active': true}">
+            <a [routerLink]="['/dashboard/seller/account/token']">
+              {{'MENU_ITEM_TOKEN' | translate}}
+            </a>
+          </li>
+        </ul>
+      </section>
+    </div>
+  </div>
+</div>
+<main role="main">
+  <div class="container">
+    <div class="title">
+      {{'TEXT_TOKEN_TITLE' | translate}}
+    </div>
+    <div class="token_description">
+      {{'TEXT_TOKEN_DESCRIPTION' | translate}}
+    </div>
+    <form name="form"
+          class="formSubscribe"
+          (ngSubmit)="onCreateToken()"
+          [formGroup]="form_group"
+          validate>
+      <div class="password">
+        <app-input-password
+                class="eye_center" label="{{'LABEL_PASSWORD' | translate}}" placeholder="{{'PLACEHOLDER_PASSWORD' | translate}}"
+                formControlName="password">
+        </app-input-password>
+        <button class="token_create"
+                type="submit">
+          {{'BTN_CREATE_TOKEN' | translate}}
+        </button>
+      </div>
+    </form>
+  </div>
+</main>
+<footer></footer>
+<modal id="token-info">
+  <div class="modal">
+    <div class="modal-body">            
+      <button (click)="closeModal('token-info');"
+              class="closeModal">
+      </button>
+      <div class="content">
+        <div class="image">
+          <img src="assets/images/sucess.png"
+               alt="logo">
+          <span class="modal_title">{{'TEXT_YOUR_TOKEN' | translate}}</span>
+        </div>
+        <div class="token_info">
+          {{userInfo.token}}
+          <div class="copy_button" (click)="onCopyToken(userInfo.token)">{{'TEXT_COPY_TOKEN' | translate}}</div>
+        </div>
+        <div class="button_container">
+          <button (click)="onCreateToken()" class="new_token">{{'TEXT_CREATE_NEW' | translate}}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+   <div class="modal-background"></div>
+</modal>

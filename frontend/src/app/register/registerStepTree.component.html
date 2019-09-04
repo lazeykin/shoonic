@@ -1,0 +1,43 @@
+﻿<app-register-header></app-register-header>
+<section class="registrationSteps">
+    <div id="crumbs">
+        <ul>
+            <li><span>{{'REG_STEP' | translate}} 1</span></li>
+            <li><span>{{'REG_STEP' | translate}} 2</span></li>
+            <li class="active"><span>{{'REG_STEP' | translate}} 3</span></li>
+        </ul>
+    </div>
+</section>
+<main role="main"
+      class="main pb-5">
+    <div class="container">
+        <div class="pt-2">
+            <alert></alert>
+        </div>
+        <!--<h1 class="title">-->
+            <!--Registration step 3-->
+        <!--</h1>-->
+        <form *ngIf="showForm"
+              name="form"
+              class="form stepTree"
+              (ngSubmit)="stepFour()"
+              #f="ngForm">
+              <div class="row">
+                <div class="content">
+                    <div class="image">
+                        <img src="assets/images/sucess.png"
+                             alt="logo">
+                    </div>
+                    <div class="text">
+                        {{'MODAL_CONFIRMED' | translate}}
+                    </div>
+                </div>
+              </div>
+              <button class="btn btn-lg btn-primary btn-block login"
+                    type="submit">
+                {{'BTN_LOGIN' | translate}}
+              </button>
+        </form>
+    </div>
+</main>
+<footer></footer>

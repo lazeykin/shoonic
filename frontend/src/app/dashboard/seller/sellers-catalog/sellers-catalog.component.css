@@ -1,0 +1,234 @@
+.buyer_wrapper {
+    position: relative;
+}
+
+.pagi_navi {
+    position: absolute;
+    right: 70px;
+    bottom: -90px;
+}
+
+.spinner {
+    width: 100%;
+    text-align: center;
+}
+
+.modalProduct .productShortDesc {
+    font-size: 14px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    letter-spacing: normal;
+    color: #4a4a4a;
+}
+
+.modalProduct .productPrice {
+    font-size: 16px;
+    font-weight: 600;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 0.83;
+    letter-spacing: 2px;
+    color: #50e3c2;
+    margin-bottom: 10px;
+}
+.modalProduct .sizesTitle {
+    display: block;
+    height: 50px;
+    line-height: 50px;
+    border-bottom: solid 1px #b8bfd3;
+    text-align: left;
+}
+.modalProduct .sizer {
+    margin-top: 30px;
+    font-size: 14px;
+}
+.modalProduct .sizesBlock {
+    float: left;
+}
+.modalProduct .sizesArray {
+    display: block;
+    height: 50px;
+    line-height: 50px;
+    border-bottom: solid 1px #b8bfd3;
+    text-align: center;
+    padding-left:5px;
+}
+.modalProduct .sizesArray .sizesNumber {
+    width:30px;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 2px;
+    border: solid 1px #4099d5;
+    background: none;
+    outline:none;
+    text-align: center;
+    color: #4099d5;
+}
+.modalProduct .sizesArray .sizesQuantity {
+    width:30px;
+    height: 30px;
+    border-radius: 2px;
+    border: solid 1px #b8bfd3;
+    background: none;
+    outline:none;
+    text-align: center;
+    color: #b8bfd3;
+    line-height: 30px;
+}
+
+.discount-label {
+    background-color: #eb6774;
+    padding: 0 10px;
+    height: 26px;
+    width: 57px;
+    box-sizing: border-box;
+    font-size: 12px;
+    font-weight: 600;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #ffffff;
+    line-height: 26px;
+    position: absolute;
+    left: 0;
+    top: 38px;
+    cursor: default;
+}
+
+.discount-price {
+    color: #eb6774;
+}
+
+.productPrice {
+    margin-bottom: 9px !important;
+}
+
+.productPrice.discount {
+    margin-bottom: 1px !important;
+}
+.productPrice .discount-price {
+    display: inline-block;
+    margin-right: 3px;
+}
+
+.productPrice div {
+    display: inline-block;
+}
+
+.productPrice div .strikethrough {
+    font-size: 12px;
+    font-weight: 600;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.67;
+    letter-spacing: 1px;
+}
+.discount-end {
+    font-size: 12px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    letter-spacing: normal;
+    color: #232323;
+    margin-bottom: 3px;
+}
+
+.catalog .bestProduct .productDesc {
+    height: 130px;
+}
+.bestProduct {
+    min-width: 188px;
+    width: 188px;
+    height: 280px;
+    margin: 0 16px 14px 0;
+}
+.catalog .bestProduct .productDesc::before {
+    width: 188px;
+}
+
+
+@media (min-width: 1920px) {
+    .container {
+        max-width: 1535px;
+    }
+
+    .seller_container > .container {
+        padding-right: 50px;
+    }
+}
+
+@media (min-width: 2048px) {
+    .container {
+        max-width: 1779px;
+    }
+    .seller_container > .container {
+        /* padding-right: 85px; */
+    }
+}
+
+@media (min-width: 2560px) {
+    .container {
+        max-width: 2300px;
+    }
+    .catalog .bestProduct .productInfo .productRef {
+        /* margin-top: 6px; */
+        bottom: 3px;
+    }
+    .seller_container > .container {
+        /* padding-right: 200px; */
+    }
+
+    .bestProduct .productDesc {
+        height: 96px;
+    }
+}
+
+@media (min-width: 3200px) {
+    .container {
+        max-width: 2500px;
+    }
+}
+@media (min-width: 4096px) {
+    .container {
+        max-width: 2937px;
+    }
+
+    .catalog .bestProduct .productButton {
+        max-width: 270px;
+    }
+}
+
+app-filters {
+    max-width: 260px;
+    width: 260px;
+}
+
+.customerRef {
+    font-size: 10px;
+    font-weight: 300;
+    font-style: italic;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #33333a;
+    bottom: 6px;
+    position: absolute;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+}
+
+.bestProduct .productShortSize {
+    bottom: 20px;
+}
+
+section.col-10 {
+    width: 100%;
+    flex: 1;
+}

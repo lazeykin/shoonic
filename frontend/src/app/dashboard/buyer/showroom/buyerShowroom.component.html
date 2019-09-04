@@ -1,0 +1,62 @@
+<header *ngIf="!shop"></header>
+<div class="wrapper">
+<div *ngIf="innerWidth > 480" class="container">
+    <div class="row">
+        <div class="col">
+           <app-sort-selector [ngClass]="{'small_sort': shop}"
+                [showroom]='true' [shop]="shop"
+                (filter)="selectSortBy($event)">
+            </app-sort-selector>
+        </div>
+        <!--<section class="dashboardNavBuyer">-->
+            <!--<ul class="accountNavTop catalogS">-->
+                <!--<li *ngIf="shop" [ngClass]="{'active': router.url.indexOf('/'+shop+'/showrooms/public') > -1}">-->
+                    <!--<a [routerLink]="['/'+shop+'/showrooms/public']">-->
+                        <!--{{'TEXT_PUBLIC' | translate}}-->
+                    <!--</a>-->
+                <!--</li>-->
+                <!--<li *ngIf="shop" [ngClass]="{'active': router.url.indexOf('/'+shop+'/showrooms/private') > -1}">-->
+                    <!--<a [routerLink]="['/'+shop+'/showrooms/private']">-->
+                        <!--{{'TEXT_PRIVATE' | translate}}-->
+                    <!--</a>-->
+                <!--</li>-->
+            <!--</ul>-->
+        <!--</section>-->
+    </div>
+</div>
+<main role="main"
+      class="main pb-5 buyer_wrapper">
+      <section class="showrooms" >
+            <app-full-page-spinner *ngIf="isLoading"></app-full-page-spinner>
+                <div class="showroomList scroll_div" *ngIf="!isLoading" (scroll)="onScroll($event)">
+                    <ng-container *ngIf="!showrooms.length">
+                        {{'ERR_NO_SHOWROOMS' | translate}}
+                    </ng-container>
+                    <ng-container *ngIf="showrooms.length">
+                        <div class="showroom" *ngFor="let showroom of showrooms; let i = index">
+                            <div class="showroomInfo">
+                                <div class="showroomImages"
+                                (click)="showroomLink(showroom.id)"
+                                >
+                                    <img *ngIf="!showroom.photo" src="../../../../assets/images/group-22.png" alt=""/>
+                                    <img *ngIf="showroom.photo && !showroom.photo.thumbnail_200" src="{{showroom.photo.url}}" alt=""/>
+                                    <img *ngIf="showroom.photo && showroom.photo.thumbnail_200" src="{{showroom.photo.thumbnail_200}}" alt=""/>
+                                </div>
+                                <hr/>
+                                <div class="showroomDesc">
+                                    <p class="showroomName">{{showroom.name}}</p>
+                                    <p class="numOfItems">{{showroom.products.length}} {{'TEXT_ITEMS' | translate}}</p>
+                                    <p class="date">{{showroom.date_created | date:'d/M/yyyy'}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+                <app-pagination [ngClass]="{'non_display': innerWidth <= 480}" class="pagi_navi" pageSize="10"
+                        (pageChanged)="onPageChanged($event)">
+                </app-pagination>
+        </section>
+
+</main>
+</div>
+<footer></footer>

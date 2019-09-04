@@ -1,0 +1,30 @@
+.img_array {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 !important;
+    padding: 0;
+}
+
+.img_item {
+    margin: 0 24px 24px 0;
+}
+
+.img_item:last-child {
+    margin-right: 0;
+}
+
+.img_item:nth-child(5) {
+    margin-right: 0;
+    font-size: 16px;
+}
+
+.label_photo {
+    color: #33333a;
+    margin-right: 15px;
+}
+
+.first_picture {
+    color: #a6aebc;
+    font-size: 14px;
+}

@@ -1,0 +1,15 @@
+.error_wrapper {
+    height: 120px;
+}
+
+.btn.account {
+    font-weight: 600;
+}
+
+.imageRect {
+    margin-bottom: 24px;
+}
+
+.form-group.image {
+    margin-bottom: 14px;
+}

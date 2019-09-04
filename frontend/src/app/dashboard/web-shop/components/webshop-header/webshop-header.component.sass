@@ -1,0 +1,225 @@
+.header
+  background-color: #4099d5
+  height: 60px
+  &_wrapper
+    display: flex
+    align-items: center
+  &_menu
+    display: flex
+    list-style: none
+    align-items: center
+    margin-top: 5px
+    padding-left: 0
+    li
+      width: 160px
+      text-align: center
+    a
+      font-size: 18px
+      font-weight: 600
+      width: 100%
+      font-style: normal
+      font-stretch: normal
+      line-height: normal
+      letter-spacing: normal
+      color: #ffffff
+
+.cartLink
+  position: relative
+  margin-top: 4px
+  width: 30px
+  height: 20px
+  text-align: center
+  background-image: url("../../../../../assets/images/ballot-check-light-2.svg")
+  background-repeat: no-repeat
+  outline: none
+  cursor: pointer
+
+.cartLink .cartItems
+  position: absolute
+  width: 16px
+  height: 16px
+  background-color: #43b05c
+  border-radius: 16px
+  top: 30px
+  right: -7px
+  font-size: 10px
+  font-style: normal
+  font-stretch: normal
+  line-height: 16px
+  letter-spacing: normal
+  text-align: center
+  color: #ffffff
+
+.cartLink img
+  width: 20px
+  height: 20px
+
+.icon_container
+  display: flex
+
+app-select-filter
+  width: 113px
+  display: block
+  margin-top: -4.5px
+
+.topSearch
+  margin-left: 15px
+  margin-right: auto
+  width: 448px
+  height: 30px
+  position: relative
+
+.topSearch__icon
+  position: absolute
+  top: 0
+  right: 0
+  width: 53px
+  height: 30px
+.topSearch__icon button
+  width: 100%
+  height: 100%
+  border-radius: 2px
+  border: solid 1px #4099d5
+  background-color: #ffffff
+  cursor: pointer
+
+.input
+  width: 100%
+  padding: 7px 23px
+  height: 30px
+  border-radius: 2px
+  border: solid 1px #4099d5
+  font-size: 14px
+  font-weight: normal
+  font-style: normal
+  font-stretch: normal
+  line-height: normal
+  letter-spacing: normal
+  color: #b8bfd3
+
+ul
+  margin: 0
+
+.bookmarkLink
+  margin-right: 39px
+
+.empty
+  margin: 28px auto
+
+.header_menu .active
+  background-color: #fff
+  color: #4099d5
+  height: 60px
+  text-align: center
+  display: block
+  line-height: 60px
+
+.header_menu .promo
+  text-align: center
+  display: block
+  line-height: 60px
+  height: 60px
+  background-color: #eb6774
+
+.header_menu
+  margin-top: 0
+
+.cartLink .cartItems
+  top: -7px
+  right: 1px
+
+.clear_search
+  text-transform: uppercase
+  text-decoration: underline
+  color: #FFFFFF
+  position: absolute
+  top: 4px
+  right: -65px
+  cursor: pointer
+
+@media (min-width: 1440px)
+  .container
+    max-width: 1345px
+
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px)
+  .container
+    padding-right: 0
+    padding-left: 0
+  .header
+    background-color: #fff
+    width: 100vw
+    height: auto
+  .header_menu
+    width: 100%
+    background-color: #4099d5
+    justify-content: center
+    li
+      margin-right: 0
+      a
+        font-size: 12px
+        font-weight: 600
+        font-style: normal
+        font-stretch: normal
+        letter-spacing: normal
+        color: #ffffff
+        height: 42px
+        line-height: 42px
+        width: 100%
+        display: block
+        text-align: center
+      .active
+          background-color: #fff
+          color: #4099d5
+          height: 42px
+          text-align: center
+          display: block
+          line-height: 42px
+          width: 100%
+
+  .mobile_screen_free
+    display: none
+  .header_wrapper
+    width: 100vw
+    flex-wrap: wrap
+    justify-content: center
+    .topSearch
+      order: -2
+      width: 227px
+      margin: 8px 17px 8px 10px
+    .icon_container
+      order: -1
+  .topSearch__icon button
+      background-color: #4099d5
+  .bookmarkLink
+    margin-right: 13px
+
+  .cartLinkMobile
+    position: relative
+    margin-top: 4px
+    width: 30px
+    text-align: center
+    background-image: url("../../../../../assets/images/ballot-check-light-3.svg")
+    background-repeat: no-repeat
+    outline: none
+    cursor: pointer
+
+  .cartLinkMobile .cartItems
+    position: absolute
+    width: 16px
+    height: 16px
+    background-color: #43b05c
+    border-radius: 16px
+    top: -6px
+    right: 2px
+    font-size: 10px
+    font-style: normal
+    font-stretch: normal
+    line-height: 16px
+    letter-spacing: normal
+    text-align: center
+    color: #ffffff
+
+  .cartLinkMobile img
+    width: 20px
+    height: 20px
+

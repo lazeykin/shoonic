@@ -1,0 +1,15 @@
+<div class="select {{class}}">
+  <label
+         class="form-control-label sortLabel">
+    <span class="select_filter_label">{{label}}</span>
+  <select
+          class="hideLabel form-control sortSelect"
+          [(ngModel)]="sortBySelect"
+          (change)="selectSortBy();">
+    <option [ngValue]="option"
+            *ngFor="let option of _options">
+      {{option.name}}
+    </option>
+  </select>
+  </label>
+</div>

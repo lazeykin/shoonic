@@ -1,0 +1,68 @@
+<header></header>
+<div class="wrapper">
+<main role="main"
+      class="main pb-5 seller_wrapper">
+      <div class="container">
+            <div class="showroomPreview">
+                <div class="showroomPreviewInfo">
+                    <h1 class="showroomName">{{showroom.name}}</h1>
+                    <p class="showroomDesc">{{showroom.description}}</p>
+                </div>
+                <div class="showroomImg">
+                        <img *ngIf="showroom.photo" src="{{showroom.photo.url}}" alt=""/>
+                </div>
+            </div>
+            <hr/>
+            <section class="products">
+                    <app-full-page-spinner *ngIf="isLoading"></app-full-page-spinner>
+                    <div class="productList" *ngIf="showroom.products && !isLoading">
+                        <div class="productInfo" *ngFor="let product of showroom.products; let i = index">
+                            <div class="productImage">
+                                <a href="javascript:void(0);" (click)="openModal('custom-modal')">
+                                    <img class="card-img-top" src="{{product.default_image.url}}">
+                                </a>
+                            </div>
+                            <hr/>
+                            <div class="productDesc">
+                                    <div class="productPrice"
+                                            *ngIf="product.price && !product.discount_price">
+                                            {{product.price | number:'0.2'}} {{product.currency}}
+                                    </div>
+                                    <p class="productShortDesc">{{product.title | slice:0:30}}</p>
+                                    <p class="productShortSize">{{product.min_size_eu}} - {{product.max_size_eu}}</p>
+                                    <div class="productRef">
+                                        Ref. {{product.ref_number}}
+                                    </div>
+                            </div>
+                        </div> 
+                    </div>
+            </section>
+</div>
+<footer></footer>
+<modal id="custom-modal">
+    <div class="modal">
+        <div class="modal-body showroom-modal">            
+            <button (click)="closeModal('custom-modal');"
+                    class="closeModal">
+                <i class="fa fa-close"></i>
+            </button>
+            <div class="content">
+                <h1>Please, register to view this page</h1>
+                <div class="showroom-modal-control">
+                    <button 
+                        class="btn cancel" 
+                        (click)="closeModal('custom-modal')">
+                        Cancel
+                    </button>
+                    <button 
+                        class="btn register"
+                        type="submit"
+                        (click)="register()">
+                        Register
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+     <div class="modal-background"></div>
+</modal>

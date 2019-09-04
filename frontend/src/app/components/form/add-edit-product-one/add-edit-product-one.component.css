@@ -1,0 +1,137 @@
+.small_select {
+    width: 298px;
+}
+.add_product_form {
+    width: 434px;
+}
+.add_photo_form {
+    margin-bottom: 0;
+}
+
+#modal-add-si .closeModal {
+    background-image: url(../../../../assets/images/ic-close.png);
+    opacity: 0.6;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    height: 16px;
+    width: 16px;
+    top: 29px;
+    right: 38px;
+}
+
+#modal-add-si .modal-body {
+    max-width: 1085px;
+    min-height: 653px;
+    width: 100%;
+    padding: 45px 38px 45px 45px;
+    font-size: 16px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: 0.7px;
+}
+
+#modal-add-si .form-wrapper {
+    width: 100%;
+}
+#modal-add-si .modal-body .row {
+    width: 100%;
+    margin: 0;
+    margin-bottom: 4px;
+}
+
+#modal-add-si .modal-body .content form .row {
+    text-align: left;
+}
+
+#modal-add-si .modal-body form {
+    width: 100%;
+}
+#modal-add-si .modal-body .col-form-label {
+    color: #515356 !important;
+}
+
+#modal-add-si .modal-body .col-6 {
+    padding-left: 0;
+    max-width: 152px;
+    padding-right: 22px;
+}
+
+#modal-add-si .modal-body .col-6:first-child {
+
+}
+#modal-add-si .modal-body .col-4 {
+    max-width: 320px;
+    padding-right: 11px;
+    padding-left: 11px;
+}
+
+#modal-add-si .modal-body .row .col-4:last-child {
+    margin-left: 62px;
+    padding-right: 0;
+    max-width: 310px;
+}
+
+#modal-add-si .modal-body .row .col-4:first-child {
+    margin-left: -11px;
+}
+
+#modal-add-si .content h4 {
+    font-size: 24px;
+    font-weight: 600;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: 2.4px;
+    color: #33333a;
+    margin-top: 48px;
+    text-align: left;
+    margin-bottom: 76px;
+    margin-top: 8px;
+}
+
+.form-wrapper {
+    text-align: left;
+    width: 100%;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: row;
+    margin-top: 25px;
+}
+button.cancel { 
+    background-color: transparent;
+    margin-right: 28px; 
+    border: solid 1px #c8102e;
+    color: #c8102e;
+    min-width: 169px;
+    text-transform: uppercase;
+    border-radius: 2px;
+    cursor: pointer;
+    font-size: 12px;
+    letter-spacing: 2px;
+    font-weight: 600;
+    height: 40px;
+    margin-left: auto;
+}
+
+button.add {
+    margin: 0;
+    min-width: 169px;
+    width: auto;
+    height: 40px;
+    font-weight: 600;
+    font-style: normal;
+    font-stretch: normal;
+    letter-spacing: 2px;
+    background-color: #22c993;
+    border: 1px solid #22c993;
+    outline: none;
+}
+
+button.add:hover {
+    background-color: #22c993;
+}

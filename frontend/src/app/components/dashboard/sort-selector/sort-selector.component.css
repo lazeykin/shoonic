@@ -1,0 +1,14 @@
+select {
+    position: relative;
+    z-index: 100;
+    font-size: 11px;
+    letter-spacing: 1px;
+}
+
+.sortLabel {
+    font-size: 10px;
+}
+.filter {
+    position: absolute;
+    right: 57px;
+}

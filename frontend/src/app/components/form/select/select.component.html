@@ -1,0 +1,29 @@
+<div class="row"
+     [ngClass]="{ 'has-danger':control && control.invalid && !control.pristine}">
+    <label
+            class="col col-form-label">
+        <span [ngClass]="{'inline': info}">{{label}}</span>
+        <span class="info" *ngIf="info">
+            <i>i</i>
+            <span class="info-wrapper">
+                {{'ADDRESS_INFO_DETAIL' | translate}}
+            </span>
+        </span>
+        <select
+                class="hideLabel form-control"
+                [disabled]="disabled || (control && control.disabled)"
+                [(ngModel)]="inputText"
+                [compareWith]="compareTech"
+                (change)="selectMethod()">
+            <option [ngValue]="item"
+                    *ngFor="let item of listArray">
+                {{item.name}}
+            </option>
+        </select>
+        <span *ngIf="control && control.invalid && !control.pristine">
+      <span *ngIf="control && control.hasError('required')">{{'ERR_REQUIRED' | translate}}</span>
+      <span *ngIf="control && control.errors.message">{{control.errors.message}}</span>
+            <!--<span *ngIf="control.hasError('invalidSelect')">Please, choose one item at least</span>-->
+    </span>
+    </label>
+</div>

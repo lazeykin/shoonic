@@ -1,0 +1,36 @@
+﻿
+<app-register-header></app-register-header>
+<main role="main" 
+      class="main">     
+        <div class="container freeRegistration">        
+            <div class="row">
+                <div class="col-6">
+                    <a [routerLink]="['/register/register-step-one']" 
+                       (click)="setBuyer()" 
+                       class="btn buyer">
+                        {{'BTN_BECOME_BUYER' | translate}}
+                    </a>
+                    <p class="desc-text"> 
+                        {{'TITLE_BECOME_BUYER' | translate}}
+                    </p>
+                    <p class="full-text"> 
+                       {{'DESCRIPTION_BUYER' | translate}}
+                   </p>
+                </div>
+                <div class="col-6">
+                    <a [routerLink]="['/register/register-step-one']" 
+                       (click)="setSeller()" 
+                        class="btn seller">
+                        {{'BTN_BECOME_SELLER' | translate}}
+                    </a>
+                     <p class="desc-text"> 
+                        {{'TITLE_BECOME_SELLER' | translate}}
+                    </p>
+                    <p class="full-text"> 
+                        {{'DESCRIPTION_SELLER' | translate}}
+                   </p>
+                </div>
+            </div>
+        </div>  
+</main>
+<footer></footer>

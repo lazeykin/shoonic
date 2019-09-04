@@ -1,0 +1,26 @@
+<div class="row">
+  <div class="col sellerTop">
+    <div class="row">
+      <div class="col-9">
+        <div class="searchResultTitle">
+          <!--<b>Search results by:</b> {{productSearch}}-->
+        </div>
+      </div>
+      <div class="col-3 filter">
+        <label *ngIf="!shop" for="sortBy"
+               class="form-control-label sortLabel">{{'LABEL_SORTBY' | translate}}</label>
+        <select id="sortBy"
+                #sortById="ngModel"
+                class="hideLabel form-control sortSelect"
+                [(ngModel)]="sortBySelect"
+                name="sortBy"
+                (change)="selectSortBy();">
+          <option *ngFor="let v of sortValuesTranslated"
+                  [ngValue]="v.id">
+            {{v.label}}
+          </option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>

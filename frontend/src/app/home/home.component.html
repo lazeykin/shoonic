@@ -1,0 +1,185 @@
+﻿<modal id="custom-modal-1">
+    <div class="modal">
+        <div class="modal-body">            
+            <button (click)="closeModal('custom-modal-1');" class="closeModal">
+                <i class="fa fa-close"></i>
+            </button>
+            <div class="content">
+                <div class="image">
+                    <img src="assets/images/sucess.png"
+                         alt="logo">
+                </div>
+                <div>
+                    {{'MODAL_SUBSCRIPTION' | translate}}
+                </div>
+            </div>
+        </div>
+    </div>
+     
+    <div class="modal-background"></div>
+</modal>
+<div *ngIf="isShowSubscribe" class="topHome">
+    <form name="form"
+          class="formSubscribe"
+          (ngSubmit)="onSunscribe()"
+          [formGroup]="form_group"
+          validate>
+        <div class="formSubscribe__container">
+            <span>{{'HEAD_SUBSCRIPTION' | translate}}</span>
+            <div class="input__box">
+                <app-input-email
+                        class="formSubscribe__container_input" label=""
+                        placeholder="{{'PLACEHOLDER_ENTER_EMAIL' | translate | uppercase}}"
+                        formControlName="email" isHomePage="true">
+                </app-input-email>
+                <button class="subscribe"
+                        type="submit">
+                    {{'BTN_SUBSCRIBE' | translate}}
+                </button>
+            </div>
+            <div>
+                <i class="fa fa-close close_subscription" (click)="isShowSubscribe = false"></i>
+            </div>
+        </div>
+    </form>
+</div>
+<section>
+    <div class="header__wrapper">
+        <div class="header">
+            <div class="logo">
+                <img src="assets/images/logo.png"
+                     alt="logo">
+            </div>
+            <div class="register-login__buttoms">
+                <div class="headerJoin">
+                    <a [routerLink]="['/register/register-free']"
+                       class="loginButton">
+                        {{'BTN_JOIN_FREE' | translate}}
+                    </a>
+                </div>
+                <div class="headerLogin">
+                    <a [routerLink]="['/login']"
+                       class="loginButton">
+                        {{'BTN_LOGIN' | translate}}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<main role="main">
+    <section class="firstScreen">
+        <div class="firstScreen__container">
+            <h1 class="topDesc">{{'HOME_HEADING' | translate}}</h1>
+            <div class="firstScreen__routs">
+                <a [routerLink]="['/register/register-step-one']"
+                   (click)="setSeller()"
+                   class="seller">{{'BTN_BECOME_SELLER' | translate}}</a>
+                <a [routerLink]="['/register/register-step-one']"
+                   (click)="setBuyer()"
+                   class="buyer">{{'BTN_BECOME_BUYER' | translate}}</a>
+            </div>
+        </div>
+        <div class="opacity">
+
+        </div>
+    </section>
+    <div class="increase">
+        <div class="textDesc">
+            {{'HOME_TITLE_1' | translate}}
+        </div>
+        <div class="increase__part-one">
+            <div>
+                <img class="card-img-top" src="../../assets/images/redImg1-1.jpg">
+                <p class="card-text"> {{'HOME_TITLE_1_1' | translate}}</p>
+            </div>
+            <div>
+                <img class="card-img-top" src="../../assets/images/redImg2-1.jpg">
+                <p class="card-text"> {{'HOME_TITLE_1_2' | translate}}</p>
+            </div>
+            <div>
+                <img class="card-img-top" src="../../assets/images/redImg3-1.jpg">
+                <p class="card-text"> {{'HOME_TITLE_1_3' | translate}}</p>
+            </div>
+        </div>
+
+        <div class="textDesc-two">
+            {{'HOME_TITLE_2' | translate}}
+        </div>
+        <div class="increase__part-two">
+            <div>
+                <img class="card-img-top" src="../../assets/images/blueImg2-1.jpg">
+                <p class="card-text"> {{'HOME_TITLE_2_1' | translate}}</p>
+            </div>
+            <div>
+                <img class="card-img-top" src="../../assets/images/blueImg1-1.jpg">
+                <p class="card-text"> {{'HOME_TITLE_2_2' | translate}}</p>
+            </div>
+            <div>
+                <img class="card-img-top" src="../../assets/images/blueImg3-1.jpg">
+                <p class="card-text"> {{'HOME_TITLE_2_3' | translate}}</p>
+            </div>
+        </div>
+    </div>
+    <section class="lastScreen">
+        <div class="lastScreen__wrapper">
+            <div class="textDesc">
+                {{'HOME_TITLE_3' | translate}}
+            </div>
+
+            <div class="lastScreen__container">
+                <div class="lastScreen__container__item">
+                    <div class="icon">
+                        <img class="card-img-top" src="../../assets/images/group-4.png">
+                    </div>
+                    <p class="card-text"> {{'HOME_TITLE_3_1' | translate}}
+                        <img src="../../assets/images/group-2.png" class="arrowImg">
+                </div>
+                <div class="lastScreen__container__item">
+                    <div class="icon">
+                        <img class="card-img-top" src="../../assets/images/group-7.png">
+                    </div>
+                    <p class="card-text"> {{'HOME_TITLE_3_2' | translate}}
+                        <img src="../../assets/images/group-2.png" class="arrowImg position_to_right">
+                </div>
+                <div class="lastScreen__container__item">
+                    <div class="icon">
+                        <img class="card-img-top" src="../../assets/images/group-10.png">
+                    </div>
+                    <p class="card-text"> {{'HOME_TITLE_3_3' | translate}}
+                </div>
+            </div>
+        </div>
+        <div class="button_container">
+            <a [routerLink]="['/register/register-free']" class="register_button">
+                {{'BTN_JOIN' | translate}}
+            </a>
+        </div>
+    </section>
+</main>
+<div *ngIf="isShowSubscribe" class="topHome border_in_footer">
+    <form name="form"
+          class="formSubscribe"
+          (ngSubmit)="onSunscribe()"
+          [formGroup]="form_group"
+          validate>
+        <div class="formSubscribe__container">
+            <span>{{'HEAD_SUBSCRIPTION' | translate}}</span>
+            <div class="input__box">
+                <app-input-email
+                        class="formSubscribe__container_input" label=""
+                        placeholder="{{'PLACEHOLDER_ENTER_EMAIL' | translate | uppercase}}"
+                        formControlName="email" isHomePage="true">
+                </app-input-email>
+                <button class="subscribe"
+                        type="submit">
+                    {{'BTN_SUBSCRIBE' | translate}}
+                </button>
+            </div>
+            <div>
+                <i class="fa fa-close close_subscription" (click)="isShowSubscribe = false"></i>
+            </div>
+        </div>
+    </form>
+</div>
+<footer isHomePage="true"></footer>

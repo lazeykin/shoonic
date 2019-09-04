@@ -1,0 +1,19 @@
+<div class="row"
+     [ngClass]="{ 'has-danger':control.invalid && !control.pristine, 'without_margin': isHomePage}">
+    <label
+            class="col col-form-label">
+        <span *ngIf="label">{{label}}</span>
+            <input type="email"
+                   [class]="class"
+                   [disabled]="control.disabled"
+                   [(ngModel)]="inputText"
+                   [placeholder]="placeholder"
+                   (input)="onInputChange()"/>
+        <span *ngIf="(control.invalid && !control.pristine) || styles ">
+      <span *ngIf="control.hasError('required') && !control.pristine">{{'ERR_REQUIRED' | translate}}</span>
+      <span *ngIf="control.hasError('maxlength') && !control.pristine">{{'ERR_MAX' | translate}} - {{control.errors.maxlength.requiredLength}}</span>
+      <span *ngIf="control.hasError(('email')) && !control.pristine">{{'ERR_EMAIL' | translate}}</span>
+      <span *ngIf="control.errors && control.errors.message && !control.pristine && control.invalid">{{control.errors.message}}</span>
+    </span>
+    </label>
+</div>

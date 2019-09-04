@@ -1,0 +1,478 @@
+<nav class="sidebar" [ngClass]="{'padding_shop' : shop}">
+  <div class="flex">
+  <span class="non_display display" (click)="onCloseFilterPanel()"><i class="fal fa-times close_icon"></i></span>
+  <div class="filterTitleTopAll" [ngClass]="{'padding_bottom' : shop}">
+    <span class="sm_filter_title">{{'FILTERS_TITLE' | translate}}</span>
+    <a *ngIf="checkAllSelected()" (click)="clearFilter()" class="sm_non_display"  href="javascript:void(0);">{{'BTN_CLEAR_ALL' | translate}}</a>
+  </div>
+  </div>
+  <ul class="selected-filters">
+    <li *ngFor="let filter of selectedFilters; let i = index"
+        [attr.data-value]="filter.type === 'style' ? filter.name : null">
+      <span class="remove" (click)="filterChange(filter.value, false, filter.type, filter.name)"></span>
+      <div class="style-img" *ngIf="filter.type === 'style'"></div>{{filter.name}}
+    </li>
+  </ul>
+  <div class="filterTitle" [ngClass]="{'padding_top' : shop}">
+    <div class="filterName" data-toggle="collapse" data-target="#gender">
+      {{'FILTERS_GENDER' | translate}} <i class="fa fa-angle-down"></i> <i class="fa fa-angle-up"></i>
+    </div>
+    <div class="filterClear">
+      <a *ngIf="checkSelected('genders')" class="sm_non_display" (click)="clearProrerty('gender')" href="javascript:void(0);">{{'BTN_CLEAR' | translate}}</a>
+    </div>
+    <div *ngIf="!productChoises">
+      <img class="spinner" src="./../../../assets/images/Spinner-product.svg" alt="Loading...">
+    </div>
+  </div>
+  <div id="gender" class="categoryCollapse collapse show">
+    <div *ngFor="let gender of genders; let i = index" >
+      <label class="custom-control fill-checkbox">
+        <input type="checkbox"
+               class="fill-control-input"
+               id="gender-{{gender.id}}"
+               name="gender-{{gender.id}}"
+               [(ngModel)]="gender.selected"
+               (change)="filterChange(gender.id, gender.selected, 'gender', gender.name)"
+        />
+        <span class="fill-control-indicator"></span>
+        <span class="fill-control-description">{{gender.name}}</span>
+      </label>
+    </div>
+  </div>
+  <div class="filterTitle">
+    <div class="filterName" data-toggle="collapse" data-target="#style">
+      {{'FILTERS_STYLE' | translate}}
+      <i class="fa fa-angle-down"></i> <i class="fa fa-angle-up"></i>
+    </div>
+    <div class="filterClear">
+      <a *ngIf="checkSelected('styles')" class="sm_non_display" (click)="clearProrerty('style')" href="javascript:void(0);">{{'BTN_CLEAR' | translate}}</a>
+    </div>
+    <div *ngIf="!productChoises">
+      <img class="spinner" src="./../../../assets/images/Spinner-product.svg" alt="Loading...">
+    </div>
+  </div>
+  <div id="style" class="categoryCollapse collapse show style">
+    <div *ngFor="let style of styles; let i = index" >
+      <label class="custom-control fill-checkbox" [attr.data-value]="style.id">
+        <input type="checkbox"
+               class="fill-control-input"
+               id="style-{{style.id}}"
+               name="style-{{style.id}}"
+               [(ngModel)]="style.selected"
+               (change)="filterChange(style.id, style.selected, 'style', style.name)"
+        />
+        <div class="style-img"></div>
+        <span class="fill-control-description">{{style.name}}</span>
+      </label>
+    </div>
+  </div>
+  <div class="filterTitleTopAll composition">
+      <span>{{'FILTERS_COMPOSITION' | translate}}</span>
+  </div>
+  <div class="filterTitle collapsed capitalize">
+    <div class="filterName collapsed" data-toggle="collapse" data-target="#composition_upper">
+      {{'FILTERS_UPPER' | translate}} <i class="fa fa-angle-down"></i> <i class="fa fa-angle-up"></i>
+    </div>
+    <div class="filterClear">
+      <a *ngIf="checkSelected('composition_inner_upper')" class="sm_non_display" (click)="clearProrerty('composition_upper')" href="javascript:void(0);">{{'BTN_CLEAR' | translate}}</a>
+    </div>
+    <div *ngIf="!productChoises">
+      <img class="spinner" src="./../../../assets/images/Spinner-product.svg" alt="Loading...">
+    </div>
+  </div>
+  <div id="composition_upper" class="categoryCollapse collapse hide">
+    <div *ngFor="let upper of composition_inner_upper; let i = index" >
+      <label class="custom-control fill-checkbox">
+        <input type="checkbox"
+                class="fill-control-input"
+                [(ngModel)]="upper.selected"
+                (change)="filterChange(upper.id, upper.selected, 'composition_upper', 'Upper: ' + upper.name)"
+        />
+        <span class="fill-control-indicator"></span>
+        <span class="fill-control-description">{{upper.name}}</span>
+      </label>
+    </div>
+  </div>
+  <div class="filterTitle collapsed capitalize">
+    <div class="filterName collapsed" data-toggle="collapse" data-target="#composition_lining">
+      {{'FILTERS_LINING' | translate}} <i class="fa fa-angle-down"></i> <i class="fa fa-angle-up"></i>
+    </div>
+    <div class="filterClear">
+      <a *ngIf="checkSelected('composition_inner_lining')" class="sm_non_display" (click)="clearProrerty('composition_lining')" href="javascript:void(0);">{{'BTN_CLEAR' | translate}}</a>
+    </div>
+    <div *ngIf="!productChoises">
+      <img class="spinner" src="./../../../assets/images/Spinner-product.svg" alt="Loading...">
+    </div>
+  </div>
+  <div id="composition_lining" class="categoryCollapse collapse hide">
+    <div *ngFor="let lin of composition_inner_lining; let i = index" >
+      <label class="custom-control fill-checkbox">
+        <input type="checkbox"
+                class="fill-control-input"
+                id="lin-{{lin.id}}"
+                name="lin-{{lin.id}}"
+                [(ngModel)]="lin.selected"
+                (change)="filterChange(lin.id, lin.selected, 'composition_lining', 'Lining: ' + lin.name)"
+        />
+        <span class="fill-control-indicator"></span>
+        <span class="fill-control-description">{{lin.name}}</span>
+      </label>
+    </div>
+  </div>
+  <div class="filterTitle collapsed capitalize">
+    <div class="filterName collapsed" data-toggle="collapse" data-target="#composition_sock">
+      {{'FILTERS_SOCK' | translate}} <i class="fa fa-angle-down"></i> <i class="fa fa-angle-up"></i>
+    </div>
+    <div class="filterClear">
+      <a *ngIf="checkSelected('composition_inner_sock')" class="sm_non_display" (click)="clearProrerty('composition_sock')" href="javascript:void(0);">{{'BTN_CLEAR' | translate}}</a>
+    </div>
+    <div *ngIf="!productChoises">
+      <img class="spinner" src="./../../../assets/images/Spinner-product.svg" alt="Loading...">
+    </div>
+  </div>
+  <div id="composition_sock" class="categoryCollapse collapse hide">
+    <div *ngFor="let sock of composition_inner_sock; let i = index" >
+      <label class="custom-control fill-checkbox">
+        <input type="checkbox"
+                class="fill-control-input"
+                id="sock-{{sock.id}}"
+                name="sock-{{sock.id}}"
+                [(ngModel)]="sock.selected"
+                (change)="filterChange(sock.id, sock.selected, 'composition_sock', 'Sock: ' + sock.name)"
+        />
+        <span class="fill-control-indicator"></span>
+        <span class="fill-control-description">{{sock.name}}</span>
+      </label>
+    </div>
+  </div>
+  <div class="filterTitle collapsed capitalize outer">
+    <div class="filterName collapsed" data-toggle="collapse" data-target="#composition_outer_sole">
+      {{'FILTERS_OUTER' | translate}} <i class="fa fa-angle-down"></i> <i class="fa fa-angle-up"></i>
+    </div>
+    <div class="filterClear">
+      <a *ngIf="checkSelected('composition_outer')" class="sm_non_display" (click)="clearProrerty('composition_outer_sole')" href="javascript:void(0);">{{'BTN_CLEAR' | translate}}</a>
+    </div>
+    <div *ngIf="!productChoises">
+      <img class="spinner" src="./../../../assets/images/Spinner-product.svg" alt="Loading...">
+    </div>
+  </div>
+  <div id="composition_outer_sole" class="categoryCollapse collapse hide">
+    <div *ngFor="let label of composition_outer; let i = index" >
+      <label class="custom-control fill-checkbox">
+        <input type="checkbox"
+                class="fill-control-input"
+                id="label-{{label.id}}"
+                name="label-{{label.id}}"
+                [(ngModel)]="label.selected"
+                (change)="filterChange(label.id, label.selected, 'composition_outer_sole', 'Sole: ' + label.name)"
+        />
+        <span class="fill-control-indicator"></span>
+        <span class="fill-control-description">{{label.name}}</span>
+      </label>
+    </div>
+  </div>
+  <div class="filterTitle collapsed">
+    <div class="filterName collapsed" data-toggle="collapse" data-target="#sale_type">
+      {{'FILTERS_SALE_TYPE' | translate}} <i class="fa fa-angle-down"></i> <i class="fa fa-angle-up"> </i>
+    </div>
+    <div class="filterClear">
+      <a *ngIf="by_pairs || by_prepacks" class="sm_non_display" (click)="clearProrerty('sell_by_type')" href="javascript:void(0);">{{'BTN_CLEAR' | translate}}</a>
+    </div>
+  </div>
+  <div id="sale_type" class="categoryCollapse collapse">
+    <div>
+      <label class="custom-control fill-checkbox">
+        <input type="checkbox"
+              class="fill-control-input"
+              id="byPair"
+              name="byPair"
+              [(ngModel)]="by_pairs"
+              (change)="filterChange('by_pairs', by_pairs, 'sell_by_type', 'By pair')"/>
+        <span class="fill-control-indicator"></span>
+        <span class="fill-control-description">{{'FILTERS_SALE_TYPE_1' | translate}}</span>
+      </label>
+    </div>
+    <div>
+      <label class="custom-control fill-checkbox">
+        <input type="checkbox"
+              class="fill-control-input"
+              id="byPrepacks"
+              name="byPrepacks"
+              [(ngModel)]="by_prepacks"
+              (change)="filterChange('by_prepacks', by_prepacks, 'sell_by_type', 'Pre-packs')"/>
+        <span class="fill-control-indicator"></span>
+        <span class="fill-control-description">{{'FILTERS_SALE_TYPE_2' | translate}}</span>
+      </label>
+    </div>
+  </div>
+  <div class="filterTitle collapsed" >
+    <div class="filterName collapsed" data-toggle="collapse" data-target="#price_type">
+        {{'FILTERS_PRICE_TYPE' | translate}} <i class="fa fa-angle-down"></i> <i class="fa fa-angle-up"></i>
+    </div>
+    <div class="filterClear">
+        <a *ngIf="checkSelected('priceTypesTranslated')" class="sm_non_display" (click)="clearProrerty('price_type')" href="javascript:void(0);">{{'BTN_CLEAR' | translate}}</a>
+    </div>
+    <div *ngIf="!productChoises">
+        <img class="spinner" src="./../../../assets/images/Spinner-product.svg" alt="Loading...">
+    </div>
+</div>
+    <div id="price_type" class="categoryCollapse collapse">
+        <div *ngFor="let price_type of priceTypesTranslated; let i = index" >
+            <label class="custom-control fill-checkbox">
+                <input type="checkbox"
+                       class="fill-control-input"
+                       id="price_type-{{price_type.id}}"
+                       name="price_type-{{price_type.id}}"
+                       [(ngModel)]="price_type.selected"
+                       (change)="filterChange(price_type.id, price_type.selected, 'price_type', price_type.name)"
+                />
+                <span class="fill-control-indicator"></span>
+                <span class="fill-control-description">{{price_type.name}}</span>
+            </label>
+        </div>
+    </div>
+    <div *ngIf="scope !== 'seller'" class="filterTitle collapsed">
+        <div class="filterName collapsed" data-toggle="collapse" data-target="#availability">
+            {{'FILTERS_AVAILABILITY' | translate}}
+            <i class="fa fa-angle-down"></i> <i class="fa fa-angle-up"></i>
+        </div>
+        <div class="filterClear">
+            <a *ngIf="checkSelected('collectionOrStockTranslated')" class="sm_non_display" (click)="clearProrerty('availability')" href="javascript:void(0);">{{'BTN_CLEAR' | translate}}</a>
+        </div>
+        <div *ngIf="!productChoises">
+            <img class="spinner" src="./../../../assets/images/Spinner-product.svg" alt="Loading...">
+        </div>
+    </div>
+    <div *ngIf="scope !== 'seller'" id="availability" class="categoryCollapse collapse">
+        <div *ngFor="let item of collectionOrStockTranslated; let i = index" >
+            <label class="custom-control fill-checkbox">
+                <input type="checkbox"
+                       class="fill-control-input"
+                       id="item-{{item.id}}"
+                       name="item-{{item.id}}"
+                       [(ngModel)]="item.selected"
+                       (change)="filterChange(item.id, item.selected, 'collection_or_stock', item.name)"
+                />
+                <span class="fill-control-indicator"></span>
+                <span class="fill-control-description">{{item.name}}</span>
+            </label>
+        </div>
+    </div>
+  <div class="filterTitle collapsed">
+    <div class="filterName collapsed" data-toggle="collapse" data-target="#packing_type">
+      {{'FILTERS_PACKING_TYPE' | translate}} <i class="fa fa-angle-down"></i> <i class="fa fa-angle-up"></i>
+    </div>
+    <div class="filterClear">
+      <a *ngIf="checkSelected('packing_type')" class="sm_non_display" (click)="clearProrerty('packing_type')" href="javascript:void(0);">{{'BTN_CLEAR' | translate}}</a>
+    </div>
+    <div *ngIf="!productChoises">
+      <img class="spinner" src="./../../../assets/images/Spinner-product.svg" alt="Loading...">
+    </div>
+  </div>
+  <div id="packing_type" class="categoryCollapse collapse">
+    <div *ngFor="let condition of packing_type; let i = index" >
+      <label class="custom-control fill-checkbox">
+        <input type="checkbox"
+               class="fill-control-input"
+               id="condition-{{condition.id}}"
+               name="condition-{{condition.id}}"
+               [(ngModel)]="condition.selected"
+               (change)="filterChange(condition.id, condition.selected, 'packing_type', condition.name)"
+        />
+        <span class="fill-control-indicator"></span>
+        <span class="fill-control-description">{{condition.name}}</span>
+      </label>
+    </div>
+  </div>
+
+  <div *ngIf="scope !== 'buyer' || scopeUser" class="filterTitle collapsed">
+    <div class="filterName collapsed" data-toggle="collapse" data-target="#currency">
+      {{'FILTERS_CURRENCY' | translate}} <i class="fa fa-angle-down"></i> <i class="fa fa-angle-up"></i>
+    </div>
+    <div class="filterClear">
+      <a *ngIf="checkSelected('currencies')" class="sm_non_display" (click)="clearProrerty('currency')" href="javascript:void(0);">{{'BTN_CLEAR' | translate}}</a>
+    </div>
+    <div *ngIf="!productChoises">
+      <img class="spinner" src="./../../../assets/images/Spinner-product.svg" alt="Loading...">
+    </div>
+  </div>
+  <div *ngIf="scope !== 'buyer' || scopeUser" id="currency" class="categoryCollapse collapse">
+    <div *ngFor="let currency of currencies; let i = index" >
+      <label class="custom-control fill-checkbox">
+        <input type="checkbox"
+               class="fill-control-input"
+               id="currency-{{currency.id}}"
+               name="currency-{{currency.id}}"
+               [(ngModel)]="currency.selected"
+               (change)="filterChange(currency.id, currency.selected, 'currency', currency.name)"
+        />
+        <span class="fill-control-indicator"></span>
+        <span class="fill-control-description">{{currency.name}}</span>
+      </label>
+    </div>
+  </div>
+  <div  class="filterTitle collapsed">
+    <div class="filterName collapsed height" data-toggle="collapse" data-target="#country_of_origin">
+      {{'FILTERS_COUNTRY' | translate}} <i class="fa fa-angle-down"></i> <i class="fa fa-angle-up"></i>
+    </div>
+    <div class="filterClear">
+      <a *ngIf="checkSelected('country_results')" class="sm_non_display" (click)="clearProrerty('country_of_origin')" href="javascript:void(0);">{{'BTN_CLEAR' | translate}}</a>
+    </div>
+    <div *ngIf="!productChoises">
+      <img class="spinner" src="./../../../assets/images/Spinner-product.svg" alt="Loading...">
+    </div>
+  </div>
+  <div  id="country_of_origin" class="categoryCollapse collapse hide">
+    <input  class="filter-search" 
+            placeholder="{{'PLACEHOLDER_SEARCH_COUNTRIES' | translate}}" 
+            [(ngModel)]="country_search" 
+            (input)="searchFilter('countries')"
+            *ngIf="countries.length > 10"/>
+    <div>
+        <div *ngFor="let country of country_results; let i = index" >
+            <label class="custom-control fill-checkbox">
+              <input type="checkbox"
+                     class="fill-control-input"
+                     id="country-{{country.id}}"
+                     name="country-{{country.id}}"
+                     [(ngModel)]="country.selected"
+                     (change)="filterChange(country.id, country.selected, 'country_of_origin', country.name)"
+              />
+              <span class="fill-control-indicator"></span>
+              <span class="fill-control-description">{{country.name}}</span>
+            </label>
+          </div>
+          <span *ngIf="!country_results.length">{{'ERR_NO_OPTIONS' | translate}}</span>
+    </div>
+  </div>
+  <div  class="filterTitle collapsed">
+    <div class="filterName collapsed height" data-toggle="collapse" data-target="#country">
+      {{'FILTERS_COUNTRY_LOCATION' | translate}} <i class="fa fa-angle-down"></i> <i class="fa fa-angle-up"></i>
+    </div>
+    <div class="filterClear">
+      <a *ngIf="checkSelected('country_location_results')"  class="sm_non_display"(click)="clearProrerty('country')" href="javascript:void(0);">{{'BTN_CLEAR' | translate}}</a>
+    </div>
+    <div *ngIf="!productChoises">
+      <img class="spinner" src="./../../../assets/images/Spinner-product.svg" alt="Loading...">
+    </div>
+  </div>
+  <div  id="country" class="categoryCollapse collapse hide">
+    <input  class="filter-search" 
+            placeholder="{{'PLACEHOLDER_SEARCH_COUNTRIES' | translate}}" 
+            [(ngModel)]="country_location_search" 
+            (input)="searchFilter('countries_location')"
+            *ngIf="countries_location.length > 10"/>
+    <div>
+      <div *ngFor="let country of country_location_results; let i = index" >
+          <label class="custom-control fill-checkbox">
+            <input type="checkbox"
+                    class="fill-control-input"
+                    id="country-{{country.id}}"
+                    name="country-{{country.id}}"
+                    [(ngModel)]="country.selected"
+                    (change)="filterChange(country.id, country.selected, 'country', country.name)"
+            />
+            <span class="fill-control-indicator"></span>
+            <span class="fill-control-description">{{country.name}}</span>
+          </label>
+        </div>
+        <span *ngIf="!country_location_results.length">{{'ERR_NO_OPTIONS' | translate}}</span>
+    </div>
+  </div>
+  <div  class="filterTitle collapsed" *ngIf="url === '/dashboard/seller/products' || url.indexOf('/dashboard/buyer') > -1
+   || scope === 'buyer' && !shop">
+    <div class="filterName collapsed" data-toggle="collapse" data-target="#seller">
+      {{'FILTERS_SUPPLIERS' | translate}} <i class="fa fa-angle-down"></i> <i class="fa fa-angle-up"></i>
+    </div>
+    <div class="filterClear">
+      <a *ngIf="checkSelected('sellers_results')" class="sm_non_display" (click)="clearProrerty('seller')" href="javascript:void(0);">{{'BTN_CLEAR' | translate}}</a>
+    </div>
+    <div *ngIf="!productChoises">
+      <img class="spinner" src="./../../../assets/images/Spinner-product.svg" alt="Loading...">
+    </div>
+  </div>
+  <div  id="seller" class="categoryCollapse collapse hide" *ngIf="url === '/dashboard/seller/products'
+  || url.indexOf('/dashboard/buyer') > -1 || scope === 'buyer' && !shop">
+    <input  class="filter-search" 
+            placeholder="{{'PLACEHOLDER_SEARCH_SUPPLIERS' | translate}}" 
+            [(ngModel)]="sellers_search" 
+            (input)="searchFilter('sellers')"
+            *ngIf="sellers.length > 10"/>
+    <div>
+        <div *ngFor="let seller of sellers_results; let i = index" >
+            <label class="custom-control fill-checkbox">
+              <input type="checkbox"
+                     class="fill-control-input"
+                     id="seller-{{seller.id}}"
+                     name="seller-{{seller.id}}"
+                     [(ngModel)]="seller.selected"
+                     (change)="filterChange(seller.company.id, seller.selected, 'seller', seller.full_name)"
+              />
+              <span class="fill-control-indicator"></span>
+              <span class="fill-control-description">{{seller.full_name}}</span>
+            </label>
+          </div>
+          <span *ngIf="!sellers_results.length">{{'ERR_NO_OPTIONS' | translate}}</span>
+    </div>
+  </div>
+  <div  class="filterTitle collapsed" *ngIf="url === '/dashboard/seller/products'
+  || url.indexOf('/dashboard/buyer') > -1 || scope === 'buyer' || scope === 'seller' && shop">
+    <div class="filterName collapsed" data-toggle="collapse" data-target="#brand">
+      {{'FILTERS_BRANDS' | translate}} <i class="fa fa-angle-down"></i> <i class="fa fa-angle-up"></i>
+    </div>
+    <div class="filterClear">
+      <a *ngIf="checkSelected('brands_results')" class="sm_non_display" (click)="clearProrerty('brand')" href="javascript:void(0);">{{'BTN_CLEAR' | translate}}</a>
+    </div>
+    <div *ngIf="!productChoises">
+      <img class="spinner" src="./../../../assets/images/Spinner-product.svg" alt="Loading...">
+    </div>
+  </div>
+  <div  id="brand" class="categoryCollapse collapse hide" *ngIf="url === '/dashboard/seller/products'
+  || url.indexOf('/dashboard/buyer') > -1 || scope === 'buyer' || scope === 'seller' && shop">
+    <input  class="filter-search" 
+            placeholder="{{'PLACEHOLDER_SEARCH_BRANDS' | translate}}" 
+            [(ngModel)]="brands_search" 
+            (input)="searchFilter('brands')"
+            *ngIf="brands.length > 10"/>
+    <div>
+      <div *ngFor="let brand of brands_results; let i = index" >
+        <label class="custom-control fill-checkbox">
+          <input type="checkbox"
+                  class="fill-control-input"
+                  id="brand-{{brand.id}}"
+                  name="brand-{{brand.id}}"
+                  [(ngModel)]="brand.selected"
+                  (change)="filterChange(brand.id, brand.selected, 'brand', brand.name)"
+          />
+          <span class="fill-control-indicator"></span>
+          <span class="fill-control-description">{{brand.name}}</span>
+        </label>
+      </div>
+      <span *ngIf="!brands_results.length">{{'ERR_NO_OPTIONS' | translate}}</span>
+    </div>
+  </div>
+  <div class="filterTitle collapsed color">
+    <div class="filterName collapsed" data-toggle="collapse" data-target="#color">
+      {{'FILTERS_COLOR' | translate}} <i class="fa fa-angle-down"></i> <i class="fa fa-angle-up"></i>
+    </div>
+    <div class="filterClear">
+      <a *ngIf="checkSelected('colors')" class="sm_non_display" (click)="clearProrerty('color')" href="javascript:void(0);">{{'BTN_CLEAR' | translate}}</a>
+    </div>
+    <div *ngIf="!productChoises">
+      <img class="spinner" src="./../../../assets/images/Spinner-product.svg" alt="Loading...">
+    </div>
+  </div>
+  <div id="color" class="categoryCollapse collapse" style="border-bottom:0; padding-bottom: 80px">
+    <div *ngFor="let color of colors; let i = index" >
+      <label  style="width: 20px;  height: 20px; float:left; margin-bottom: 4px; margin-right: 4px; border-radius: 2px;" class="custom-control fill-checkbox">
+        <input type="checkbox"
+               class="fill-control-input"
+               id="color-{{color.id}}"
+               name="color-{{color.id}}"
+               [(ngModel)]="color.selected"
+               (change)="filterChange(color.id, color.selected, 'color', color.name)"/>
+        <span  [ngClass]="color.name == 'white' ? 'fill-control-indicator black-arrow': 'fill-control-indicator'" [style.background-color]="color.name"></span>
+      </label>
+    </div>
+  </div>
+</nav>

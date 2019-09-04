@@ -1,0 +1,121 @@
+.invalid__form {
+    background-color: #c9cacc;
+    border-color: #9b9b9b;
+}
+
+h2.subTitle {
+    margin: 24px 0 14px;
+}
+
+.form-group {
+    margin-bottom: 24px !important;
+}
+
+.agree_conditions {
+    font-size: 16px !important;
+    font-family: 'Open Sans', sans-serif;
+}
+h1.title {
+    margin: 24px 0 14px;
+}
+#crumbs ul {
+    margin-bottom: 0 !important;
+}
+.terms_container {
+    margin-bottom: 14px;
+}
+.agree_label {
+    margin-bottom: 0;
+}
+
+.col p {
+    max-width: 300px;
+    font-size: 14px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: 0px;
+    color: #505363;
+}
+
+.col p a {
+    color: #b8bfd3;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.col p a:hover {
+    text-decoration: none;
+}
+
+.custom-control.fill-checkbox .fill-control-indicator {
+    border: solid 1px #b8bfd3;
+    width: 24px;
+    height: 24px;
+    left: 0;
+}
+
+.custom-control.fill-checkbox .fill-control-input:checked ~ .fill-control-indicator {
+    background-color: #3f99d4;
+    border-color: #3f99d4;
+}
+
+.custom-control.fill-checkbox .fill-control-indicator.error {
+    border: solid 1px #d9534f;
+}
+
+.custom-control.fill-checkbox .fill-control-description {
+    margin-left: 10px;
+}
+
+.modal .modal-body {
+    max-width: 400px;
+    max-height: 500px;
+    height: 100%;
+    width: 100%;
+    border-radius: 2px;
+    background-color: #ffffff;
+    padding: 60px 25px 25px 25px;
+}
+
+.modal .modal-body .text-wrapper {
+    max-height: 90%;
+    width: 100%;
+    overflow: hidden;
+    overflow-y: auto;
+    text-align: left;
+    font-size: 12px;
+    color: #33333a;
+    padding: 0 20px;
+}
+.modal .modal-body .text-wrapper::-webkit-scrollbar {
+    width: 9px;
+}
+.modal .modal-body .text-wrapper::-webkit-scrollbar-track {
+    background-color: rgba(237, 239, 244, 0.48);
+    border-radius: 6px; 
+}
+
+.modal .modal-body .text-wrapper::-webkit-scrollbar-thumb {
+    background-color: rgba(184, 191, 211, 0.48);
+    border-radius: 6px;
+}
+
+.modal .closeModal:focus {
+    outline: none;
+}
+
+.modal .closeModal span {
+    color: rgba(184, 191, 211, 0.48);
+}
+
+
+.terms-error {
+    font-size: 12px;
+    color: #d9534f;
+    max-width: 300px;
+    font-weight: 500;
+    margin-top: 5px;
+
+}

@@ -1,0 +1,953 @@
+﻿<div class="product_container">
+    <header *ngIf="!shop"></header>
+    <div *ngIf="!shop" class="container">
+    </div>
+    <main role="main"
+          class="main pb-5 product_container">
+        <div class="container page_container">
+            <div>
+                <div class="singleProduct">
+                    <div class="product_wrapper img_wrapper">
+                        <div *ngIf="singleImage" class="sm_single_img">
+                            <img *ngIf="!product.default_image.thumbnail_500" class="card-img-top main_image" src="{{product.default_image.url}}">
+                            <img *ngIf="product.default_image.thumbnail_500" class="card-img-top main_image" src="{{product.default_image.thumbnail_500}}">
+                            <!--<div class="star single_img_star"></div>-->
+                        </div>
+                        <div *ngIf="!singleImage && innerWidth > 480">
+                            <ngx-gallery [options]="galleryOptions"
+                                         [images]="galleryImages"></ngx-gallery>
+                        </div>
+                        <div *ngIf="!singleImage  && innerWidth <= 480" class="slideshow">
+                        <slideshow *ngIf="!singleImage  && innerWidth <= 480"
+                                   [height]="'301px'"
+                                   [minHeight]="'301px'"
+                                   [autoPlay]="false"
+                                   [showArrows]="true"
+                                   [arrowSize]="'30px'"
+                                   [imageUrls]="imageUrls"
+                                   [showDots]="true"
+                                   [dotColor]="'#4099d5'"
+                                   [backgroundSize]="'contain'"
+                                   [disableSwiping]="false"
+                                   [stopAutoPlayOnSlide]="true"
+                                   [lazyLoad]="imageUrls?.length > 1"
+                                   [autoPlayWaitForLazyLoad]="true">
+                        </slideshow>
+                            <!--<div class="star"></div>-->
+                        </div>
+                    </div>
+                    <div class="product_wrapper mobile_product_container">
+                        <div class="productRef"
+                             *ngIf="product.ref_number">
+                            Ref. {{product.ref_number}}
+                        </div>
+                        <div class="productTitle"
+                             *ngIf="product.title">
+                            {{product.title}}
+                        </div>
+                        <div class="customerRef">
+                            CRef. {{product.customer_ref_number ? product.customer_ref_number : '-'}}
+                        </div>
+                        <div class="productSubTitle" *ngIf="product.sub_title">
+                            {{product.sub_title}}
+                        </div>
+                        <div class="productPrice productPrice_discount" *ngIf="product.has_discount &&
+                                checkDiscountDate(product.discount_end_date)">
+                            {{product.discount_price | number:'0.2'}} {{product.currency}}
+                            <div *ngIf="product.price" class="discount_price">
+                                <div class="strikethrough">
+                                    {{product.price | number:'0.2'}} {{product.currency}}
+                                </div>
+                                <span class="discount_end_date"> Due {{product.discount_end_date | dateValPoint}}</span>
+                            </div>
+                        </div>
+                        <div class="productPrice"
+                             *ngIf="product.price && !product.discount_price || !checkDiscountDate(product.discount_end_date)">
+                            {{product.price | number:'0.2'}} {{product.currency}}
+                        </div>
+                        <div class="productTags"
+                             *ngIf="tags">
+                            <div class="singleTag"
+                                 *ngFor="let tag of tags; let i = index">
+                                {{tag}}
+                            </div>
+                        </div>
+                        <div class="form-group row singleAdd">
+                            <div class="messenger_buttom">
+                                <div (click)="onContactClick()"
+                                     class="contact_button">
+                                    <img src="../../../assets/images/126516.svg" alt="">
+                                    {{'BTN_CONTACT_US' | translate}}
+                                </div>
+                                <div (click)="onRequestSampleClick()"
+                                     class="request_button">
+                                    {{'BTN_REQUEST_SAMPLE' | translate}}
+                                </div>
+                                <div *ngIf="innerWidth <= 480" (click)="onOpenSelection()"
+                                     class="request_button">
+                                    {{'BTN_SELECTION' | translate}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row singleAdd" style="height:19px;">
+                        </div>
+                        <p class="preview_spec">
+                            {{'PROD_SPECIFICATION_TEXT' | translate}}
+                        </p>
+                        <table class="table productTable mt-3 spec_table" style="margin-left: 15px;">
+                            <tr *ngIf="seller" class="row">
+                                <td class="col-sm-4 sm_title">
+                                    <b>{{'PROD_SPECIFICATION_SELLER' | translate}}</b>
+                                </td>
+                                <td class="col-sm-7 sales_identity spec_table_detail">
+                                    {{product.sales_identity.name}} 
+                                    <div class="user-rating">
+                                        {{product.average_rating | number: '1.1-1'}} <i class="fa fa-star"></i>
+                                    </div>
+                                    <a class="shopUrl" *ngIf="product.webshop_url" target="_blank"
+                                       [routerLink]="['/', product.webshop_url]">{{'BTN_SEE_MORE_SELLER' | translate}}</a>
+                                </td>
+                            </tr>
+                            <tr *ngIf="location_country" class="row">
+                                <td class="col-sm-4 sm_title">
+                                    <b>{{'PROD_SPECIFICATION_LOCATION' | translate}}</b>
+                                </td>
+                                <td class="col-sm-7 spec_table_detail">
+                                    {{location_country.name}}
+                                </td>
+                            </tr>
+                            <tr *ngIf="country_of_origin" class="row">
+                                <td class="col-sm-4 sm_title">
+                                    <b>{{'PROD_SPECIFICATION_ORIGIN' | translate}}</b>
+                                </td>
+                                <td class="col-sm-7 spec_table_detail">
+                                    {{country_of_origin.name}}
+                                </td>
+                            </tr>
+                            <tr *ngIf="product.customer_ref_number" class="row">
+                                <td class="col-sm-4 sm_title">
+                                    <b>{{'PROD_SPECIFICATION_CUSTOMER_REF' | translate}}</b>
+                                </td>
+                                <td class="col-sm-7 customer_ref_number spec_table_detail">
+                                    {{product.customer_ref_number}}
+                                </td>
+                            </tr>
+                            <!-- <tr *ngIf="product.minimal_price" class="row" >
+                                <td class="col-4">
+                                    <b>{{'PROD_SPECIFICATION_MINIMAL_PRICE' | translate}}</b>
+                                </td>
+                                <td class="col-7 recommended_retail_price spec_table_detail">
+                                    {{product.minimal_price | rounding}} {{product.currency}}
+                                </td>
+                            </tr> -->
+                            <tr *ngIf="product.recommended_retail_price" class="row">
+                                <td class="col-sm-4 sm_title">
+                                    <b>{{'PROD_SPECIFICATION_RETAIL_PRICE' | translate}}</b>
+                                </td>
+                                <td class="col-sm-7 recommended_retail_price spec_table_detail">
+                                    {{product.recommended_retail_price | rounding}} {{product.currency}}
+                                </td>
+                            </tr>
+                            <tr *ngIf="product.gender" class="row">
+                                <td class="col-sm-4 sm_title">
+                                    <b>{{'PROD_SPECIFICATION_GENDER' | translate}}</b>
+                                </td>
+                                <td class="col-sm-7 spec_table_detail">
+                                    {{gender.name}}
+                                </td>
+                            </tr>
+                            <tr *ngIf="product.style && style" class="row">
+                                <td class="col-sm-4 sm_title">
+                                    <b>{{'PROD_SPECIFICATION_STYLE' | translate}}</b>
+                                </td>
+                                <td class="col-sm-7 spec_table_detail">
+                                    {{style.name}}
+                                </td>
+                            </tr>
+                            <tr *ngIf="product.brand" class="row">
+                                <td class="col-sm-4 sm_title">
+                                    <b>{{'PROD_SPECIFICATION_BRAND' | translate}}</b>
+                                </td>
+                                <td class="col-sm-7 brand spec_table_detail">
+                                    {{product.brand.name}}
+                                </td>
+                            </tr>
+                            <tr *ngIf="packing_type" class="row">
+                                <td class="col-sm-4 sm_title">
+                                    <b>{{'PROD_SPECIFICATION_PACKING' | translate}}</b>
+                                </td>
+                                <td class="col-sm-7 spec_table_detail">
+                                    {{packing_type.name}}
+                                </td>
+                            </tr>
+                            <tr *ngIf="product.color" class="color row">
+                                <td class="col-sm-4 sm_title">
+                                    <b>{{'PROD_SPECIFICATION_COLOR' | translate}}</b>
+                                </td>
+                                <td class="col-sm-7 spec_table_detail">
+                                    <div style="width: 20px;  height: 20px;  border-radius: 2px;"
+                                         [style.background-color]="product.color.name"></div>
+                                </td>
+                            </tr>
+                            <tr *ngIf="upper" class="row">
+                                <td class="col-sm-4 sm_title">
+                                    <b>{{'PROD_SPECIFICATION_UPPER' | translate}}</b>
+                                </td>
+                                <td class="col-sm-7 spec_table_detail">
+                                    {{upper.name}}
+                                </td>
+                            </tr>
+                            <tr *ngIf="lining" class="row">
+                                <td class="col-sm-4 sm_title">
+                                    <b>{{'PROD_SPECIFICATION_LINING' | translate}}</b>
+                                </td>
+                                <td class="col-sm-7 spec_table_detail">
+                                    {{lining.name}}
+                                </td>
+                            </tr>
+                            <tr *ngIf="sock" class="row">
+                                <td class="col-sm-4 sm_title">
+                                    <b>{{'PROD_SPECIFICATION_SOCK' | translate}}</b>
+                                </td>
+                                <td class="col-sm-7 spec_table_detail">
+                                    {{sock.name}}
+                                </td>
+                            </tr>
+                            <tr *ngIf="outer_sole" class="row">
+                                <td class="col-sm-4 sm_title">
+                                    <b>{{'PROD_SPECIFICATION_OUTER' | translate}}</b>
+                                </td>
+                                <td class="col-sm-7 spec_table_detail">
+                                    {{outer_sole.name}}
+                                </td>
+                            </tr>
+                        </table>
+                        <div *ngIf="outputSizes && product.description" class="productDescription description">
+                            <div class="productDescttitle">
+                                {{'TEXT_DESCRIPTION' | translate}}
+                            </div>
+                            <div *ngIf="!seeMoreDescr"
+                                 class="seeMoreDesc">
+                                {{product.description | slice:0:30}}
+                                <a href="javascript:void(0);"
+                                   (click)="seeMoreDesc()">
+                                    {{'BTN_SEE_MORE' | translate}}
+                                </a>
+                            </div>
+                            <div *ngIf="seeMoreDescr"
+                                 class="seeFullDesc">
+                                {{product.description}}
+                                <a href="javascript:void(0);"
+                                   (click)="seeLessDesc()">
+                                    {{'BTN_SEE_LESS' | translate}}
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div *ngIf="prepacks && innerWidth > 480" class="singlePrepack">
+                    <p class="prepack_variations">{{'TEXT_PREPACKS_VARIATIONS' | translate}}</p>
+                    <table class="prepack_table">
+                        <tr>
+                            <td class="prepack_name">{{'TEXT_NAME' | translate}}</td>
+                            <td class="prepack_size">{{'TEXT_SIZE_RANGE' | translate}}</td>
+                            <td></td>
+                            <td class="prepac_total">{{'TEXT_TOTAL_PAIRS' | translate}}</td>
+                            <td class="prepack_price">{{'TEXT_PRICE' | translate}}</td>
+                        </tr>
+                        <tr *ngFor="let prepack of prepacks; let i = index">
+                            <td class="prepack_variations prepack_name_length">
+                                <div>{{prepack.name}}</div>
+                            </td>
+                            <td class="sizes_container">
+                                <div class="show_sizes prepack_item">
+                                    <p style="margin: 0 21px 0 0"> {{prepack.min_size_eu}}-{{prepack.max_size_eu}}</p>
+
+                                </div>
+                            </td>
+                            <td>
+                                <div class="size_position">
+
+                                <span *ngFor="let size of (onSortSizes(prepack.sizes))" class="prepack_quantity_only"
+                                      (click)="showSizes[i] = !showSizes[i];">
+                                    {{size.value}}
+                                </span>
+                                    <div *ngIf="showSizes[i]" style="display:flex; flex-wrap: wrap;" class="modal_size">
+                                        <div *ngFor="let size of prepack.sizes; let i = index">
+                                            <div class="size-container">
+                                                <span class="size">{{size.key}}</span>
+                                                <span class="quantity">{{size.value}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="prepack_item">{{totalPairs(prepack)}}</td>
+                            <td> <span *ngIf="product.has_discount &&
+                                checkDiscountDate(product.discount_end_date)" class="pair_price discount_price_value">
+                                 {{product.discount_price | number:'0.2'}}
+                                <span class="pair_price discount_price_value">{{product.currency}}</span>
+                            </span>
+                                <span *ngIf="product.price && !product.discount_price
+                                 || !checkDiscountDate(product.discount_end_date)" class="pair_price">
+                                    {{product.price | number:'0.2'}}
+                                    <span class="pair_price">{{product.currency}}</span>
+                                </span>
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="productDescription description"
+                         *ngIf="product.description">
+                        <div class="productDescttitle">
+                            {{'TEXT_DESCRIPTION' | translate}}
+                        </div>
+                        <div *ngIf="!seeMoreDescr"
+                             class="seeMoreDesc seeMoreDesc_prepack">
+                            {{product.description | slice:0:30}}
+                            <a href="javascript:void(0);"
+                               (click)="seeMoreDesc()">
+                                {{'BTN_SEE_MORE' | translate}}
+                            </a>
+                        </div>
+                        <div *ngIf="seeMoreDescr"
+                             class="seeFullDesc_prepack">
+                            {{product.description}}
+                            <a href="javascript:void(0);"
+                               (click)="seeLessDesc()">
+                                {{'BTN_SEE_LESS' | translate}}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="prepacks && innerWidth <= 480" class="singlePrepack">
+                    <p class="prepack_variations">{{'TEXT_PREPACKS_VARIATIONS' | translate}}</p>
+                    <table *ngFor="let prepack of prepacks; let i = index" class="prepack_table">
+                        <tbody>
+                        <tr>
+                            <td class="prepack_name">{{'TEXT_NAME' | translate}}</td>
+                            <td class="prepack_variations prepack_name_length">
+                                <div>{{prepack.name}}</div>
+                            </td>
+                        </tr>
+                        <tr>
+                        <td class="prepack_size">{{'TEXT_SIZE_RANGE' | translate}}</td>
+                        <td class="sizes_container">
+                                <div class="show_sizes prepack_item">
+                                    <p style="margin: 0 21px 0 0"> {{prepack.min_size_eu}}-{{prepack.max_size_eu}}</p>
+
+                                </div>
+                            </td>
+                            </tr>
+
+                        <tr>
+                            <td class="prepac_total">{{'TEXT_TOTAL_PAIRS' | translate}}</td>
+                            <td class="prepack_item">{{totalPairs(prepack)}}</td>
+                        </tr>
+                        <tr>
+                            <td class="prepack_price">{{'TEXT_PRICE' | translate}}</td>
+                            <td> <span *ngIf="product.has_discount &&
+                                checkDiscountDate(product.discount_end_date)" class="pair_price">
+                                 {{product.discount_price | number:'0.2'}}
+                            </span>
+                                <span *ngIf="product.price && !product.discount_price
+                                 || !checkDiscountDate(product.discount_end_date)" class="pair_price">
+                                    {{product.price | number:'0.2'}}
+                                </span>
+                                <span class="pair_price">{{product.currency}}</span>
+                            </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="productDescription description"
+                         *ngIf="product.description">
+                        <div class="productDescttitle">
+                            {{'TEXT_DESCRIPTION' | translate}}
+                        </div>
+                        <div *ngIf="!seeMoreDescr"
+                             class="seeMoreDesc seeMoreDesc_prepack">
+                            {{product.description | slice:0:30}}
+                            <a href="javascript:void(0);"
+                               (click)="seeMoreDesc()">
+                                {{'BTN_SEE_MORE' | translate}}
+                            </a>
+                        </div>
+                        <div *ngIf="seeMoreDescr"
+                             class="seeFullDesc_prepack">
+                            {{product.description}}
+                            <a href="javascript:void(0);"
+                               (click)="seeLessDesc()">
+                                {{'BTN_SEE_LESS' | translate}}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div *ngIf="innerWidth > 480" class="product_wrapper product_wrapper_cart">
+
+                <div *ngIf="prepacks" class="cart_content">
+
+                    <div class="titleTypoEdit" style="margin-bottom: 20px">
+                        {{'TEXT_CART' | translate}}
+                    </div>
+                    <div class="w-100">
+                        <table class="prepackWrapper">
+                            <tr>
+                                <td style="width: 40%" class="cart_title">{{'TEXT_PREPACK_NAME' | translate}}</td>
+                                <td style="width: 30%" class="cart_title">{{'TEXT_QUANTITY_AVAILABLE' | translate}}</td>
+                                <td style="width: 30%"></td>
+                            </tr>
+                            <tr *ngFor="let prepack of prepacks; let i = index">
+                                <td>
+                                    <b class="name"> {{prepack.name}} </b>
+                                </td>
+                                <td class="prepack_name" style="text-align: center">
+                                    <span *ngIf="prepack.available_quantity">{{prepack.available_quantity}}</span>
+                                    <span *ngIf="!prepack.available_quantity">-</span>
+                                </td>
+                                <td>
+                                    <input type="text"
+                                           class="form-control col cart-quantity"
+                                           name="prepacksQuantity_{{i}}"
+                                           id="prepacksQuantity_{{i}}"
+                                           (keypress)="_keyPress($event)"
+                                           [(ngModel)]="prepacksQuantity[i]"
+                                           (ngModelChange)="onCheckPrepackQuantity(prepacksQuantity[i],prepack.available_quantity, i)"
+                                           #name="ngModel"
+                                           placeholder="{{'PLACEHOLDER_QUANTITY' | translate}}"/>
+                                    <span style="color: #d0021b;" *ngIf="errorPrepackQuantity[i]">Quantity can not exceed available quantity</span>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div>
+                        <div *ngIf="displayErorPrepackQuantity"
+                             style="color:red; font-size: 14px;">
+                            {{'ERR_NO_PREPACK' | translate}}
+                        </div>
+                        <div class="cart_button_container">
+                            <button *ngIf="bidding" class="btn btn-lg btn-primary btn-block account saveButton"
+                                    [disabled]="checkError(errorPrepackQuantity)"
+                                    type="button" (click)="onOpenBidModal()">
+                                {{'BTN_PLACE_BID' | translate}}
+                            </button>
+                            <button class="btn btn-lg btn-primary btn-block account saveButton"
+                                    [disabled]="checkError(errorPrepackQuantity) || disableAddCart"
+                                    type="submit" (click)="addtoCart()">
+                                {{'BTN_ADD_TO_CART' | translate}}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div *ngIf="outputSizes" class="cart_content">
+                    <div class="w-100">
+                        <div class="titleTypoEdit" style="margin-bottom: 20px">
+                            {{'TEXT_CART' | translate}}
+                        </div>
+                        <label class="size_quantity">{{'PRODUCT_SIZE_QUANTITY' | translate}}</label>
+                        <div style="display: flex; flex-wrap: wrap;">
+                            <div *ngFor="let size of outputSizes; let i = index;">
+                                <div class="size-container" style=" position: relative;">
+                                    <input type="text"
+                                           class="size"
+                                           [(ngModel)]="size.key"
+                                           (keypress)="_keyPress($event)"
+                                           disabled=true
+                                           [ngModelOptions]="{standalone: true}">
+                                    <span class="show_quantity_container">
+                                    <input type="text"
+                                           (mouseenter)="mouseHovering(i)" (mouseleave)="mouseLeaving(i)"
+                                           class="quantity"
+                                           (keypress)="_keyPress($event)"
+                                           [(ngModel)]="size.quantity"
+                                           (ngModelChange)="onSizeChange(size.quantity, size.value, i)"
+                                           [ngModelOptions]="{standalone: true}">
+                                    <span class="show_quantity"
+                                          *ngIf="isHovering[i]">{{size.value}} {{'TEXT_LEFT' | translate}}</span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <p *ngIf="errorQuantityMes" style="color: #d0021b;"> {{'ERR_QUANTITY' | translate}}</p>
+                    </div>
+                    <div *ngIf="!updateCartInfo">
+                        <div *ngIf="displayErorQuantity"
+                             style="color:red; font-size: 14px;">
+                            {{'ERR_NO_SIZE' | translate}}
+                        </div>
+                        <div class="cart_button_container">
+                            <button *ngIf="bidding" class="btn btn-lg btn-primary btn-block account saveButton"
+                                    [disabled]="errorQuantityMes || disableAddCart"
+                                    type="button" (click)="onOpenBidModal()">
+                                {{'BTN_PLACE_BID' | translate}}
+                            </button>
+                            <button class="btn btn-lg btn-primary btn-block account saveButton"
+                                    [disabled]="errorQuantityMes || disableAddCart"
+                                    type="submit" (click)="addtoCart()">
+                                {{'BTN_ADD_TO_CART' | translate}}
+                            </button>
+                        </div>
+                    </div>
+                    <div *ngIf="updateCartInfo"
+                         class="row">
+                        <div class="col-10">
+                            <div *ngIf="displayErorQuantity"
+                                 style="color:red; font-size: 14px;">
+                                {{'ERR_NO_SIZE' | translate }}
+                            </div>
+                            <button class="btn btn-lg btn-primary btn-block account saveButton"
+                                    type="submit" (click)="updateCart()">
+                                {{'BTN_UPDATE_CART' | translate}}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <footer></footer>
+</div>
+<modal id="custom-modal-2">
+    <div class="modal">
+        <div class="modal-body">            
+            <button (click)="closeModal('custom-modal-2');"
+                    class="closeModal">
+                <i class="fa fa-close"></i>
+            </button>
+            <div class="content">
+                <div class="image">
+                    <img src="assets/images/sucess.png"
+                         alt="logo">
+                </div>
+                <div>
+                    {{'MODAL_REQUEST' | translate}}
+                </div>
+            </div>
+        </div>
+    </div>
+     
+    <div class="modal-background"></div>
+</modal>
+<modal id="custom-modal-bid">
+    <div class="modal">
+        <div class="modal-body">            
+            <button (click)="closeModal('custom-modal-bid');"
+                    class="closeModal">
+            </button>
+            <div class="content">
+                <div class="image">
+                    <img src="assets/images/icon-success.svg"
+                         alt="logo">
+                    <div class="message">
+                        {{'TEXT_CONGRATULATIONS' | translate}}!<br/>
+                        {{'MODAL_ORDER_CREATED' | translate}}
+                    </div>
+                </div>
+                <div class="buttons">
+                    <button (click)="closeModal('custom-modal-bid')">{{'BTN_BACK' | translate}}</button>
+                    <a [routerLink]="['/dashboard/messenger/orders/dialog/' + createdOrderId]">{{'BTN_VIEW' | translate}}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+     
+    <div class="modal-background"></div>
+</modal>
+<modal id="custom-modal-3">
+    <div class="modal">
+        <div class="modal-body">            
+            <button (click)="closeModal('custom-modal-3');"
+                    class="closeModal">
+                <i class="fa fa-close"></i>
+            </button>
+            <div class="content">
+                <div class="image">
+                    <img src="assets/images/sucess.png"
+                         alt="logo">
+                </div>
+                <div>
+                    {{'MODAL_PROD_ADDED' | translate}}
+                </div>
+            </div>
+        </div>
+    </div>
+     
+    <div class="modal-background"></div>
+</modal>
+<modal id="custom-modal-9">
+    <div class="modal">
+        <div class="modal-body">            
+            <button (click)="closeModal('custom-modal-9');"
+                    class="closeModal">
+            </button>
+            <div class="content">
+                <h3 class="modal_title">
+                    {{'MODAL_PLACE_BID' | translate}}
+                </h3>
+                <div class="more_info" *ngIf="innerWidth > 480">
+                    <a *ngIf="product" target="_blank"
+                       (click)="toShop(product)">{{'BTN_VIEW_ALL_FROM' | translate}} {{product.company.name}}</a>
+                </div>
+                <div class="product-card" *ngIf="product && innerWidth > 480">
+                    <div class="image">
+                        <img *ngIf="!product.default_image.thumbnail_200" class="card-img-top" src="{{product.default_image.url}}">
+                        <img *ngIf="product.default_image.thumbnail_200" class="card-img-top" src="{{product.default_image.thumbnail_200}}">
+                    </div>
+                    <div class="info">
+                        <span class="ref">Ref.{{product.ref_number}}</span>
+                        <span class="title">{{product.title}}</span>
+                        <span class="customerRef">CRef. {{product.customer_ref_number ? product.customer_ref_number : '-'}} </span>
+                        <span class="price"
+                              *ngIf="!product.discount_price || !checkDiscountDate(product.discount_end_date)">
+                            {{product.price | number: '1.2'}} {{product.currency}}
+                        </span>
+                        <span class="price"
+                              *ngIf="product.discount_price && checkDiscountDate(product.discount_end_date)">
+                            {{product.discount_price | number: '1.2'}} {{product.currency}}
+                        </span>
+                    </div>
+                </div>
+                <!--<span class="line_bottom"></span>-->
+                <div class="modal_container">
+                    <div class="modal_container_info_wrapper">
+                        <p class="numder_title">{{pairs}} {{'TEXT_PAIRS' | translate}}</p>
+                        <p class="numder_title">{{sizes}} {{'TEXT_SIZES' | translate}}</p>
+                    </div>
+                    <div class="modal_container_info_wrapper">
+                        <div class="pair_per_pair"><span *ngIf="scope === 'seller'" class="info_pair"><i
+                                class="fa fa-info-circle"></i>
+                        <span class="show_quantity min_price_container">
+                            {{'PROD_SPECIFICATION_MINIMAL_PRICE' | translate}}
+                            <br>{{product.minimal_price}} {{product.currency}}
+                        </span>
+                    </span>
+                            {{'PRICE_PER_PAIR' | translate}}
+                        </div>
+                        <div class="input-group disountInput bidding_input">
+
+                            <!--<span class="input-group-btn">-->
+                            <!--<button type="button" (click)="onDiscountMinus()"-->
+                            <!--[disabled]="discountPrice === '0%'"-->
+                            <!--class="btn btn-default btn-number btnMinus">-->
+                            <!--<i class="fa fa-minus" aria-hidden="true"></i>-->
+                            <!--</button>-->
+                            <!--</span>-->
+                            <input type="text"
+                                   [(ngModel)]="biddingPrice"
+                                   (input)="onChangeDiscount()"
+                                   class="form-control input-number input_bid">
+                            <!--<span class="input-group-btn">-->
+                            <!--<button type="button" (click)="onDiscountPlus()"-->
+                            <!--[disabled]="discountPrice === '100%'"-->
+                            <!--class="btn btn-default btn-number btnPlus">-->
+                            <!--<i class="fa fa-plus" aria-hidden="true"></i>-->
+                            <!--</button>-->
+                            <!--</span>-->
+                            <!--<div class="bidding_currency">{{product.currency}}</div>-->
+                        </div>
+                        <p class="discount_title text_right">
+                            {{product.price | rounding}} {{product.currency}}
+                        </p>
+                    </div>
+                    <div class="modal_container_info_wrapper">
+                        <div class="pair_per_pair marg_left">{{'MODAL_TOTAL_PRICE' | translate}}</div>
+                        <div class="price_title">
+                            {{ newDiscount === product.price ? (total_price | rounding) : (total_price_with_discount | rounding)}}
+                            {{product.currency}}
+                        </div>
+                        <div class="discount_title" *ngIf="newDiscount != product.price">
+                            {{total_price | rounding}} {{product.currency}}
+                        </div>
+                    </div>
+                </div>
+                <p *ngIf="errorMinPrice" class="error_min_message">{{'ERR_MIN_PRICE' | translate}}</p>
+                <div class="button_container">
+                    <button type="submit" (click)="onPlaceABid()" class="btn btn-block"
+                            [disabled]="errorMinPrice || isNanDiscount">{{'BTN_SEND' | translate}}
+                        <img class="form_spinner" *ngIf="isLoading" src="./../../../assets/images/Spinner-form.svg"
+                             alt="">
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+     
+    <div class="modal-background"></div>
+</modal>
+<modal id="custom-modal-4">
+    <div class="modal">
+        <div class="modal-body">            
+            <button (click)="closeModal('custom-modal-4');"
+                    class="closeModal">
+                <i class="fa fa-close"></i>
+            </button>
+            <div class="content">
+                <div class="image">
+                    <img src="assets/images/sucess.png"
+                         alt="logo">
+                </div>
+                <div>
+                    {{'MODAL_ORDER_CREATED' | translate}}
+                </div>
+            </div>
+        </div>
+    </div>
+     
+    <div class="modal-background"></div>
+</modal>
+<modal id="custom-modal-products-imported-bad">
+    <div class="modal">
+        <div class="modal-body">            
+            <button (click)="modalService.close('custom-modal-products-imported-bad');"
+                    class="closeModal">
+                <span class="cart_modal_close_button">&times;</span>
+            </button>
+            <div class="content">
+                <div class="error_message">
+                    {{errorMesage}}
+                </div>
+            </div>
+            <button class="agree_buttom"
+                    (click)="router.navigate(['/dashboard/buyer/']);">{{'BTN_OK' | translate}}</button>
+        </div>
+    </div>
+     
+    <div class="modal-background"></div>
+</modal>
+
+<modal id="modal-add-to-cart">
+    <div class="modal">
+        <div class="modal-body">            
+            <button (click)="closeModal('modal-add-to-cart')"
+                    class="closeModal">
+            </button>
+            <div class="content">
+                <h1 class="content_title">{{'TEXT_CART' | translate}}</h1>
+                <div class="content_action">{{'TEXT_ADD_TO_SELECTION' | translate}}</div>
+                <div class="more_info">
+                    <a *ngIf="product" target="_blank"
+                       (click)="toShop(product)">{{'BTN_VIEW_ALL_FROM' | translate}} {{product.company.name}}</a>
+                </div>
+                <div class="product-card" *ngIf="product">
+                    <div class="image" *ngIf="innerWidth > 480">
+                        <img *ngIf="!product.default_image.thumbnail_200" class="card-img-top main_image" src="{{product.default_image.url}}">
+                        <img *ngIf="product.default_image.thumbnail_200" class="card-img-top main_image" src="{{product.default_image.thumbnail_200}}">
+                    </div>
+                    <div class="info" *ngIf="innerWidth > 480">
+                        <span class="ref">Ref.{{product.ref_number}}</span>
+                        <span class="title">{{product.title}}</span>
+                        <span class="customerRef">CRef. {{product.customer_ref_number ? product.customer_ref_number : '-'}} </span>
+                        <span class="price"
+                              *ngIf="!product.discount_price || !checkDiscountDate(product.discount_end_date)">
+                            {{product.price | number: '1.2'}} {{product.currency}}
+                        </span>
+                        <span class="price"
+                              *ngIf="product.discount_price && checkDiscountDate(product.discount_end_date)">
+                            {{product.discount_price | number: '1.2'}} {{product.currency}}
+                        </span>
+                    </div>
+                    <div class="total" *ngIf="addItimes.items">
+                        <span class="sizes" *ngIf="!product.prepacks">
+                            {{getItemTotalPairs(addItimes.items[0])}} {{'TEXT_PAIRS' | translate}} |
+                            {{getItemTotalSizes(addItimes.items[0])}} {{'TEXT_SIZES' | translate}}
+                            <span class="sizes_details">
+                                    <div class="sizes_details__container">
+                                                <div *ngFor="let size of Object.keys(addItimes.items[0].size_quantities)">
+                                                    <div class="sizes_details__size">{{size}}</div>
+                                                    <div class="sizes_details__value">{{addItimes.items[0].size_quantities[size]}}</div>
+                                                </div>
+                                    </div>
+                        </span>
+                        </span>
+                        <span class="prepacks" *ngIf="product.prepacks">
+                            <ng-container *ngFor="let item of addItimes.items; let i = index">
+                                <div class="prepack_modal_name" (mouseenter)="mouseHovering(i)"
+                                     (mouseleave)="mouseLeaving(i)"
+                                >{{item.prepack.name}}: {{item.quantity}}
+                                    <span *ngIf="isHovering[i]" class="prepacks_details">
+                                        <div class="sizes_details__container">
+                                                <div *ngFor="let size of item.prepack.sizes">
+                                                    <div class="sizes_details__size">{{size.key}}</div>
+                                                    <div class="sizes_details__value">{{size.value}}</div>
+                                                </div>
+                                        </div>
+                        </span>
+                                </div>
+
+                            </ng-container>
+                        </span>
+                        <span class="cost"
+                              *ngIf="!product.prepacks">{{addItimes.items[0].total_price_with_discount | number: '1.2'}} {{product.currency}}</span>
+                        <span class="cost"
+                              *ngIf="product.prepacks">{{getTotalPrice(addItimes.items) | number: '1.2'}} {{product.currency}}</span>
+
+                    </div>
+                </div>
+                <div class="control-buttons">
+                    <button (click)="closeModal('modal-add-to-cart')">{{'BTN_CONTINUE' | translate}}</button>
+                    <button (click)="goToCart()">{{'BTN_GO_TO_CART' | translate}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-background"></div>
+</modal>
+<modal id="custom-register">
+    <div class="modal">
+        <div class="modal-body">            
+            <button (click)="closeModal('custom-register');"
+                    class="closeModal">
+            </button>
+            <div class="content">
+                <div class="image">
+                    <img src="assets/images/sucess.png"
+                         alt="logo">
+                </div>
+                <div>
+                    {{'MODAL_FORBIDDEN' | translate}}  <a
+                        [routerLink]="['/register/register-free']">{{'TEXT_REGISTER' | translate}}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+     
+    <div class="modal-background"></div>
+</modal>
+
+<!--modal selection-->
+<modal id="modal_selection">
+    <div class="modal">
+        <div class="modal-body">            
+            <button (click)="closeModal('modal_selection');"
+                    class="closeModal">
+            </button>
+            <div class="content">
+    <div *ngIf="prepacks" class="cart_content">
+
+        <div class="titleTypoEdit" style="margin-bottom: 20px">
+            {{'TEXT_CART' | translate}}
+        </div>
+        <div class="w-100">
+            <table class="prepackWrapper">
+                <tr>
+                    <td style="width: 40%" class="cart_title">{{'TEXT_PREPACK_NAME' | translate}}</td>
+                    <td style="width: 30%" class="cart_title">{{'TEXT_QUANTITY_AVAILABLE' | translate}}</td>
+                    <td style="width: 30%"></td>
+                </tr>
+                <tr *ngFor="let prepack of prepacks; let i = index">
+                    <td>
+                        <b class="name"> {{prepack.name}} </b>
+                    </td>
+                    <td class="prepack_name" style="text-align: center">
+                        <span *ngIf="prepack.available_quantity">{{prepack.available_quantity}}</span>
+                        <span *ngIf="!prepack.available_quantity">-</span>
+                    </td>
+                    <td>
+                        <input type="text"
+                               class="form-control col cart-quantity"
+                               name="prepacksQuantity_{{i}}"
+                               id="prepacksQuantity_{{i}}"
+                               (keypress)="_keyPress($event)"
+                               [(ngModel)]="prepacksQuantity[i]"
+                               (ngModelChange)="onCheckPrepackQuantity(prepacksQuantity[i],prepack.available_quantity, i)"
+                               #name="ngModel"
+                               placeholder="{{'PLACEHOLDER_QUANTITY' | translate}}"/>
+                        <span style="color: #d0021b; font-size: 12px" *ngIf="errorPrepackQuantity[i]">Quantity can not exceed available quantity</span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div>
+            <div *ngIf="displayErorPrepackQuantity"
+                 style="color:red; font-size: 14px;">
+                {{'ERR_NO_PREPACK' | translate}}
+            </div>
+            <div class="cart_button_container">
+                <button *ngIf="bidding" class="btn btn-lg btn-primary btn-block account saveButton"
+                        [disabled]="checkError(errorPrepackQuantity)"
+                        type="button" (click)="onOpenBidModal()">
+                    {{'BTN_PLACE_BID' | translate}}
+                </button>
+                <button class="btn btn-lg btn-primary btn-block account saveButton"
+                        [disabled]="checkError(errorPrepackQuantity) || disableAddCart"
+                        type="submit" (click)="addtoCart()">
+                    {{'BTN_ADD_TO_CART' | translate}}
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="outputSizes" class="cart_content">
+        <div class="w-100">
+            <div class="titleTypoEdit" style="margin-bottom: 20px">
+                {{'TEXT_CART' | translate}}
+            </div>
+            <label class="size_quantity">{{'PRODUCT_SIZE_QUANTITY' | translate}}</label>
+            <div style="display: flex; flex-wrap: wrap;" class="line_height">
+                <div *ngFor="let size of outputSizes; let i = index;">
+                    <div class="size-container" style=" position: relative;">
+                        <input type="text"
+                               class="size"
+                               [(ngModel)]="size.key"
+                               (keypress)="_keyPress($event)"
+                               disabled=true
+                               [ngModelOptions]="{standalone: true}">
+                        <span class="show_quantity_container">
+                                    <input type="text"
+                                           (mouseenter)="mouseHovering(i)" (mouseleave)="mouseLeaving(i)"
+                                           class="quantity"
+                                           (keypress)="_keyPress($event)"
+                                           [(ngModel)]="size.quantity"
+                                           (ngModelChange)="onSizeChange(size.quantity, size.value, i)"
+                                           [ngModelOptions]="{standalone: true}">
+                                    <span class="show_quantity"
+                                          *ngIf="isHovering[i]">{{size.value}} {{'TEXT_LEFT' | translate}}</span>
+                                    </span>
+                    </div>
+                </div>
+            </div>
+            <p *ngIf="errorQuantityMes" style="color: #d0021b; font-size: 12px"> {{'ERR_QUANTITY' | translate}}</p>
+        </div>
+        <div *ngIf="!updateCartInfo">
+            <div *ngIf="displayErorQuantity"
+                 style="color:red; font-size: 14px;">
+                {{'ERR_NO_SIZE' | translate}}
+            </div>
+            <div class="cart_button_container">
+                <button *ngIf="bidding" class="btn btn-lg btn-primary btn-block account saveButton"
+                        [disabled]="errorQuantityMes || disableAddCart"
+                        type="button" (click)="onOpenBidModal()">
+                    {{'BTN_PLACE_BID' | translate}}
+                </button>
+                <button class="btn btn-lg btn-primary btn-block account saveButton"
+                        [disabled]="errorQuantityMes || disableAddCart"
+                        type="submit" (click)="addtoCart()">
+                    {{'BTN_ADD_TO_CART' | translate}}
+                </button>
+            </div>
+        </div>
+        <div *ngIf="updateCartInfo"
+             class="row">
+            <div class="col-10">
+                <div *ngIf="displayErorQuantity"
+                     style="color:red; font-size: 14px;">
+                    {{'ERR_NO_SIZE' | translate }}
+                </div>
+                <button class="btn btn-lg btn-primary btn-block account saveButton"
+                        type="submit" (click)="updateCart()">
+                    {{'BTN_UPDATE_CART' | translate}}
+                </button>
+            </div>
+        </div>
+    </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-background"></div>
+</modal>

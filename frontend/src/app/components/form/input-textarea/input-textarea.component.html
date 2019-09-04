@@ -1,0 +1,23 @@
+<div class="row"
+     [ngClass]="{ 'has-danger':control.invalid && !control.pristine}">
+
+  <label
+          class="col col-form-label">
+    <span>{{label}}</span>
+    <textarea
+          [ngStyle]="styles"
+           class="form-control"
+           rows="3"
+           [disabled]="control.disabled"
+           [(ngModel)]="inputText"
+           [placeholder]="placeholder"
+           (input)="onInputChange()">
+    </textarea>
+    <span *ngIf="control.invalid && !control.pristine">
+      <span *ngIf="control.hasError('required')">{{'ERR_REQUIRED' | translate}}</span>
+      <span *ngIf="control.hasError('maxlength')">{{'ERR_MAX' | translate}} - {{control.errors.maxlength.requiredLength}}</span>
+      <span *ngIf="control.errors.message">{{control.errors.message}}</span>
+    </span>
+
+  </label>
+</div>

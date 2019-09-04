@@ -1,0 +1,78 @@
+<header></header>
+<div class="container">
+</div>
+<div class="container">
+    <section class="dashboardNav">
+        <app-sort-selector
+                (filter)="selectSortBy($event)">
+        </app-sort-selector>
+    </section>
+</div>
+
+<main role="main"
+      class="main pb-5 buyer_wrapper">
+    <div class="container">
+        <div class="row">
+            <app-filters class="col-2"
+                         (filter)="onFilterChenge($event)">
+            </app-filters>
+            <section class="col-10">
+                <div class="row catalog">
+                    <div class="col-3" *ngIf="noProducts">
+                        {{'ERR_NO_PROD' | translate}}
+                    </div>
+                    <div class="spinner" *ngIf="!products">
+                        <img src="./../../../assets/images/Spinner-product.svg" alt="Loading...">
+                    </div>
+                    <div class="bestProduct" *ngFor="let product of products">
+                        <div class="productInfo">
+                            <div class="discount-label"
+                                 *ngIf="product.has_discount && checkDiscountDate(product.discount_end_date)">
+                                {{ (100-100*product.discount_price/product.price > 1)?
+                                (-(100-100*product.discount_price/product.price | number : '1.0-0')) :  ('<1')
+                                }}%
+                            </div>
+                            <div class="productRef">
+                                Ref. {{product.ref_number}}
+                            </div>
+                            <div class="productImage">
+                                <a href="javascript:void(0);" (click)="productLink(product.id)">
+                                    <img class="card-img-top" src="{{product.default_image.url}}">
+                                </a>
+                            </div>
+                            <div class="productDesc">
+                                <div class="productPrice discount" *ngIf="product.has_discount &&
+                                checkDiscountDate(product.discount_end_date)">
+                                    <p class="discount-price">{{product.discount_price | number:'0.2'}} {{product.currency}}</p>
+                                    <div *ngIf="product.price">
+                                        <div class="strikethrough">
+                                            {{product.price | number:'0.2'}} {{product.currency}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="productPrice"
+                                     *ngIf="product.price && !product.discount_price || !checkDiscountDate(product.discount_end_date)">
+                                    {{product.price | number:'0.2'}} {{product.currency}}
+                                </div>
+                                <!-- <p class="discount-end" *ngIf="product.has_discount && checkDiscountDate(product.discount_end_date)">
+                                   {{'PRODUCT_DISCOUNT_END' | translate}} {{product.discount_end_date | date : 'dd/MM/yy'}}
+                                </p> -->
+                                <p class="productShortDesc title">{{product.title | slice:0:30}}</p>
+                                <p class="productShortSize">{{product.min_size_eu}} - {{product.max_size_eu}}</p>
+                                <div class="customerRef">
+                                    CRef. {{product.customer_ref_number ? product.customer_ref_number : '-'}}
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+        </div>
+        <app-pagination class="pagi_navi" pageSize="40"
+                        (pageChanged)="onPageChanged($event)">
+        </app-pagination>
+    </div>
+
+</main>
+<footer></footer>

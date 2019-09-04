@@ -1,0 +1,29 @@
+<h3 class="optional_info">{{'MENU_ITEM_OPTIONAL_INFO' | translate}}</h3>
+<div [formGroup]="form_group">
+  <div class="row col margin_btm">
+    <div class="form-group add_product_form">
+      <app-input-text label="{{'LABEL_SUB_TITLE' | translate}}" placeholder="{{'LABEL_SUB_TITLE' | translate}}" formControlName="sub_title">
+      </app-input-text>
+    </div>
+  </div>
+  <div class="row col margin_btm">
+    <div class="form-group add_product_form">
+      <app-input-text label="{{'LABEL_KEYWORDS' | translate}}" formControlName="tags"
+                      placeholder="{{'PLACEHOLDER_KEYWORDS' | translate}}">
+      </app-input-text>
+    </div>
+  </div>
+  <div class="row col margin_btm">
+    <div class="form-group add_product_form">
+      <app-select
+              label="{{'LABEL_PACKING_TYPE' | translate}}" formControlName="packing_type" [listArray]="packingType">
+      </app-select>
+    </div>
+  </div>
+  <div class="row col margin_btm">
+    <div class="form-group add_product_form">
+      <app-input-text label="{{'LABEL_UPC' | translate}}" placeholder="{{'PLACEHOLDER_UPC' | translate}}" formControlName="article_number">
+      </app-input-text>
+    </div>
+  </div>
+</div>

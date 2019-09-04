@@ -1,0 +1,367 @@
+
+.seller_wrapper  
+    padding-bottom: 80px 
+ 
+.container  
+    width: 100% 
+    padding: 0 
+ 
+.products  
+    position: relative 
+    width: 100% 
+    margin: 0 auto 
+ 
+.productList  
+    display: flex 
+    flex-wrap: wrap 
+    flex-direction: row 
+    align-content: space-between 
+    margin-bottom: 22px 
+    width: 100% 
+    min-height: 500px 
+ 
+
+.productImage  
+    border-radius: 2px 
+    height: 200px 
+    position: relative 
+    margin: 0 auto 
+    padding: 10px 
+    overflow: hidden 
+    img 
+        height: 100%
+        object-fit: contain
+
+.productInfo 
+    width: 188px 
+    height: 325px 
+    border-radius: 2px 
+    box-shadow: 0 2px 6px 0 rgba(184, 191, 211, 0.5) 
+    background-color: #ffffff 
+    margin-bottom: 22px 
+    margin-right: 22px 
+    position: relative 
+    hr  
+        margin: 0 
+    .productDesc  
+        padding: 10px 
+    .productShortDesc  
+        font-size: 12px 
+        font-weight: normal 
+        font-style: normal 
+        font-stretch: normal 
+        line-height: 1.33 
+        letter-spacing: normal 
+        color: #4a4a4a 
+        overflow: hidden 
+        height: 30px 
+        word-break: normal 
+        width: 100% 
+        height: 32px 
+        overflow: hidden
+    .productPrice  
+        font-size: 18px 
+        font-weight: 600 
+        font-style: normal 
+        font-stretch: normal 
+        line-height: 1.11 
+        letter-spacing: 1.5px 
+        color: #50e3c2 
+        margin-bottom: 10px 
+    .productShortSize 
+        font-size: 12px
+        font-weight: 600
+        color: #4a4a4a
+        position: absolute
+        bottom: 16px
+    .productRef 
+        font-size: 10px
+        color: #4a4a4a
+    .productPrice, .productShortDesc, .productShortSize
+        margin-bottom: 6px 
+
+.showroomName  
+    font-size: 18px 
+    font-weight: 600 
+    font-style: normal 
+    font-stretch: normal 
+    line-height: 1.11 
+    letter-spacing: 1.5px 
+    color: #33333a 
+    margin-bottom: 4px 
+ 
+hr  
+    margin: 25px 0 
+ 
+.wrapper  
+    width: 100% 
+    height: 100% 
+    background-color: #ffffff 
+ 
+.contactGroupList  
+    display: flex  
+    width: 100% 
+    flex-wrap: wrap 
+    justify-content: space-between 
+ 
+.contactGroup  
+    margin-bottom: 30px 
+    .contactImg
+        height: 34px 
+        width: 34px 
+        border-radius: 100% 
+
+.showroomPreview  
+    display: flex 
+    flex-direction: row 
+    flex-wrap: wrap 
+    align-content: space-between 
+    justify-content: space-between 
+    padding-top: 37px 
+ 
+.showroomPreviewInfo  
+    flex: 1 
+    margin-right: 50px 
+    max-width: 580px
+    white-space: normal
+    .showroomDesc  
+        padding: 0 
+        font-size: 12px 
+        font-weight: normal 
+        font-style: normal 
+        font-stretch: normal 
+        line-height: normal 
+        letter-spacing: 0px 
+        color: #505363 
+        margin: 20px 0 
+        word-wrap: break-word
+        white-space: pre-wrap
+        font-family: 'Open Sans', sans-serif
+    span  
+        font-size: 16px 
+        font-weight: 600 
+        font-style: normal 
+        font-stretch: normal 
+        line-height: normal 
+        letter-spacing: 2.7px 
+        text-align: justify 
+        color: #33333a 
+        .contactGroup 
+            .contactGroupName  
+                font-size: 14px 
+                margin-top: 20px 
+ 
+
+h1
+    &.showroomName  
+        font-size: 24px 
+        font-weight: 600 
+        font-style: normal 
+        font-stretch: normal 
+        line-height: normal 
+        letter-spacing: 4px 
+        text-align: justify 
+        color: #33333a 
+        margin-bottom: 20px 
+        text-overflow: ellipsis
+        max-width: 100%
+        overflow: hidden
+
+.showroomImg  
+    width: 490px 
+    flex: 1 
+    height: 285px 
+    overflow: hidden 
+    display: flex 
+    justify-content: flex-end
+    img  
+        // width: auto 
+        //height: 100% 
+        width: 100%
+        object-fit: contain
+        align-self: center
+ 
+
+.controlButtons  
+    flex-basis: 100% 
+    .btn  
+        margin-right: 23px 
+        width: 170px 
+        height: 37px 
+        border-radius: 2px 
+        background-color: #4099d5 
+        font-size: 12px 
+        font-weight: 500 
+        font-style: normal 
+        font-stretch: normal 
+        line-height: normal 
+        letter-spacing: 2px 
+        text-align: center 
+        color: #ffffff 
+        text-transform: uppercase 
+        transition: all .2s ease 
+        &:hover  
+            cursor: pointer 
+            background-color: #277db6 !important 
+.modal-body
+    min-height: 200px !important
+.showroom-modal 
+    .showroom-modal-control 
+        display: flex 
+        justify-content: center
+        margin-top: 30px 
+        position: absolute
+        bottom: 40px
+        left: 0
+        width: 100% 
+        .cancel  
+            background-color: #CE1D24 
+            margin-right: 30px 
+        .register  
+            background-color: #449AD2 
+        .btn 
+            width: 33% 
+            height: 35px 
+            color: white 
+            font-size: 14px 
+            text-transform: uppercase 
+            letter-spacing: 1.3px 
+            line-height: normal 
+            &:active, &:focus
+                outline: none
+            &:hover 
+                cursor: pointer
+        .content  
+            text-align: left 
+    .content 
+        text-align: left
+    h1 
+        text-align: center !important 
+        font-size: 24px
+
+@media screen and (max-width: 1250px)
+    .productList
+        width: 90% !important
+        margin: 0 auto
+    .productInfo
+        margin-right: 22px !important
+        &:nth-child(4n)
+            //margin-right: 0
+
+
+@media (min-width: 1920px)  
+    .container  
+        max-width: 1535px 
+    .productInfo 
+        //width: 15.2%
+     
+ 
+
+@media (min-width: 2048px)  
+    .container  
+        max-width: 1779px 
+     
+
+    .container.top  
+        padding-right: 30px 
+    .productInfo 
+        //width: 13%
+        margin-right: 22px
+     
+ 
+
+@media (min-width: 2560px)  
+    .container  
+        max-width: 2300px 
+     
+    .catalog .bestProduct .productInfo .productRef  
+        margin-top: 6px 
+     
+    .container.top  
+        padding-right: 140px 
+    .productInfo 
+        //width: 10%
+        margin-right: 22px 
+     
+ 
+
+@media (min-width: 3200px)  
+    .container  
+        max-width: 2500px 
+     
+
+ 
+@media (min-width: 4096px)  
+    .container  
+        max-width: 2937px 
+     
+    .catalog .bestProduct .productButton  
+        max-width: 270px 
+     
+ 
+.customerRef  
+    font-size: 10px 
+    font-weight: 300 
+    font-style: italic 
+    font-stretch: normal 
+    line-height: normal 
+    letter-spacing: normal 
+    color: #33333a 
+    bottom: 6px 
+    position: absolute 
+    overflow: hidden 
+    text-overflow: ellipsis 
+    white-space: nowrap 
+    width: 90%
+ 
+.productRef 
+    bottom: 42px
+    position: absolute
+
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px)
+    .showroomPreview
+        display: block
+        width: 320px
+        padding: 10px 10px 0
+        margin: 0 auto
+
+    .showroomImg
+        width: 300px
+        height: auto
+        margin: 13px 0 17px
+
+    .display_none
+        display: none
+
+    .productInfo
+        width: 147px
+        height: 246px
+        margin-right: 9px !important
+        &:nth-child(2n)
+            margin-right: 0 !important
+    .productList
+        width: 306px !important
+
+    .productImage
+        width: 100px
+        height: 100px
+    .productRef
+        bottom: 58px
+    .productInfo .productShortSize
+        bottom: 29px
+    .customerRef
+        bottom: 15px
+    h1.showroomName
+        font-size: 18px
+        font-weight: 600
+        font-style: normal
+        font-stretch: normal
+        line-height: normal
+        letter-spacing: normal
+        text-align: justify
+        color: #33333a
+        margin-bottom: 0
+    .showroomPreviewInfo .showroomDesc
+        margin-top: 2px
+        margin-bottom: 0
+

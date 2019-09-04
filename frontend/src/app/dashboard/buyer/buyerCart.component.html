@@ -1,0 +1,426 @@
+﻿<header></header>
+<main role="main"
+      class="main pb-5 cart">
+    <div class="container padding">
+        <div class="row">
+            <section class="col">
+                <app-full-page-spinner *ngIf="isLoading"></app-full-page-spinner>
+                <div class="emptyCart"
+                     *ngIf="this.scope !== 'notRegistered' && !cartQuantity && !isLoading">{{'ERR_CART_EMPTY' | translate}}
+                </div>
+                <h1 class="cart_title" *ngIf=" this.scope === 'notRegistered'">{{cartItems.name}}</h1>
+                <p class="cart_description" *ngIf="this.scope === 'notRegistered'">{{cartItems.description}}</p>
+                <table *ngIf=" this.scope === 'notRegistered' || cartQuantity && !isLoading || this.scope === 'notRegistered'"
+                       class="cartItemsTable w-100">
+                    <ng-container *ngFor="let seller of sellers; let i = index">
+                        <thead>
+                            <tr>
+                                <td colspan="7" class="seller-name">
+                                    <h2>{{'PROD_SPECIFICATION_SELLER' | translate}}: <span>{{seller.name}}</span></h2>
+                                </td>
+                            </tr>
+                            <tr class="cartItemsTableHead">
+                                <td *ngIf="checkSelected(seller)"><a class="clear-all"
+                                                            (click)="clearSelected(seller.name)">{{'BTN_CLEAR_ALL' | translate}}</a>
+                                </td>
+                                <td *ngIf="!checkSelected(seller)"><a class="clear-all"
+                                                                (click)="selectAll(seller.name)">{{'BTN_SELECT_ALL' | translate}}</a></td>
+                                <td colspan="2">{{'CART_ITEM_REF_NAME' | translate}}</td>
+                                <td>{{'TEXT_QUANTITY_OF_SIZES' | translate}}</td>
+                                <td>{{'TEXT_PAIR_COST' | translate}}</td>
+                                <td>{{'TEXT_TOTAL_COST' | translate}}</td>
+                                <td></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <ng-container *ngFor="let item of cartItems.items; let i = index">
+                            <tr *ngIf="item.product.company.name === seller.name" [ngClass]="{'several': getNumOfItems(seller.name) > 1}">
+                                <td>
+                                    <label class="custom-control fill-checkbox">
+                                        <input type="checkbox"
+                                            class="fill-control-input"
+                                            id="remember"
+                                            name="remember"
+                                            [(ngModel)]="selectItem[i]"
+                                            (ngModelChange)="addItemsOrder($event, item, i)"
+                                            #remember="ngModel"/>
+                                        <span class="fill-control-indicator"></span>
+                                    </label>
+                                </td>
+                                <td class="itemImage">
+                                    <img *ngIf="!item.product.default_image.thumbnail_200" (click)="productLink(item.product.id)" [src]="item.product.default_image.url">
+                                    <img *ngIf="item.product.default_image.thumbnail_200" (click)="productLink(item.product.id)" [src]="item.product.default_image.thumbnail_200">
+                                </td>
+                                <td class="itemInfo">
+                                    <div class="itemRefNumber" [ngClass]="{'not_actual_item': !item.product.is_actual || item.product.is_archived || item.product.is_hidden}">
+                                        Ref: {{item.product.ref_number}}
+                                    </div>
+                                    <div class="itemTitle"  [ngClass]="{'not_actual_item': !item.product.is_actual || item.product.is_archived || item.product.is_hidden}" (click)="productLink(item.product)">
+                                        {{item.product.title}}
+                                    </div>
+                                    <div class="customerRef" [ngClass]="{'not_actual_item': !item.product.is_actual || item.product.is_archived || item.product.is_hidden}">
+                                        CRef. {{item.product.customer_ref_number ? item.product.customer_ref_number : '-'}}
+                                    </div>
+                                    <div *ngIf="item.product.company" [ngClass]="{'not_actual_item': !item.product.is_actual || item.product.is_archived || item.product.is_hidden}"
+                                        class="itemCompanyTitle">
+                                        {{item.product.company.name}}
+                                    </div>
+                                    <div class="type" [ngClass]="{'not_actual_item': !item.product.is_actual || item.product.is_archived || item.product.is_hidden}">
+                                        {{item.product.is_bidding_allowed ? ('TEXT_BIDDING' | translate) : ('TEXT_FIXED_PRICE' | translate)}}
+                                    </div>
+                                    <div *ngIf="!item.product.is_actual" class="not_actual_product">
+                                        {{'TEXT_PRODUCT_HAS_BEEN_CHANGED' | translate}}
+                                    </div>
+                                    <div *ngIf="item.product.is_archived || item.product.is_hidden" class="not_actual_product">
+                                        {{'TEXT_PRODUCT_HAS_BEEN_ARCHIVED' | translate}}
+                                    </div>
+                                    <!--<span class="itemError"-->
+                                        <!--*ngIf="checkForError(item)">{{'ERR_PROD_CHANGED' | translate}}</span>-->
+                                </td>
+                                <td class="itemSizes"
+                                    *ngIf="item.size_quantities">
+                                    <div>
+                                        <div>
+                                            <span class="sizes" [ngClass]="{'not_actual_item': !item.product.is_actual || item.product.is_archived || item.product.is_hidden}">{{sumOfPairs(item.size_quantities)}} {{'TEXT_PAIRS' | translate}}
+                                                | {{onPairs(item.size_quantities)}} {{item.size_quantities.length === 1 ? ('TEXT_SIZES' | translate) : ('TEXT_SIZES' | translate)}}
+                                                <span class="sizes_details">
+                                                    <div class="sizes_details__container">
+                                                        <div *ngFor="let size of item.size_quantities">
+                                                            <div class="sizes_details__size">{{size.key}}</div>
+                                                            <div class="sizes_details__value">{{size.value}}</div>
+                                                        </div>
+                                                    </div>
+                                                </span>
+                                                </span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="itemSizes"
+                                    *ngIf="item.prepack">
+                                    <span class="sizes"  [ngClass]="{'not_actual_item': !item.product.is_actual || item.product.is_archived || item.product.is_hidden}" >{{item.prepack.name}}: {{item.quantity}}
+                                        <span class="sizes_details">
+                                            <div class="sizes_details__container">
+                                                <div *ngFor="let size of Object.keys(item.prepack.sizes)">
+                                                    <div class="sizes_details__size">{{size}}</div>
+                                                    <div class="sizes_details__value">{{item.prepack.sizes[size]}}</div>
+                                                </div>
+                                            </div>
+                                        </span>
+                                    </span>
+                                </td>
+                                <td class="itemPrice">
+                                    <span class="productPrice"
+                                        *ngIf="item.product.price && item.product.has_discount &&
+                                        checkDiscountDate(item.product.discount_end_date)" [ngClass]="{'not_actual_item': !item.product.is_actual || item.product.is_archived || item.product.is_hidden}">
+                                        {{item.product.discount_price | number:'0.2'}} {{item.product.currency}}
+                                    </span>
+                                    <span class="productPrice discount" *ngIf="item.product.has_discount &&
+                                        checkDiscountDate(item.product.discount_end_date)" [ngClass]="{'not_actual_item': !item.product.is_actual || item.product.is_archived || item.product.is_hidden}">
+                                        {{item.product.price | number:'0.2'}} {{item.product.currency}}
+                                    </span>
+                                    <span class="productPrice" *ngIf="!item.product.has_discount" [ngClass]="{'not_actual_item': !item.product.is_actual || item.product.is_archived || item.product.is_hidden}">
+                                        {{item.product.price | number:'0.2'}} {{item.product.currency}}
+                                    </span>
+                                </td>
+                                <td class="itemPrice">
+                                        <span class="productPrice" *ngIf="item.product.has_discount &&
+                                        checkDiscountDate(item.product.discount_end_date)" [ngClass]="{'not_actual_item': !item.product.is_actual || item.product.is_archived || item.product.is_hidden}">
+                                        {{item.total_price_with_discount | number:'0.2'}} {{item.product.currency}}
+                                    </span>
+                                    <span class="productPrice"
+                                        *ngIf="(item.product.price && !item.product.discount_price) || !checkDiscountDate(item.product.discount_end_date)"
+                                          [ngClass]="{'not_actual_item': !item.product.is_actual || item.product.is_archived || item.product.is_hidden}">
+                                        {{item.total_price | number:'0.2'}} {{item.product.currency}}
+                                    </span>
+                                    <span class="productPrice discount" [ngClass]="{'not_actual_item': !item.product.is_actual || item.product.is_archived || item.product.is_hidden}"
+                                        *ngIf="item.product.discount_price && checkDiscountDate(item.product.discount_end_date)">
+                                        {{item.total_price | number:'0.2'}} {{item.product.currency}}
+                                    </span>
+                                </td>
+                                <td class="itemButtons">
+                                    <!-- <button (click)="makeOrderSingle(item)" [disabled]="disabledMakeOrder || isOrderSent"
+                                            class="btn btn-lg btn-primary btn-block login"
+                                            type="submit">
+                                        {{'BTN_REQUEST_OFFER' | translate}}
+                                    </button> -->
+                                    <div class="itemLinks">
+                                        <a *ngIf="item.product.is_actual && !item.product.is_archived && !item.product.is_hidden" (click)="editItem(item, i);"
+                                        class="editItem"
+                                        [ngClass]="{'disable': disabledMakeOrder || isOrderSent}"
+                                        href="javascript:void(0);">
+                                            <img src="assets/images/edit-icon.svg" alt="edit icon"> {{'BTN_EDIT' | translate}}
+                                        </a>
+                                        <a (click)="removeItem(item)"
+                                        class="removeItem"
+                                        [ngClass]="{'disable': disabledMakeOrder || isOrderSent}"
+                                        href="javascript:void(0);">
+                                            <img src="assets/images/deleteIconSimple.png"
+                                                alt="delete icon"> {{'BTN_DELETE' | translate}}
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </ng-container>
+                        <tr class="control-buttons">
+                            <td colspan="5" >
+                                {{getNumOfItems(seller.name)}} {{'TEXT_PRODUCTS' | translate}}
+                            </td>
+                            <td class="itemPrice">
+                                <span class="productPrice">
+                                    {{getTotalDiscountPrice(seller) | number: '0.2'}} {{seller.items[0].product.currency}}
+                                </span>
+                                <span class="productPrice discount" *ngIf="getTotalPrice(seller) !== getTotalDiscountPrice(seller)">
+                                    {{getTotalPrice(seller) | number: '0.2'}} {{seller.items[0].product.currency}}
+                                </span>
+                            </td>
+                            <td class="buttons">
+                                <div>
+                                    <button [disabled]="selectItems.length" class="del btn" (click)="deleteOfferSeller(seller)">{{'BTN_DELETE' | translate}}</button>
+                                    <button [disabled]="selectItems.length" class="send btn" (click)="makeOfferSeller(seller)">{{'BTN_SEND' | translate}}</button>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                </ng-container>
+                </table>
+            </section>
+        </div>
+    </div>
+    <div *ngIf="displayOrderPanel"
+         class="bottomItemsSelect"
+         [ngClass]="{'inlineClass': itemsLength === 1 && cartQuantity === 1}">
+        <div class="container">
+            <div class="row">
+                <div class="col-6 itemsQuantity">
+                    {{itemsLength}} <span *ngIf="itemsLength > 1">{{'TEXT_ITEMS' | translate}}</span> <span
+                        *ngIf="itemsLength === 1">{{'TEXT_ITEM' | translate}}</span> {{'TEXT_TO_ORDER' | translate}}
+                </div>
+                <div class="col-6 alignRight">
+                    <button (click)="removeSeveralItems()" class="delete">{{'BTN_DELETE' | translate}}</button>
+                    <button (click)="makeOrderGroup()" class="btn btn-lg btn-primary btn-block login"
+                            type="submit" [disabled]="!isSameCompany || isOrderSent">
+                        {{'BTN_REQUEST_OFFER' | translate}}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<footer></footer>
+<modal id="custom-modal-product" (click)="clickedInside($event)">
+    <div class="modal">
+        <div class="modal-body cart_modal">            
+            <button (click)="closeModal('custom-modal-product');"
+                    class="closeModal">
+            </button>
+            <h3 class="cart_modal_title">{{'BTN_EDIT' | translate}}</h3>
+            <div *ngIf="modalProduct"
+                 class="content modalProduct">
+                <div class="modal_product_info">
+                    <div class="image_description_wrapper">
+                        <div class="image">
+                            <img class="card-img-top modal_image" *ngIf="!modalProduct.default_image.thumbnail_200"
+                                 [src]="modalProduct.default_image.url">
+                            <img class="card-img-top modal_image" *ngIf="modalProduct.default_image.thumbnail_200"
+                                 [src]="modalProduct.default_image.thumbnail_200">
+                        </div>
+                        <div class="modal_product_description">
+                            <p class="ref_number">Ref.{{modalProduct.ref_number}}</p>
+                            <p class="modal_product_title">{{modalProduct.title | slice:0:30}}</p>
+                            <!-- <p class="modal_company">{{modalProduct.company.name}}</p> -->
+                            <p class="modal_cref"> CRef. {{modalProduct.customer_ref_number ? modalProduct.customer_ref_number : '-'}}</p>
+                            <div class="module_price_title">
+                                <span>{{'TEXT_PAIR_COST' | translate}}: </span>
+                                <div *ngIf="modalProduct.has_discount &&
+                                checkDiscountDate(modalProduct.discount_end_date)">
+                                    <p>
+                                    <span *ngIf="modalProduct.price" class="strikethrough strikethrough_modal">
+                                        {{modalProduct.price | number:'0.2'}} {{modalProduct.currency}}
+                                    </span>
+                                        {{modalProduct.discount_price | number:'0.2'}} {{modalProduct.currency}}
+                                    </p>
+                                    <!-- <p class="modal_discont_date"> {{'TEXT_DUE' | translate}}
+                                        : {{modalProduct.discount_end_date | dateVal}}</p> -->
+                                </div>
+                                <div
+                                        *ngIf="modalProduct.price && !modalProduct.discount_price ||
+                                    !checkDiscountDate(modalProduct.discount_end_date)">
+                                    {{modalProduct.price | number:'0.2'}} {{modalProduct.currency}}
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="total_price">{{'TEXT_TOTAL_PRICE' | translate}}</p>
+                        <p class="total_sum">{{totalSum}} {{modalProduct.currency}}</p>
+                    </div>
+                </div>
+                <span class="bottom_line"></span>
+                <div class="productDesc">
+                    <div class="sizer w-100" *ngIf="modalProduct.sizes">
+                        <div class="row">
+                            <div class="col">
+                                <div class="w-30 sizesBlock">
+                                    <div class="quantity_size">
+                                        {{'PRODUCT_SIZE_QUANTITY' | translate}}
+                                    </div>
+                                </div>
+                                <div class="sizesBlock">
+                                    <div style="float:left; min-width: 35px;"
+                                         *ngFor="let size of cartItem.size_quantities; let i = index">
+                                        <div class="sizeNumber">
+                                            {{size.key}}
+                                        </div>
+                                        <span class="show_quantity_container">
+                                        <input type="text"
+                                               class="sizeValue modal_size"
+                                               (mouseenter)="mouseHovering(i)" (mouseleave)="mouseLeaving(i)"
+                                               [(ngModel)]="size.value"
+                                               (keypress)="_keyPress($event)"
+                                               (ngModelChange)="onSumSizes(modalProduct, cartItem.size_quantities);
+                                               onSizeChange(size.value, productInfoArray[itemNumber].sizes[size.key], i)"
+                                               [ngModelOptions]="{standalone: true}">
+                                        <span class="show_quantity"
+                                              *ngIf="isHovering[i]">{{productInfoArray[itemNumber].sizes[size.key]}} {{'TEXT_LEFT' | translate}}</span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <p *ngIf="errorQuantityMes" style="color: #d0021b; text-align: left">
+                            {{'ERR_QUANTITY' | translate}}
+                        </p>
+                        <div class="row">
+                            <div class="col modal_buttton_container">
+                                <div *ngIf="displayErorQuantity"
+                                     style="color:red; font-size: 14px;">
+                                    {{'ERR_NO_SIZE' | translate}}
+                                </div>
+                                <button class="btn btn-lg btn-primary account saveButton" [disabled]="errorQuantityMes"
+                                        type="submit" (click)="updateItem(cartItem)">
+                                    {{'BTN_SAVE' | translate}}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="cartItem.prepack">
+                        <div class="row">
+                            <div class="col">
+                                <div class="w-100">
+                                    <div style="margin-bottom:10px"
+                                    >
+                                        <div style="width:33%; display: inline-block">
+                                            <b class="prepack_name"> {{cartItem.prepack.name}} </b>
+                                        </div>
+                                        <div style="width:33%; display: inline-block">
+                                            <input type="text"
+                                                   class="form-control col"
+                                                   name="prepacksQuantity_{{i}}"
+                                                   id="prepacksQuantity_{{i}}"
+                                                   (keypress)="_keyPress($event)"
+                                                   [(ngModel)]="cartItem.quantity"
+                                                   (ngModelChange)="onSumSizes(modalProduct, cartItem.quantity, cartItem)"
+                                                   #name="ngModel"
+                                                   placeholder="Quantity"/>
+                                        </div>
+                                        <div style="width:33%; display: inline-block">
+                                            <span class="prepack_name">{{'TEXT_PREPACKS' | translate}}:
+                                                {{cartItem.prepack.available_quantity ? cartItem.prepack.available_quantity : '-'}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col  modal_buttton_container">
+                                <div *ngIf="displayErorPrepackQuantity || erorPrepackQuantity"
+                                     style="color:red; font-size: 14px;">
+                                    {{'ERR_NO_PREPACK' | translate}}
+                                </div>
+                                <div *ngIf="errorAvailableQuantity"
+                                     style="color:red; font-size: 14px;">
+                                    {{'ERR_QUANTITY' | translate}}
+                                </div>
+                                <button class="btn btn-lg btn-primary account saveButton"
+                                        [disabled]="errorAvailableQuantity || erorPrepackQuantity"
+                                        type="submit" (click)="updateItem(cartItem)">
+                                    {{'BTN_SAVE' | translate}}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+     
+    <div class="modal-background"></div>
+</modal>
+
+<modal id="custom-modal-3">
+    <div class="modal">
+        <div class="modal-body">            
+            <button (click)="closeModal('custom-modal-3');"
+                    class="closeModal">
+            </button>
+            <div class="content">
+                <div class="image">
+                    <img src="assets/images/icon-success.svg"
+                         alt="logo">
+                    <div class="message">
+                        {{'TEXT_CONGRATULATIONS' | translate}}!<br/>
+                        {{'MODAL_ORDER_CREATED' | translate}}
+                    </div>
+                </div>
+                <div class="buttons">
+                    <button (click)="closeModal('custom-modal-3')">{{'BTN_GO_TO_CART' | translate}}</button>
+                    <a [routerLink]="['/dashboard/messenger/orders/dialog/' + createdOrderId]">{{'BTN_VIEW' | translate}}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+     
+    <div class="modal-background"></div>
+</modal>
+<modal id="custom-modal-2">
+    <div class="modal">
+        <div class="modal-body">            
+            <button (click)="closeModal('custom-modal-2');"
+                    class="closeModal">
+            </button>
+            <div class="content">
+                <div class="image">
+                    <img src="assets/images/sucess.png"
+                         alt="logo">
+                </div>
+                <div>
+                    {{'MODAL_FORBIDDEN' | translate}}
+                    <div>
+                        <a [routerLink]="['/register/register-free']">{{'TEXT_REGISTER' | translate}}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+     
+    <div class="modal-background"></div>
+</modal>
+<modal id="error_modal">
+    <div class="modal">
+        <div class="modal-body">
+            <button (click)="closeModal('error_modal');" class="closeModal"></button>
+            <div class="top">
+                <div class="circle">X</div>
+                <div class="modal_text">{{'MODAL_PRODUCT_HAS_ERROR' | translate}}</div>
+            </div>
+            <div class="content">
+                <div class="buttons">
+                    <button class="cancel" (click)="closeModal('error_modal')">{{'BTN_OK' | translate}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-background"></div>
+</modal>

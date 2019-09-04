@@ -1,0 +1,199 @@
+﻿<header></header>
+<div class="container top">
+    <div class="row">
+        <div class="col">
+            <section class="dashboardNavBuyer">
+                <ul class="accountNavTop catalogS">
+                    <li>
+                        <a [routerLink]="['/dashboard/seller']">
+                            {{'ROUTE_APPROVED' | translate}}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0);">
+                            {{'ROUTE_PENDING' | translate}}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0);">
+                            {{'ROUTE_DECLINED' | translate}}
+                        </a>
+                    </li>
+                    <li>
+                        <a [routerLink]="['/dashboard/seller/drafts']">
+                            {{'ROUTE_DRAFTS' | translate}}
+                        </a>
+                    </li>
+                    <li [ngClass]="{'active': true}">
+                        <a [routerLink]="['/dashboard/seller/archive']">
+                            {{'ROUTE_ARCHIVE' | translate}}
+                        </a>
+                    </li>
+                    <li>
+                        <a [routerLink]="['/dashboard/seller/promotions']">
+                            {{'ROUTE_PROMOTIONS' | translate}}
+                        </a>
+                    </li>
+                </ul>
+                <a class="add-product" [routerLink]="['/dashboard/seller/product/add/steps']"><img src="../../../assets/images/add-product.svg"/>{{'BTN_ADD_PRODUCT' | translate}}</a>
+            </section>
+        </div>
+    </div>
+</div>
+<main role="main"
+      class="main pb-5 seller_wrapper">
+    <div class="container main">
+        <div class="row">
+            <app-filters class="col-2"
+                         (filter)="onFilterChenge($event)">
+            </app-filters>
+            <section class="col-9">
+                <div class="row catalog">
+                    <div class="col-3" *ngIf="noProducts">
+                        {{'ERR_NO_PROD' | translate}}
+                    </div>
+                    <div class="spinner" *ngIf="!products">
+                        <img src="./../../../assets/images/Spinner-product.svg" alt="">
+                    </div>
+                    <div class="bestProduct" *ngFor="let product of products; let i = index">
+                        <div class="productInfoArchive">
+                            <div class="menu_icon">
+                                <img (click)="onItemMenuCall()" src="../../../assets/images/small-menu.svg" alt="" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <ul class="seller_product_menu dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <div class="triangle"></div>
+                                    <li *ngIf="!product.showroom_id && product.title !== 'DRAFT'" class="showroom">
+                                        <a href="javascript:void(0);"
+                                            (click)="openModal('custom-modal-4', product)">
+                                            {{'BTN_SHOWROOM' | translate}}
+                                        </a>
+                                    </li>
+                                    <li *ngIf="!product.is_hidden"  class="showroom">
+                                        <a href="javascript:void(0);" (click)="onMakeBlank(product.id, product)">
+                                            {{'BTN_MAKE_BLANK' | translate}}
+                                        </a>
+                                    </li>
+                                    <li *ngIf="product.showroom_id || product.is_hidden || product.title === 'DRAFT'" class="showroom">
+                                        <a href="javascript:void(0);" (click)="onPublishProduct(product.id, product)">
+                                            {{'BTN_PUBLISH' | translate}}
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <label class=" productBookmark custom-control fill-checkbox">
+                                    <input type="checkbox"
+                                        class="fill-control-input"
+                                        [(ngModel)]="selItem[i]"
+                                        (change)="onSelectedItem(product.id, selItem[i], product)"
+                                        [ngModelOptions]="{standalone: true}"/>
+                                    <span class="fill-control-indicator check_label"></span>
+                            </label>
+                            <div class="productImage">
+                                <img *ngIf="!product.default_image.thumbnail_200"
+                                     class="card-img-top" src="{{product.default_image.url}}" alt="">
+                                <img *ngIf="product.default_image.thumbnail_200"
+                                     class="card-img-top" src="{{product.default_image.thumbnail_200}}" alt="">
+                            </div>
+                            <span class="border_bottom"></span>
+                            <div class="productDesc">
+                                <div class="productPrice" *ngIf="product.has_discount">
+                                    <p>{{product.discount_price | number:'0.2'}} {{product.currency}}</p>
+                                    <div *ngIf="product.price" class="discount_price">
+                                        <div class="strikethrough">
+                                            {{product.price | number:'0.2'}} {{product.currency}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="productPrice"
+                                        *ngIf="product.price && !product.discount_price">
+                                    {{product.price | number:'0.2'}} {{product.currency}}
+                                </div>
+                                <p class="productShortDesc">{{product.title | slice:0:30}}</p>
+                                <p class="productShortSize">{{product.min_size_eu}} - {{product.max_size_eu}}</p>
+                                <div class="customerRef">
+                                         <span *ngIf="product.customer_ref_number.length > 8 && product.ref_number.length > 8">
+                                         Ref. {{(product.ref_number | slice:0:8) + '...'}} CRef. {{product.customer_ref_number ? ((product.customer_ref_number) | slice:0:8) + '...' : '-'}}
+                                    </span>
+                                    <span *ngIf="product.customer_ref_number.length > 8 && product.ref_number.length < 8">
+                                        Ref. {{product.ref_number}} CRef. {{product.customer_ref_number ? ((product.customer_ref_number) | slice:0:8) + '...' : '-'}}
+                                    </span>
+                                    <span *ngIf="product.ref_number.length > 8 && product.customer_ref_number.length < 8">
+                                        Ref. {{(product.ref_number | slice:0:8) + '...'}} CRef. {{product.customer_ref_number ? product.customer_ref_number : '-'}}
+                                    </span>
+                                    <span *ngIf="product.customer_ref_number.length < 8 && product.ref_number.length < 8">
+                                        Ref. {{product.ref_number}} CRef. {{product.customer_ref_number ? product.customer_ref_number : '-'}}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="control-buttons">
+                                <button
+                                    (click)="undoArchive(product.id)"
+                                    class="btn restore">
+                                    {{'BTN_RESTORE' | translate}}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <app-pagination class="pagi_navi" pageSize="40"
+                        (pageChanged)="onPageChanged($event)">
+                    </app-pagination>
+                </div>
+
+            </section>
+        </div>
+    </div>
+    <div class="total" *ngIf="showGroupAction">
+        <div class="container">
+            <span>{{productArr.length}} {{productArr.length > 1 ? ('TEXT_ITEMS_SELECTED' | translate) : ('TEXT_ITEM_SELECTED' | translate)}}</span>
+            <div class="control-buttons">
+                <button class="restore" (click)="onGroupUnarchive(productArray)">{{'BTN_RESTORE' | translate}}</button>
+                <button class="blank" [disabled]="!onlyMakeBlank" (click)="onGroupHide()">{{'BTN_MAKE_BLANK' | translate}}</button>
+                <button class="showroom" [disabled]="!onlyToShowroom" (click)="openGroupModal('custom-modal-4', true)">{{'BTN_ADD_SHOWROOM' | translate}}</button>
+                <button class="publish" [disabled]="!onlyPublish"(click)="onGroupPublish()">{{'BTN_PUBLISH' | translate}}</button>
+            </div>
+        </div>
+    </div>
+</main>
+<footer></footer>
+
+<modal id="custom-modal-4">
+        <div class="modal">
+            <div class="modal-body showroom-modal">            
+                <button (click)="closeModal('custom-modal-4');"
+                        class="closeModal">
+                </button>
+                <div class="content">
+                    <h1>{{'MODAL_ADD_SHOWROOM' | translate}}</h1>
+                    <form [formGroup]="form_group">
+                        <div class="select">
+                            <app-select
+                                    label="{{'LABEL_SELECT_SHOWROOM' | translate}}"
+                                    formControlName="showroom"
+                                    [listArray]="showrooms">
+                            </app-select>
+                        </div>
+                        <div class="showroom-modal-control">
+                            <button
+                                    class="btn cancel"
+                                    (click)="closeModal('custom-modal-4')">
+                                {{'BTN_CANCEL' | translate}}
+                            </button>
+                            <button *ngIf="!groupShowroom"
+                                    class="btn add"
+                                    type="submit"
+                                    (click)="addToShowroom()">
+                               {{'BTN_ADD' | translate}}
+                            </button>
+                            <button *ngIf="groupShowroom"
+                                    class="btn add"
+                                    type="submit"
+                                    (click)="onGroupAddToShowroom()">
+                                {{'BTN_ADD' | translate}}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+         
+        <div class="modal-background"></div>
+    </modal>

@@ -1,0 +1,37 @@
+.photo_text {
+    font-weight: 600;
+}
+
+.error_wrapper span {
+    line-height: normal;
+    text-transform: none;
+    font-size: 12px;
+    font-weight: 500;
+    display: block;
+    height: auto;
+}
+.uploadOnePhoto{
+    width: 171px;
+    height: 40px;
+    border-radius: 2px;
+    border: solid 1px #4099d5;
+    background-color: #fff;
+    font-size: 12px;
+    font-style: normal;
+    font-stretch: normal;
+    letter-spacing: 0.9px;
+    color: #4099d5;
+    text-transform: uppercase;
+    text-align:center;
+    line-height: 42px;
+    cursor: pointer;
+}
+.uploadOnePhoto .photo_text {
+    color: #4099d5;
+}
+.photo {
+    width: 500px;
+    height: 300px;
+    object-fit: contain;
+    margin-bottom: 10px;
+}

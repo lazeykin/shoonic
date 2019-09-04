@@ -1,0 +1,68 @@
+<div class="header">
+  <div class="container header_wrapper">
+    <ul class="header_menu">
+      <li>
+        <a href="javascript:void(0);" (click)="toCatalog()" [ngClass]="{'active': router.url === '/' + name}">
+          {{'MENU_ITEM_CATALOG' | translate}}
+        </a>
+      </li>
+      <li>
+        <a href="javascript:void(0);" class="promo"
+           [routerLink]="['/' + name + '/promotions']">
+          {{'MENU_ITEM_PROMOTIONS' | translate}}
+        </a>
+      </li>
+      <li>
+        <a href="javascript:void(0);" [ngClass]="{'active':  router.url === '/' + name + '/showrooms/public'}"
+           [routerLink]="['/' + name + '/showrooms']">
+          {{'MENU_ITEM_SHOWROOMS' | translate}}
+        </a>
+      </li>
+    </ul>
+    <app-select-filter *ngIf="!singleProduct" class="sort_by mobile_screen_free" label=""
+                       [options]="sortValuesTranslated" sortBy="true"
+                       (filter)="onSortByChange($event)">
+    </app-select-filter>
+    <div *ngIf="singleProduct" class="empty mobile_screen_free">
+
+    </div>
+    <div class="topSearch">
+      <form name="form"
+            class="form w-100"
+            (ngSubmit)="searchProduct()"
+            #searchTop="ngForm"
+            validate>
+        <input class="input"
+               type="search"
+               placeholder="{{'PLACEHOLDER_SEARCH_PROD' | translate | uppercase}}"
+               name="staticEmail"
+               id="example-search-input"
+               [(ngModel)]="searchInput"
+               #search="ngModel"
+               maxlength="120">
+        <span class="topSearch__icon">
+                             <button  type="submit">
+                                <img *ngIf="innerWidth > 480" src="../../../../../assets/images/002-magnifying-glass.svg" alt="">
+                               <img *ngIf="innerWidth <= 480" src="../../../../../assets/images/001-magnifying-glass.svg" alt="">
+                            </button>
+                        </span>
+      </form>
+      <p class="clear_search" *ngIf="searchInput && innerWidth > 480" (click)="onClearSearch()">{{'BTN_CLEAR' | translate}}</p>
+    </div>
+    <div class="icon_container">
+      <!--<div class="bookmarkLink">-->
+        <!--<a href="javascript:void(0);">-->
+          <!--<img *ngIf="innerWidth > 480" src="../../../../../assets/images/star-filled-copy-12.svg">-->
+          <!--<img *ngIf="innerWidth <= 480" src="../../../../../assets/images/star-filled-copy-13.svg">-->
+        <!--</a>-->
+      <!--</div>-->
+      <div class="cartLink cartLinkMobile"
+           (click)="toCart()">
+        <div class="cartItems"
+             *ngIf="cartQuntity()"
+             [innerHtml]="cartQuntity()">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

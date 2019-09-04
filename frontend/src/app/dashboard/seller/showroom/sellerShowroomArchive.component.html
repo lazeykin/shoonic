@@ -1,0 +1,100 @@
+<header></header>
+<div class="wrapper">
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <button 
+                class="add"
+                [routerLink]="['/dashboard/seller/showrooms/add']">
+                +{{'BTN_CREATE_SHOWROOM' | translate}}
+            </button>
+            <section class="dashboardNavBuyer">
+                <ul class="accountNavTop catalogS">
+                    <li>
+                        <a [routerLink]="['/dashboard/seller/showrooms/public']">
+                            {{'TEXT_PUBLIC' | translate}}
+                        </a>
+                    </li>
+                    <li>
+                        <a [routerLink]="['/dashboard/seller/showrooms/private']">
+                            {{'TEXT_PRIVATE' | translate}}
+                        </a>
+                    </li>
+                    <li [ngClass]="{'active': true}">
+                        <a href="javascript:void(0);">
+                            {{'ROUTE_ARCHIVE' | translate}}
+                        </a>
+                    </li>
+                </ul>
+            </section>
+        </div>
+    </div>
+</div>
+<main role="main"
+      class="main pb-5 seller_wrapper">
+      <section class="showrooms">
+            <app-full-page-spinner *ngIf="isLoading"></app-full-page-spinner>
+                <div class="showroomList" *ngIf="!isLoading">
+                    <div class="showroom" *ngFor="let showroom of showrooms; let i = index">
+                        <div class="showroomInfo">
+                            <div class="menu_icon" (click)="hideme[i] = !hideme[i]">
+                                    <img src="../../../assets/images/small-menu.svg" alt="">
+                                </div>
+                                <ul [hidden]="!hideme[i]" class="seller_product_menu">
+                                    <div class="triangle"></div>
+                                    <li class="edit">
+                                        <a href="javascript:void(0);"
+                                           (click)="editShowroom(showroom)">
+                                             {{'BTN_EDIT' | translate}}
+                                        </a>
+                                    </li>
+                                    <li class="archive">
+                                        <a href="javascript:void(0);"
+                                           (click)="unarchiveShowroom(showroom.id); hideme[i] = !hideme[i]">
+                                           {{'BTN_UNARCHIVE' | translate}}
+                                        </a>
+                                    </li>
+                                </ul>
+                        <div class="showroomImages"
+                            (click)="showroomLink(showroom.id)">
+                                <ng-container *ngFor="let product of showroom.products; let j = index">
+                                        <ng-container *ngIf="showroom.products.length <= 4 && j < 4">
+                                                <div class="product-img" *ngIf="product && j < 4">
+                                                    <img *ngIf="!product.default_image.thumbnail_200"
+                                                         src="{{product.default_image.url}}" alt="">
+                                                    <img *ngIf="product.default_image.thumbnail_200"
+                                                         src="{{product.default_image.thumbnail_200}}" alt="">
+                                                </div>
+                                        </ng-container>
+                                        <ng-container *ngIf="showroom.products.length > 4 && j < 4">
+                                                <div class="product-img" *ngIf="product && j < 4 && j !== 3">
+                                                    <img *ngIf="!product.default_image.thumbnail_200"
+                                                         src="{{product.default_image.url}}" alt="">
+                                                    <img *ngIf="product.default_image.thumbnail_200"
+                                                         src="{{product.default_image.thumbnail_200}}" alt="">
+                                                </div>
+                                                <div *ngIf="j === 3" class="card-img-top">+ {{showroom.products.length - 3}}</div>
+                                        </ng-container>
+                                </ng-container>
+                        </div>
+                        <hr/>
+                        <div class="showroomDesc">
+                                <p class="showroomName"
+                                (click)="showroomLink(showroom.id)">{{showroom.name | slice:0:18}}</p>
+                                <p class="numOfItems">{{showroom.products.length}} {{'TEXT_ITEMS' | translate}}</p>
+                                <p class="date">{{showroom.date_created | date: 'dd/MM/yy'}}</p>
+                                <p class="shared">{{'TEXT_SHARED_TO' | translate}} {{showroom.total_contacts}} {{showroom.total_contacts === 1 ? ('TEXT_SHARED_CONTACT' | translate) : ('TEXT_SHARED_CONTACTS' | translate)}}</p>
+                        </div>
+                    </div>    
+                    </div>   
+                </div>
+                <app-pagination class="pagi_navi" pageSize="10"
+                    (pageChanged)="onPageChanged($event)"
+                        >
+
+                </app-pagination>
+        </section>
+
+</main>
+</div>
+<footer></footer>

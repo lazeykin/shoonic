@@ -1,0 +1,324 @@
+.add-multiple-holder {
+    width: 400px;
+    padding-bottom: 350px; /* temporary fix for footer*/
+
+}
+
+.add-multiple-holder ol {
+    list-style: none;
+    counter-reset: li;
+    margin: 0;
+    padding: 0;
+}
+
+.add-multiple-holder li {
+    padding-left: 35px;
+    position: relative;
+    counter-increment: li;
+    font-size: 14px;
+    line-height: 1.1em;
+    padding-bottom: 2em;
+    vertical-align: middle;
+    display: flex;
+    align-items: center;
+    color: #33333a;
+}
+
+.add-multiple-holder li:first-child {
+    max-width: 300px;
+    line-height: normal;
+}
+
+.add-multiple-holder li:before {
+    content: counter(li);
+    background-color: #3f99d4;
+    width: 24px;
+    height: 24px;
+    display: inline-block;
+    color: white;
+    font-size: 14px;
+    text-align: center;
+    border-radius: 50%;
+    line-height: 24px;
+    position: absolute;
+    left: 0;
+}
+
+
+.add-multiple-holder a {
+    text-transform: uppercase;
+    text-decoration: underline;
+    color: #3f99d4;
+    font-weight: 600;
+}
+
+.add-multiple-holder button,
+.add-multiple-holder .button {
+    border-radius: 2px;
+    border: 1px solid #3f99d4;
+    color: #3f99d4;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 0.9px;
+    position: relative;
+    padding: 7px 5px 5px 32px;
+    outline: none;
+    cursor: pointer;
+    margin-left: 5px;
+    background-color: #fff;
+}
+
+.add-multiple-holder button.next {
+    width: 345px;
+    height: 40px;
+    border-radius: 2px;
+    background-color: #4099d5;
+    text-transform: uppercase;
+    color: #fff;
+    margin-left: 0;
+    padding: 0;
+    letter-spacing: 2px;
+}
+
+.add-multiple-holder button.next:disabled {
+    width: 345px;
+    height: 40px;
+    border-radius: 2px;
+    background-color: #4099d5;
+    text-transform: uppercase;
+    color: #fff;
+    margin-left: 0;
+    padding: 0;
+}
+
+
+.add-multiple-holder .button:before {
+    content: "";
+    background-image: url("../../../assets/images/document-plus-blue.svg");
+    background-size: contain;
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    display: inline-block;
+    padding-right: 8px;
+    left: 5px;
+    top: 4px;
+}
+
+.add-multiple-holder .button input[type='file'] {
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    opacity: 0;
+    overflow: hidden;
+    width: 100%;
+}
+
+.add-multiple-holder .button.disabled {
+    opacity: 0.3;
+    color: black;
+    border: 1px solid black;
+}
+
+.add-multiple-holder .button.disabled:before {
+    background-image: url("../../../assets/images/document-plus.svg");
+}
+
+.add-multiple-holder .button {
+    display: inline-block;
+    min-width: 149px; 
+    height: 28px;
+    border: solid 1px #4099d5; 
+    font-weight: 600;
+    padding-top: 6px;
+}
+
+.add-multiple-holder .button:hover {
+    cursor: pointer;
+}
+
+.progress-bar {
+    width: 345px;
+    height: 32px;
+    border-radius: 2px;
+    border: solid 1px #4099d5;
+    background-color: #fff;
+    padding: 2px;
+    position: relative;
+    margin-bottom: 60px;
+    overflow: hidden;
+    font-weight: 600px;
+}
+.progress-bar .progress-value {
+    background-color: #4099d5;
+    width: 0;
+    height: 100%;
+    color: #fff;
+    font-size: 13px;
+    letter-spacing: 1px;
+    line-height: 28px;
+    vertical-align: middle;
+    padding-right: 2px;
+    transition: .3s all ease;
+    text-align: center;
+    position: relative;
+}
+
+.progress-bar .progress-value span {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    right: 0;
+    margin-right: auto; 
+    margin-left: auto;
+}
+
+.error-wrapper {
+    width: 250px;
+    color: #d0021b;
+    font-weight: 500;
+    font-size: 12px;
+}
+
+.add_product_wrapper h3 {
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: -0.8px;
+    color: #33333a;
+    margin-bottom: 14px;
+}
+.add_product_wrapper h2 {
+    font-size: 18px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: 0.1px;
+    color: #303036;
+}
+
+#custom-modal-products-imported-ok .modal-body,
+#custom-modal-products-imported-bad .modal-body {
+    min-height: auto;
+}
+#custom-modal-2 .modal .content {
+    font-size: 16px;
+    letter-spacing: 0.5px;
+}
+#custom-modal-products-imported-ok .modal .content,
+#custom-modal-products-imported-bad .modal .content {
+    text-align: left;
+    font-size: 18px;
+}
+#custom-modal-products-imported-bad .modal .content span {
+    font-weight: 600;
+    display: block;
+    margin: 3px 0;
+}
+#custom-modal-products-imported-ok .modal .content .title,
+#custom-modal-products-imported-bad .modal .content .title {
+    font-size: 24px;
+    font-weight: 600;
+    font-style: normal;
+    font-stretch: normal;
+    letter-spacing: 2.4px;
+    color: #33333a;
+    margin-bottom: 40px;
+    line-height: 48px;
+    text-align: left;
+}
+
+#custom-modal-products-imported-ok .modal .content .mark,
+#custom-modal-products-imported-bad .modal .content .mark {
+    width: 48px;
+    height: 48px;
+    float: left;
+    margin-right: 18px;
+    background-color: transparent;
+}
+
+#custom-modal-products-imported-ok .modal .content .control-buttons,
+#custom-modal-products-imported-bad .modal .content .control-buttons {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 25px;
+}
+
+#custom-modal-products-imported-ok .modal .content .control-buttons button,
+#custom-modal-products-imported-bad .modal .content .control-buttons button {
+    width: 128px;
+    height: 31px;
+    border-radius: 2px;
+    text-align: center;
+    line-height: 31px;
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.67;
+    letter-spacing: 2px;
+    background: transparent;
+    border: none;
+    background-color: #267db5;
+    color: #ffffff;
+}
+
+.modal .content .control-buttons button:hover {
+    cursor: pointer;
+}
+
+
+#custom-modal-products-imported-bad .modal .content .control-buttons button:last-child {
+    margin-left: 30px;
+}
+.small_select {
+    width: 298px;
+}
+button.account {
+    width: 426px;
+    background-color: #4099d5;
+    margin-top: 28px;
+    font-weight: 600;
+}
+.save_button {
+    width: 170px !important;
+    margin-top: 24px !important;
+}
+.draft_button {
+    margin: 24px 0;
+}
+.button_container {
+    width: 441px;
+    padding-left: 15px;
+    justify-content: space-between;
+    margin-bottom: 0;
+}
+.prev_next_button {
+    width: 426px;
+    padding-left: 7px;
+}
+
+.verification {
+    font-size: 24px;
+    letter-spacing: 1px;
+}
+
+.butt_container {
+    display: flex;
+    margin: 41px 0 0 70px;
+}
+.preview_button {
+    position: static;
+}
+.preview_container {
+    display: flex;
+    flex-wrap: wrap;
+}

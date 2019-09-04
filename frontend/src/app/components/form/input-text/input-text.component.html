@@ -1,0 +1,38 @@
+<div class="row"
+     [ngClass]="{ 'has-danger':control.invalid && !control.pristine}"
+     [ngStyle]="styles">
+    <label
+            class="col col-form-label">
+        <span>{{label}}</span>
+        <span [ngClass]="{'pos_relative': isPadding}">
+            <input type="text"
+                   [disabled]="control.disabled"
+                   [class]="class"
+                   [ngClass]="{'pad_left': isPadding}"
+                   [(ngModel)]="inputText"
+                   [placeholder]="placeholder"
+                   (input)="onInputChange()"
+                   (keypress)="_keyPress($event)"
+            />
+            <span *ngIf="isPadding" class="url_title">shoonic.com/</span>
+        </span>
+        <span *ngIf="control.invalid && !control.pristine">
+      <span *ngIf="control.hasError('required')">{{'ERR_REQUIRED' | translate}}</span>
+      <span *ngIf="control.hasError('maxlength')">{{'ERR_MAX' | translate}}
+          - {{control.errors.maxlength.requiredLength}}</span>
+      <span *ngIf="control.hasError(('invalidUrl'))">{{'ERR_URL' | translate}}</span>
+            <span *ngIf="control.hasError(('invalidTags'))">{{'ERR_MAX_TAGS' | translate}} - 5</span>
+            <span *ngIf="control.hasError(('mustBeAlphabetic'))">{{'ERR_ALPHABETIC' | translate}}</span>
+      <span *ngIf="control.hasError(('invalidZip'))">{{'ERR_ZIP' | translate}}</span>
+      <span *ngIf="control.hasError(('invalidData'))">{{'ERR_DATE' | translate}}</span>
+            <span *ngIf="control.hasError(('invalidUrlSpace'))">Address can not have a space</span>
+            <span *ngIf="control.hasError(('invalidMatch'))">This adress is booked</span>
+      <span *ngIf="control.errors.message">{{control.errors.message}}</span>
+      <span *ngIf="control.hasError(('invalidPhone'))">{{'ERR_PHONE' | translate}}<br>
+      (XXX) XXX-XXXX <br>
+      XXX-XXX-XXXX <br>
+      XXX.XXX.XXXX <br>XXXXXXXXXX</span>
+    </span>
+
+    </label>
+</div>

@@ -1,0 +1,12 @@
+<label class="label_photo"> *{{'LABEL_ADD_PHOTOS' | translate}}</label> <label class="first_picture">{{'INFO_FIRST_PIC_MAIN' | translate}}</label>
+<ul class="row col img_array">
+    <li *ngFor="let i of imgArr" class="img_item">
+        <app-one-image-product
+                               (passChange)="pushToArray($event)" (itemDelete)="deleteArrayItem(i)" [control]="control"
+                               [photo]="photo[i]">
+        </app-one-image-product>
+    </li>
+    <span  style="color: red" *ngIf="control.hasError('required')">{{'ERR_NO_IMAGE' | translate}}</span>
+    <span  style="color: red" *ngIf="control.hasError('invalidImage')">
+        {{'ERR_FILE_FORMAT' | translate}}: jpg, png, gif, jpeg</span>
+</ul>

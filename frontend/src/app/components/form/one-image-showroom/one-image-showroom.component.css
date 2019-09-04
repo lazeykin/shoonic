@@ -1,0 +1,29 @@
+.image {
+    height: auto;
+    width: 361px;
+    overflow: hidden;
+    margin-bottom: 12px;
+    margin-top: 10px;
+}
+
+.image img {
+    width: 100%;
+    height: auto;
+}
+.error_wrapper {
+    position: absolute;
+    bottom: 30px;
+}
+.error_wrapper span {
+    text-transform: none;
+    line-height: normal;
+}
+
+.uploadPhoto {
+    width: 234px;
+    height: 37px;
+    background-color: #4099d5; 
+    font-weight: 600; 
+    letter-spacing: 2px;
+    line-height: 37px;
+}

@@ -1,0 +1,15 @@
+ <form name="form"
+          class="form addProdcutForm">
+        <label class="form-control-label"> Add Photos</label>
+        <image-upload
+                [maxFileSize]="2097152"
+                [extensions]="['jpg','png','gif']"
+                [uploadedFiles]="control.value"
+                (removed)="onRemoved($event)"
+                (uploadFinished)="onUploadFinished($event)">
+        </image-upload>
+        <span *ngIf="control.invalid && !control.pristine">
+        <span style="color: #d9534f" *ngIf="control.hasError('required')">This field is required</span>
+          <span *ngIf="control.errors.message">{{control.errors.message}}</span>
+      </span>
+    </form>

@@ -1,0 +1,21 @@
+div > label > span {
+    display: block;
+    margin-bottom: 9px;
+    word-break: break-word;
+    line-height: 1.5;
+}
+div > label > span > span {
+    display: block;
+}
+.modal_discount::placeholder {
+    font-size: 14px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.43;
+    letter-spacing: normal;
+    color: #a6aebc;
+}
+.modal_discount {
+    width: 139px;
+}

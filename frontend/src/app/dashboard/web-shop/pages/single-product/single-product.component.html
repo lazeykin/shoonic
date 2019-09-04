@@ -1,0 +1,26 @@
+<div *ngIf="webSiteInfo.webshop_banner" class="banner_wrapper">
+    <div class="container">
+        <div *ngIf="innerWidth > 480" class="button_container row">
+            <button class="back" (click)="onBack()">{{'BTN_TO_SHOONIC' | translate}}</button>
+            <button *ngIf="scope === 'seller'" class="edit" (click)="onEdit()">{{'BTN_EDIT' | translate}}</button>
+        </div>
+    </div>
+    <a class="banner-wrapper" *ngIf="webSiteInfo.url_attached_to_the_banner" [href]="webSiteInfo.url_attached_to_the_banner">
+        <img #banner (load)="onLoad()" src="{{webSiteInfo.webshop_banner.url}}" alt=""
+             [ngStyle]="{'margin-bottom': '-' + imgHeight + 'px'}" class="banner_large">
+    </a>
+    <div class="banner-wrapper" *ngIf="!webSiteInfo.url_attached_to_the_banner">
+        <img  #banner (load)="onLoad()" src="{{webSiteInfo.webshop_banner.url}}" alt=""
+              [ngStyle]="{'margin-bottom': '-' + imgHeight + 'px'}" class="banner_large">
+    </div>
+</div>
+<div *ngIf="!webSiteInfo.webshop_banner" class="without_banner">
+    <div class="container">
+        <div class="button_container row button_without_banner">
+            <button class="back" (click)="onBack()">{{'BTN_TO_SHOONIC' | translate}}</button>
+            <button class="edit" (click)="onEdit()">{{'BTN_EDIT' | translate}}</button>
+        </div>
+    </div>
+</div>
+<app-webshop-header singleProduct="true"></app-webshop-header>
+<app-buyer-single shop="true"></app-buyer-single>

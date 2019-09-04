@@ -1,0 +1,139 @@
+﻿<app-register-header></app-register-header>
+<section class="registrationSteps">
+    <div id="crumbs">
+        <ul>
+            <li><span>{{'REG_STEP' | translate}} 1</span></li>
+            <li class="active"><span>{{'REG_STEP' | translate}} 2</span></li>
+            <li><span>{{'REG_STEP' | translate}} 3</span></li>
+        </ul>
+    </div>
+</section>
+<main role="main"
+      class="main pb-5">
+    <div class="container">
+        <!--<div class="pt-2">-->
+            <!--<alert></alert>-->
+        <!--</div>-->
+        <h2 class="subTitle">
+            {{'TITLE_COMPANY_INFO' | translate}}
+        </h2>
+        <form name="form"
+              class="form registrationFormTwo"
+              (ngSubmit)="registerCompany()"
+              [formGroup]="form_group"
+              validate>
+
+                    <div class="form-group">
+                        <app-input-text label="*{{'LABEL_COMPANY_NAME' | translate}}"
+                                        placeholder="{{'PLACEHOLDER_COMPANY_NAME' | translate}}"
+                                        formControlName="name">
+                        </app-input-text>
+                    </div>
+            <div class="form-group">
+                <app-input-text label="*{{'LABEL_VAT' | translate}}"
+                                placeholder="{{'PLACEHOLDER_VAT' | translate}}"
+                                formControlName="vat_number">
+                </app-input-text>
+            </div>
+            <div class="form-group">
+                <app-input-text label="{{'LABEL_COMPANY_WEB' | translate}}"
+                                placeholder="{{'PLACEHOLDER_COMPANY_WEB' | translate}}"
+                                formControlName="website_address">
+                </app-input-text>
+            </div>
+            <span class="bottom_line"> </span>
+            <p class="register_step_title">{{'SUB_TITLE_ADDRESS' | translate}}</p>
+                <p class="register_step_subtitle">
+                    {{'ADDRESS_INFO' | translate}}
+                    <span class="info">
+                        <i class="fa fa-info-circle"></i>
+                        <span class="info-wrapper">
+                            {{'ADDRESS_INFO_DETAIL' | translate}}
+                        </span>
+                    </span>
+                </p>
+            <div class="form-group" formGroupName="address">
+                <app-input-text label="*{{'LABEL_STREETNAME' | translate}}"
+                                placeholder="{{'PLACEHOLDER_STREETNAME' | translate}}"
+                                formControlName="street_name">
+                </app-input-text>
+            </div>
+            <div class="row">
+                <div class="street_name">
+                <div class="form-group" formGroupName="address">
+                    <app-input-text label="*{{'LABEL_STREETNUM' | translate}}"
+                                    placeholder=""
+                                    formControlName="street_number">
+                    </app-input-text>
+                </div>
+                </div>
+                <div class="col-5">
+                    <div class="form-group" formGroupName="address">
+                        <app-input-text label="{{'LABEL_BUS' | translate}}"
+                                        placeholder=""
+                                        formControlName="bus">
+                        </app-input-text>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group" formGroupName="address">
+                <app-input-text label="*{{'LABEL_ZIP' | translate}}"
+                                placeholder="{{'PLACEHOLDER_ZIP' | translate}}"
+                                formControlName="zip">
+                </app-input-text>
+            </div>
+            <div class="form-group" formGroupName="address" >
+                <app-input-text label="*{{'LABEL_CITY' | translate}}" formControlName="city"
+                                placeholder="{{'PLACEHOLDER_CITY' | translate}}">
+                </app-input-text>
+            </div>
+            <div class="form-group" formGroupName="address">
+                <app-input-text label="{{'LABEL_STATE' | translate}}"
+                                placeholder="{{'PLACEHOLDER_STATE' | translate}}"
+                                formControlName="state">
+                </app-input-text>
+            </div>
+                    <div class="form-group" formGroupName="address" >
+                    <app-select
+                            label="*{{'LABEL_COUNTRY' | translate}}"
+                            formControlName="country"
+                            [listArray]="countries">
+                    </app-select>
+                    </div>
+
+            <button
+                    class="btn btn-lg btn-primary btn-block login"
+                    type="submit">
+                {{'BTN_SIGN_UP' | translate}}
+                <img class="form_spinner" *ngIf="isLoading" src="./../../../assets/images/Spinner-form.svg" alt="">
+            </button>
+
+            <a href="javascript:void(0);" (click)="goToPreviousStep()" class="previousStep"><i class="material-icons">
+                    arrow_back_ios
+                    </i>{{'BTN_PREV_STEP' | translate}}</a>
+        </form>
+    </div>
+</main>
+<footer></footer>
+<modal id="custom-modal-2">
+    <div class="modal">
+        <div class="modal-body">
+            <div class="top">
+                <h2>{{'MODAL_TITLE_VERIFICATION' | translate}}</h2>
+                <button (click)="closeModal('custom-modal-2');"
+                    class="closeModal">
+                </button>
+            </div>
+            <div class="content">
+                <div class="image">
+                    <img src="assets/images/sucess.png"
+                         alt="logo">
+                </div>
+                <div class="text">
+                    {{'MODAL_REGISTER' | translate}}
+                </div>
+            </div>
+        </div>
+    </div> 
+    <div class="modal-background"></div>
+</modal>

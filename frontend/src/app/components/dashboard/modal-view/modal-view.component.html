@@ -1,0 +1,41 @@
+<modal id="custom-modal-4">
+  <div class="modal">
+    <div class="modal-body">
+      <button (click)="onCloseModal();"
+              class="closeModal">
+        <i class="fa fa-close"></i>
+      </button>    
+      <div class="title">
+        {{'MODAL_ADD_NEW_CONTACT' | translate}}
+      </div>
+             
+      <div class="content wrapper">
+
+        <form name="form"
+              class="form groupForm"
+              (ngSubmit)="onContactAdd()"
+              [formGroup]="form_contact"
+              validate>
+          <app-input-text label="{{'LABEL_NAME' | translate}}" placeholder="{{'PLACEHOLDER_NAME' | translate}}" formControlName="name">
+
+          </app-input-text>
+          <app-input-text label="{{'LABEL_COMPANY' | translate}}" placeholder="{{'PLACEHOLDER_COMPANY' | translate}}" formControlName="company">
+
+          </app-input-text>
+          <app-input-email label="{{'LABEL_EMAIL' | translate}}" placeholder="{{'PLACEHOLDER_EMAIL' | translate}}" formControlName="email">
+
+          </app-input-email>
+          <div class="button_container">
+          <button type="reset" class="reset_but" (click)="onCloseModal()">{{'BTN_CANCEL' | translate}}</button>
+        <button type="submit"
+                class="save_but">
+          {{'BTN_SAVE' | translate}}
+        </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+   
+  <div class="modal-background"></div>
+</modal>

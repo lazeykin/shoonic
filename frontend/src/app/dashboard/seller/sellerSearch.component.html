@@ -1,0 +1,87 @@
+﻿<header (passQuery)="onSearchChange($event)"></header>
+<div class="container">
+</div>
+<section class="dashboardNav">
+    <div class="container">
+        <app-sort-selector
+                (filter)="selectSortBy($event)" >
+        </app-sort-selector>
+    </div>
+</section>
+<main role="main"
+      class="main pb-5 seller_wrapper">
+      <div class="container">
+        <div class="searchResultTitle">
+            <b>Search results by:</b> {{productSearch}}
+        </div>
+    </div> 
+    <div class="container">
+        <div class="row">
+            <app-filters class="col-2"
+                         (filter)="onFilterChenge($event)">
+            </app-filters>
+            <section class="col-10">
+                <div class="row catalog">
+                    <div class="col-3" *ngIf="noProducts">
+                        No products.
+                    </div>
+                    <div class="spinner" *ngIf="!products">
+                        <img src="./../../../assets/images/Spinner-product.svg" alt="Loading...">
+                    </div>
+                    <div class="bestProduct" *ngFor="let product of products">
+                        <div class="productInfo">
+                            <div class="productRef">
+                                Ref. {{product.ref_number}}
+                            </div>
+                            <!--<a href="javascript:void(0);">-->
+                                <!--<div class="productBookmark">-->
+                                <!--</div>-->
+                            <!--</a>-->
+                            <div class="productImage">
+                                <a href="javascript:void(0);" (click)="productLink(product.id)">
+                                    <img *ngIf="!product.default_image.thumbnail_200"
+                                         class="card-img-top" src="{{product.default_image.url}}" alt="">
+                                    <img *ngIf="product.default_image.thumbnail_200"
+                                         class="card-img-top" src="{{product.default_image.thumbnail_200}}" alt="">
+                                </a>
+                            </div>
+                            <div class="productDesc">
+                                <div class="productPrice" *ngIf="product.has_discount &&
+                                checkDiscountDate(product.discount_end_date)">
+                                    <p>{{product.discount_price | number:'0.2'}} {{product.currency}}</p>
+                                    <div *ngIf="product.price" class="discount_price">
+                                        <div class="strikethrough">
+                                            {{product.price | number:'0.2'}} {{product.currency}}
+                                        </div>
+                                    </div >
+                                </div>
+                                <div class="productPrice"
+                                     *ngIf="product.price && !product.discount_price || !checkDiscountDate(product.discount_end_date)">
+                                    {{product.price | number:'0.2'}} {{product.currency}}
+                                </div>
+                                <p class="productShortDesc">{{product.title | slice:0:30}}</p>
+                                <p class="productShortSize">{{product.min_size_eu}} - {{product.max_size_eu}}</p>
+                                <div class="customerRef">
+                                    CRef. {{product.customer_ref_number ? product.customer_ref_number : '-'}}
+                                </div>
+                            </div>
+                        </div>
+                        <!--<div class="productButton">-->
+                            <!--<a href="javascript:void(0);" >-->
+                                <!--<div class="addButton">-->
+                                    <!--Add to cart-->
+                                <!--</div>-->
+                            <!--</a>-->
+                        <!--</div>-->
+                    </div>
+                </div>
+
+            </section>
+        </div>
+        <app-pagination class="pagi_navi" pageSize="40"
+                        (pageChanged)="onPageChanged($event)">
+        </app-pagination>
+    </div>
+
+</main>
+<footer></footer>

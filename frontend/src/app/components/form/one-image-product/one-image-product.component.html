@@ -1,0 +1,16 @@
+<div *ngIf="url" class="img-wrapper">
+<img [src]="url" class="img">
+<span class="del_label" (click)="onDeleteItem($event)">
+  <img src="assets/images/group.svg" alt="delete">
+</span>
+</div>
+<div id="hide" *ngIf="!url" class="image_container">
+  <label>
+    <input type="file"
+           accept=".jpg,.jpeg,.gif,.png"
+           (change)="readUrl($event)"  [disabled]="control.disabled">
+    <span class="img_icon">
+      <img src="assets/images/group-copy.svg" alt="account icon">
+    </span>
+  </label>
+</div>

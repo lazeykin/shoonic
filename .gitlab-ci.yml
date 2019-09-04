@@ -1,0 +1,162 @@
+image: tico/docker
+
+variables:
+  TARGET_PATH: /home/gitlab_ci/$CI_PROJECT_PATH
+  TARGET_HOST: gitlab_ci@dev.tseh20.com
+  COMMAND_PUSH_IMAGE_WITH_TAGS: '
+    if [ -z $CONTAINER_LOCAL_IMAGE ]; then echo "CONTAINER_LOCAL_IMAGE is unset"; exit 1; fi;
+    if [ -z $CONTAINER_TEST_IMAGE ]; then echo "CONTAINER_TEST_IMAGE is unset"; exit 1; fi;
+    if [ -z $CONTAINER_RELEASE_IMAGE ]; then echo "CONTAINER_RELEASE_IMAGE is unset"; exit 1; fi;
+    if [[ "$(docker images -q $CONTAINER_LOCAL_IMAGE 2> /dev/null)" == "" ]]; then
+      echo "Looks like docker image is not built with tag $CONTAINER_LOCAL_IMAGE"; exit 1; fi;
+    docker tag $CONTAINER_LOCAL_IMAGE $CONTAINER_TEST_IMAGE;
+    docker push $CONTAINER_TEST_IMAGE;
+    if [ $CI_COMMIT_REF_NAME = "master" ];
+    then docker tag $CONTAINER_LOCAL_IMAGE $CONTAINER_RELEASE_IMAGE; docker push $CONTAINER_RELEASE_IMAGE; fi;
+    '
+
+stages:
+  - build
+  - test
+  - deploy
+  - release
+
+before_script:
+  - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+
+build frontend:
+  stage: build
+  variables:
+    CONTAINER_LOCAL_IMAGE: frontend/$CI_COMMIT_REF_SLUG
+    CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE/frontend:$CI_COMMIT_REF_SLUG
+    CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE/frontend:latest
+  script:
+    - cd ./frontend
+    - docker pull $CONTAINER_TEST_IMAGE || true
+    - docker build --cache-from $CONTAINER_TEST_IMAGE -t $CONTAINER_LOCAL_IMAGE .
+    - eval $COMMAND_PUSH_IMAGE_WITH_TAGS
+  only:
+    - /^frontend\/.*$/
+    - master
+  except:
+    - /^.*_wip$/
+
+build backend:
+  stage: build
+  variables:
+    CONTAINER_LOCAL_IMAGE: backend/$CI_COMMIT_REF_SLUG
+    CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE/backend:$CI_COMMIT_REF_SLUG
+    CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE/backend:latest
+  script:
+    - cd ./backend
+    - docker pull $CONTAINER_TEST_IMAGE || true
+    - docker build --cache-from $CONTAINER_TEST_IMAGE -t $CONTAINER_LOCAL_IMAGE .
+    - eval $COMMAND_PUSH_IMAGE_WITH_TAGS
+  only:
+    - /^backend\/.*$/
+    - master
+  except:
+    - /^.*_wip$/
+
+build router:
+  stage: build
+  variables:
+    CONTAINER_LOCAL_IMAGE: router/$CI_COMMIT_REF_SLUG
+    CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE/router:$CI_COMMIT_REF_SLUG
+    CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE/router:latest
+  script:
+    - docker pull $CONTAINER_TEST_IMAGE || true
+    - docker build --cache-from $CONTAINER_TEST_IMAGE -t $CONTAINER_LOCAL_IMAGE .
+    - eval $COMMAND_PUSH_IMAGE_WITH_TAGS
+  except:
+    - /^frontend\/.*$/
+    - /^backend\/.*$/
+    - /^.*_wip$/
+
+test backend:
+  stage: test
+  services:
+    - docker:dind
+  variables:
+    CONTAINER_LOCAL_IMAGE: backend/$CI_COMMIT_REF_SLUG
+    CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE/backend:$CI_COMMIT_REF_SLUG
+    CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE/backend:latest
+  script:
+    - cd ./backend
+    # - docker pull $CONTAINER_TEST_IMAGE
+    - echo "No tests"
+    # todo: add tests with mssql db, for now tests are runing in build phase with postgres db
+  only:
+    - /^backend\/.*$/
+    - master
+  except:
+    - /^.*_wip$/
+
+test frontend:
+  stage: test
+  services:
+    - docker:dind
+  variables:
+    CONTAINER_LOCAL_IMAGE: frontend/$CI_COMMIT_REF_SLUG
+    CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE/frontend:$CI_COMMIT_REF_SLUG
+    CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE/frontend:latest
+  script:
+    - cd ./frontend
+    # - docker pull $CONTAINER_TEST_IMAGE
+    - echo "No tests"
+    # todo: add tests
+  only:
+    - /^frontend\/.*$/
+    - master
+  except:
+    - /^.*_wip$/
+
+deploy to dev:
+  stage: deploy
+  script:
+    - cibu prepare-ssh
+    - ssh $TARGET_HOST mkdir -p $TARGET_PATH
+    - cibu compose upload dev
+    - cibu compose login gitlab-ci-token $CI_JOB_TOKEN $CI_REGISTRY
+    - cibu compose pull
+    # save and pass required env vars to remote server
+    - echo EMAIL_HOST_USER=$EMAIL_HOST_USER > .env
+    - echo EMAIL_HOST_PASSWORD=$EMAIL_HOST_PASSWORD >> .env
+    - scp -rp ./.env $TARGET_HOST:$TARGET_PATH/.env
+    - cibu compose up -d
+    # wait for services to start
+    - sleep 15
+    - ssh $TARGET_HOST "cd $TARGET_PATH; docker-compose exec -T backend_app python manage.py migrate"
+  only:
+    - master
+    - frontend/dev
+    - backend/dev
+    - /^glue\/.*$/
+  except:
+    - /^.*_wip$/
+
+manual deploy to dev:
+  stage: deploy
+  script:
+    - cibu prepare-ssh
+    - ssh $TARGET_HOST mkdir -p $TARGET_PATH
+    - cibu compose upload dev
+    - cibu compose login gitlab-ci-token $CI_JOB_TOKEN $CI_REGISTRY
+    - cibu compose pull
+    # save and pass required env vars to remote server
+    - echo EMAIL_HOST_USER=$EMAIL_HOST_USER > .env
+    - echo EMAIL_HOST_PASSWORD=$EMAIL_HOST_PASSWORD >> .env
+    - scp -rp ./.env $TARGET_HOST:$TARGET_PATH/.env
+    - cibu compose up -d
+    # wait for services to start
+    - sleep 15
+    - ssh $TARGET_HOST "cd $TARGET_PATH; docker-compose exec -T backend_app python manage.py migrate"
+  when: manual
+
+deploy to azure:
+  stage: release
+  script:
+    - exit 1
+  only:
+    - master
+  when: manual

@@ -1,0 +1,41 @@
+﻿
+<app-register-header></app-register-header>
+<main role="main"
+      class="main pb-5">
+    <div class="container section">
+        <div class="pt-2">
+            <alert></alert>
+        </div>
+        <h2 class="subTitler">
+            {{'TITLE_INVOICE' | translate}}
+        </h2>
+        <form name="form"
+              class="form login"
+              (ngSubmit)="stepFour()"
+              [formGroup]="form_group">
+              <div class="custom-file" id="customFile">
+                <div id="invoice">
+                      <label class="hand-cursor register">
+                          <input type='file'
+                                 formControlName="fileToUpload"
+                                 accept=".pdf,.jpg,.jpeg"
+                                 (change)="handleFileInput($event.target.files)">
+                          <span class="photo_text hidden-xs">
+                              <img src="assets/images/document-plus-blue.svg" alt="account icon"> {{'BTN_UPLOAD_INVOICE' | translate}}
+                          </span>
+                      </label>
+                </div>
+                  <span  style="color: red" *ngIf=" this.form_group.controls.fileToUpload.hasError('invalidFormat')">
+                            {{'ERR_FILE_FORMAT' | translate}}: jpg, pdf,jpeg</span>
+                <div *ngIf="fileToUpload">
+                    {{fileToUpload.name}}
+                </div>
+              </div>
+              <button class="btn btn-lg btn-primary btn-block login register-four"
+                    type="submit">
+                {{'BTN_SEND' | translate}}
+              </button>
+        </form>
+    </div>
+</main>
+<footer></footer>

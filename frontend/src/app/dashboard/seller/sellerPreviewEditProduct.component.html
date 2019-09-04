@@ -1,0 +1,325 @@
+﻿﻿<header></header>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <section class="dashboardNavBuyer">
+                <a class="previous catalogBack" (click)="backClicked()" href="javascript:void(0);"> &lt; Back to editing</a>
+            </section>
+        </div>
+    </div>
+</div>
+<main role="main"
+      class="main pb-5">
+    <div class="container">
+        <div class="row singleProduct">
+            <div class="col-5">
+                <div *ngIf="singleImage">
+                    <img class="card-img-top"  src="{{product.default_image.url}}">
+                </div>
+                <div  *ngIf="!singleImage">
+                    <ngx-gallery [options]="galleryOptions"
+                                 [images]="galleryImages"></ngx-gallery>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="productRef"
+                     *ngIf="product.ref_number">
+                    Ref. {{product.ref_number}}
+                </div>
+                <div class="productTitle"
+                     *ngIf="product.title">
+                    {{product.title}}
+                </div>
+                <div class="customerRef">
+                    CRef. {{product.customer_ref_number ? product.customer_ref_number : '-'}}
+                </div>
+                <div class="productSubTitle" *ngIf="product.sub_title">
+                    {{product.sub_title}}
+                </div>
+                <div class="productPrice" *ngIf="product.discount_price">
+                    {{product.discount_price | number:'0.2'}} {{product.currency.id}}
+                    <div *ngIf="product.price" class="discount_price">
+                        <div class="strikethrough">
+                            {{product.price | number:'0.2'}} {{product.currency.id}}
+                        </div>
+                        <span class="discount_end_date"> Due {{product.discount_end_date | date}}</span>
+                    </div >
+                </div>
+                <div class="productPrice"
+                     *ngIf="product.price && !product.discount_price">
+                    {{product.price | number:'0.2'}} {{product.currency.id}}
+                </div>
+                <div class="productTags"
+                     *ngIf="tags">
+                    <div class="singleTag"
+                         *ngFor="let tag of tags; let i = index">
+                        {{tag}}
+                    </div>
+                </div>
+
+                <div class="form-group row singleAdd" style="height:35px;">
+                </div>
+                <p class="preview_spec">
+                    Specifications
+                </p>
+
+                <table class="table w-100 productTable mt-3" style="margin-left: 15px;">
+                    <tr *ngIf="product.sales_identity.name" class="row">
+                        <td class="col-6">
+                            <b>Seller</b>
+                        </td>
+                        <td class="col-6" class="sales_identity">
+                            {{product.sales_identity.name}}
+                            <div class="user-rating">
+                                {{product.average_rating | number: '1.1-1'}} <i class="fa fa-star"></i>
+                            </div>
+                            <a class="shopUrl" *ngIf="product.webshop_url" target="_blank" [routerLink]="['/', product.webshop_url]">{{'BTN_SEE_MORE_SELLER' | translate}}</a>
+                        </td>
+                    </tr>
+                    <tr *ngIf="location_country" class="row">
+                        <td class="col-6">
+                            <b>Country of Location</b>
+                        </td>
+                        <td class="col-6">
+                            {{location_country.name}}
+                        </td>
+                    </tr>
+                    <tr *ngIf="country_of_origin" class="row">
+                        <td class="col-6">
+                            <b>Country of Origin</b>
+                        </td>
+                        <td class="col-6">
+                            {{country_of_origin.name}}
+                        </td>
+                    </tr>
+                    <tr *ngIf="product.customer_ref_number" class="row">
+                        <td class="col-6">
+                            <b>Reference number of the Customer</b>
+                        </td>
+                        <td class="col-6">
+                            {{product.customer_ref_number}}
+                        </td>
+                    </tr>
+                    <tr *ngIf="product.recommended_retail_price" class="row">
+                        <td class="col-6">
+                            <b>Recommences retail price</b>
+                        </td>
+                        <td class="col-6">
+                            {{product.recommended_retail_price}} {{product.currency.id}}
+                        </td>
+                    </tr>
+                    <tr *ngIf="product.gender" class="row">
+                        <td class="col-6">
+                            <b>Gender</b>
+                        </td>
+                        <td class="col-6">
+                            {{product.gender.name}}
+                        </td>
+                    </tr>
+
+                    <tr *ngIf="product.category" class="row">
+                        <td class="col-6">
+                            <b>Category</b>
+                        </td>
+                        <td class="col-6">
+                            {{product.category.name}}
+                        </td>
+                    </tr>
+                    <tr *ngIf="product.type" class="row">
+                        <td class="col-6">
+                            <b>Type</b>
+                        </td>
+                        <td class="col-6">
+                            {{product.type.name}}
+                        </td>
+                    </tr>
+                    <tr *ngIf="product.style" class="row">
+                        <td class="col-6">
+                            <b>Style</b>
+                        </td>
+                        <td class="col-6">
+                            {{product.style.name}}
+                        </td>
+                    </tr>
+                    <tr *ngIf="product.brand" class="row">
+                        <td class="col-6">
+                            <b>Brand</b>
+                        </td>
+                        <td class="col-6">
+                            {{product.brand.name}}
+                        </td>
+                    </tr>
+                    <tr *ngIf="product.upc" class="row">
+                        <td class="col-6">
+                            <b>UPC</b>
+                        </td>
+                        <td class="col-6">
+                            {{product.upc}}
+                        </td>
+                    </tr>
+
+                    <tr *ngIf="product.packing_type" class="row">
+                        <td class="col-6">
+                            <b>Packing Type</b>
+                        </td>
+                        <td class="col-6">
+                            {{product.packing_type.name}}
+                        </td>
+                    </tr>
+
+                    <tr *ngIf="product.color" class="row">
+                        <td class="col-6">
+                            <b>Color</b>
+                        </td>
+                        <td class="col-6">
+                            <div style="width: 20px;  height: 20px;  border-radius: 2px;" [style.background-color]="product.color.name"></div>
+                        </td>
+                    </tr>
+                </table>
+                <div class="productDescttitle">
+                    Description
+                </div>
+                <div class="productDescription"
+                     *ngIf="product.description">
+                    <div *ngIf="!seeMoreDescr"
+                         class="seeMoreDesc">
+                        {{product.description | slice:0:30}}
+                        <a href="javascript:void(0);"
+                           (click)="seeMoreDesc()">
+                            See more
+                        </a>
+                    </div>
+                    <div *ngIf="seeMoreDescr"
+                         class="seeFullDesc">
+                        {{product.description}}
+                        <a href="javascript:void(0);"
+                           (click)="seeLessDesc()">
+                            See less
+                        </a>
+                    </div>
+                </div>
+                <div *ngIf="prepacks" class="row">
+                    <div class="singlePrepack col-10"
+                         style="margin-top: 25px;"
+                         *ngFor="let prepack of prepacks; let i = index">
+                        <div style="font-size: 16px; margin-bottom: 10px;">
+                            <b> {{prepack.name}} </b>
+                        </div>
+                        <div class="singlePrepackSizes"
+                             style="border-radius: 4px;">
+                            <div style="font-size: 16px; margin-bottom: 10px;">
+                                Size/Quantity
+                            </div>
+                            <div>
+                                <div *ngFor="let size of prepack.sizes; let i = index"
+                                     style="text-align:center; display: inline-block">
+                                     <div class="size-container">
+                                        <span class="size">{{size.key}}</span>
+                                        <span class="quantity">{{size.value}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div *ngIf="outputSizes">
+
+                    <!--<div class="titleTypoEdit" style="margin-bottom: 20px">-->
+                    <!--Cart-->
+                    <!--</div>-->
+
+                    <div style="display: inline-block" >
+                        <div style="padding:10px; padding-left: 0; width:150px;">
+                            Size/Quantity
+                        </div>
+                    </div>
+                    <div style="display: flex; flex-wrap: wrap; width: 500px">
+                        <div *ngFor="let size of outputSizes; let i = index"
+                             style="text-align:center; display: block">
+                             <div class="size-container">
+                                    <span class="size">{{size.key}}</span>
+                                    <span class="quantity">{{size.value}}</span>
+                                </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div *ngIf="prepacks.length > 0">
+                    <div class="row">
+                        <div class="col-10">
+                            <div class="titleTypoEdit" style="margin-bottom: 20px">
+                                My Selection
+                            </div>
+                            <div class="w-100">
+                                <div style="margin-bottom:10px"
+                                     *ngFor="let prepack of prepacks; let i = index">
+                                    <div style="width:50%; display: inline-block">
+                                        <b> {{prepack.name}} </b>
+                                    </div>
+                                    <div style="width:50%; display: inline-block">
+                                        <input type="text"
+                                               class="form-control"
+                                               placeholder="Prepack Quantity"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="col-3">
+                <div class="row">
+                    <div class="form-group">
+                        <button style="display:inline-block; float: right; width: 150px; margin-left:20px" (click)="addFullProduct()" class="btn btn-primary btn-block account saveButton">
+                            Save
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<footer></footer>
+<modal id="custom-modal-2">
+    <div class="modal">
+        <div class="modal-body">            
+            <button (click)="closeModal('custom-modal-2');"
+                    class="closeModal">
+                <i class="fa fa-close"></i>
+            </button>
+            <div class="content">
+                <div class="image">
+                    <img src="assets/images/sucess.png"
+                         alt="logo">
+                </div>
+                <div>
+                    Your product has been updated
+                </div>
+            </div>
+        </div>
+    </div>
+     <div class="modal-background"></div>
+</modal>
+<modal id="custom-modal-3">
+    <div class="modal">
+        <div class="modal-body">            
+            <button (click)="closeModal('custom-modal-2');"
+                    class="closeModal">
+                <i class="fa fa-close"></i>
+            </button>
+            <div class="content">
+                <div class="image">
+                    <img src="assets/images/sucess.png"
+                         alt="logo">
+                </div>
+                <div>
+                    Your concept has been updated
+                </div>
+            </div>
+        </div>
+    </div>
+     <div class="modal-background"></div>
+</modal>

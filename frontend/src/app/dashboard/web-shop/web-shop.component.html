@@ -1,0 +1,56 @@
+<header></header>
+<div class="container">
+  <h4 class="container_title">{{'TITLE_CREATE_WEBSHOP' | translate}}</h4>
+  <a [ngClass]="{ 'not_active' : !webSiteInfo.webshop_url}" class="container_preview" href="javascript:void(0);" (click)="onPreview()">{{'BTN_PREVIEW' | translate}}</a>
+  <p *ngIf="message" class="error">{{'ERR_SAVE_CHANGES_BEFORE_PREVIEW' | translate}}</p>
+  <form name="form"
+        class="form groupForm"
+        class="form"
+        (ngSubmit)="onSendShop()"
+        [formGroup]="form_group"
+        validate>
+  <app-input-text label="{{'LABEL_NAME' | translate}}" placeholder="{{'PLACEHOLDER_NAME' | translate}}" formControlName="webshop_name">
+  </app-input-text>
+    <div class="url">
+      <!--<p class="url_title">shoonic.com/</p>-->
+      <app-input-webshop-url label="{{'LABEL_SHORT_URL' | translate}}" formControlName="new_webshop_url" placeholder="myshop">
+
+    </app-input-webshop-url>
+    </div>
+    <app-input-text label="{{'LABEL_BANNER_URL' | translate}}" formControlName="url_attached_to_the_banner" placeholder="">
+
+    </app-input-text>
+    <div class="img_wrapper">
+    <app-one-image-upload isShop="true" formControlName="webshop_banner">
+
+    </app-one-image-upload>
+    </div>
+    <p class="description">{{'TEXT_STORE_WILL_DISPLAY_PUBLIC_PRODUCTS' | translate}}</p>
+    <div class="button_container">
+      <button type="button" (click)="onDeleteShop()" class="delete">{{'BTN_DELETE' | translate}}</button>
+      <button type="submit" class="save">{{'BTN_SAVE' | translate}}</button>
+    </div>
+  </form>
+</div>
+<footer></footer>
+<modal id="custom-modal-5">
+  <div class="modal">
+    <div class="modal-body">            
+      <button (click)="closeModal('custom-modal-5');"
+              class="closeModal">
+        <i class="fa fa-close"></i>
+      </button>
+      <div class="content">
+        <div class="image">
+          <img src="assets/images/sucess.png"
+               alt="logo">
+        </div>
+        <div>
+          {{'MODAL_SHOP_CREATED' | translate}}
+        </div>
+      </div>
+    </div>
+  </div>
+   
+  <div class="modal-background"></div>
+</modal>

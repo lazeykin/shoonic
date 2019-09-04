@@ -1,0 +1,113 @@
+﻿
+<app-register-header></app-register-header>
+<section class="registrationSteps">
+    <div id="crumbs">
+        <ul>
+            <li class="active"><span>{{'REG_STEP' | translate}} 1</span></li>
+            <li><span>{{'REG_STEP' | translate}} 2</span></li>
+            <li><span>{{'REG_STEP' | translate}} 3</span></li>
+        </ul>
+    </div>
+</section>
+<main role="main"
+      class="main pb-5">
+    <div class="container">
+        <!--<div class="pt-2">-->
+            <!--<alert></alert>-->
+        <!--</div>-->
+        <form name="form"
+              class="form registrationForm"
+              (ngSubmit)="register()"
+              [formGroup]="form_group"
+              validate>
+            <div>
+                <h2 class="subTitle">
+                    {{'TITLE_PERSONAL_INFO' | translate}}
+                </h2>
+
+                <div class="form-group">
+                    <app-input-text label="*{{'LABEL_NAME' | translate}}"
+                                    placeholder="{{'PLACEHOLDER_NAME' | translate}}"
+                                    formControlName="first_name">
+                    </app-input-text>
+                </div>
+                <div class="form-group">
+                    <app-input-text label="*{{'LABEL_LASTNAME' | translate}}"
+                                    placeholder="{{'PLACEHOLDER_LASTNAME' | translate}}"
+                                    formControlName="last_name">
+                    </app-input-text>
+                </div>
+                <div class="form-group">
+                    <app-input-email label="*{{'LABEL_EMAIL' | translate}}"
+                                     placeholder="{{'PLACEHOLDER_EMAIL' | translate}}"
+                                     formControlName="email">
+                    </app-input-email>
+                </div>
+                <div class="form-group">
+                    <app-input-text label="{{'LABEL_PHONE' | translate}}"
+                                        placeholder="{{'PLACEHOLDER_PHONE' | translate}}"
+                                        formControlName="phone_number" phone="true">
+                    </app-input-text>
+                </div>
+                <div class="form-group">
+                    <app-input-password label="*{{'LABEL_PASSWORD' | translate}}"
+                                        placeholder="{{'PLACEHOLDER_PASSWORD' | translate}}"
+                                        formControlName="password">
+                    </app-input-password>
+                </div>
+                <div class="form-group">
+                    <app-input-password label="*{{'LABEL_CONFIRM_PASSWORD' | translate}}"
+                                        placeholder="{{'PLACEHOLDER_CONFIRM_PASSWORD' | translate}}"
+                                        formControlName="password_confirm">
+                    </app-input-password>
+                </div>
+                <div class="form-group row">
+                    <div class="col">
+                        <p>
+                          {{'TEXT_AGREEMENT' | translate}}
+                            <a (click)="openModal('terms')">{{'BTN_TERMS' | translate}}</a> 
+                            {{'TEXT_AND' | translate}} <a (click)="openModal('privacy')">{{'BTN_PRIVACY' | translate}}</a>
+                        </p>
+                        <label class="custom-control fill-checkbox agree_label">
+                            <input type="checkbox"
+                                    class="fill-control-input"
+                                    formControlName="terms"
+                                    required/>
+                            <span class="fill-control-indicator" [ngClass]="{'error': form_group.controls.terms.touched && form_group.controls.terms.errors}"></span>
+                            <span class="fill-control-description agree_conditions">{{'BTN_AGREE' | translate}}</span>
+                        </label>
+                        <div *ngIf="form_group.controls.terms.touched && form_group.controls.terms.errors"
+                                class="terms-error">
+                            {{'ERR_AGREEMENT' | translate}}
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-lg btn-primary btn-block login"
+                        type="submit">
+                    {{'BTN_NEXT' | translate}}
+                    <img class="form_spinner" *ngIf="isLoading" src="./../../../assets/images/Spinner-form.svg" alt="">
+                </button>
+            </div>
+        </form>
+    </div>
+</main>
+<footer></footer>
+
+<modal id="terms-privacy">
+    <div class="modal">
+        <div class="modal-body">
+            <button (click)="closeModal();"
+                class="closeModal">
+                <span class="cart_modal_close_button">&times;</span>
+            </button>
+            <div *ngIf="isTermsOpened" class="text-wrapper">
+                    {{'MODAL_TERMS' | translate}}
+            </div>
+            <div *ngIf="!isTermsOpened" class="text-wrapper">
+                {{'MODAL_PRIVACY' | translate}}
+            </div>
+        </div>
+    </div>
+    <div class="modal-background"></div>
+</modal>
+

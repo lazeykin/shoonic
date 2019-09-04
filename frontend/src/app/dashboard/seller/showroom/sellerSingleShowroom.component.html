@@ -1,0 +1,222 @@
+<header></header>
+<div class="wrapper">
+<main role="main"
+      class="main pb-5 seller_wrapper">
+      <div class="container">
+            <div class="showroomPreview">
+                <div class="showroomPreviewInfo">
+                    <h1 class="showroomName">{{singleShowroom.name}}</h1>
+                    <p class="showroomDesc">{{singleShowroom.description}}</p>
+                    <span>{{'TEXT_SHARED_TO' | translate}}</span>
+                    <div class="contactGroupList">
+                        <div class="contactGroup" *ngFor="let contact_group of singleShowroom.shared_contact_groups">
+                            <span class="contactGroupName">
+                                {{contact_group.name}}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="showroomImg">
+                    <img *ngIf="singleShowroom?.photo && !singleShowroom?.photo.thumbnail_500 && !isLoading"
+                         src="{{singleShowroom.photo.url}}" alt=""/>
+                    <img *ngIf="singleShowroom?.photo && singleShowroom?.photo.thumbnail_500 && !isLoading"
+                         src="{{singleShowroom.photo.thumbnail_500}}" alt=""/>
+                </div>
+                <div class="controlButtons">
+                    <button 
+                        class="btn btn-edit"
+                        (click)="editShowroom(singleShowroom)">
+                        {{'BTN_EDIT_INFO' | translate}}
+                    </button>
+                    <button 
+                        class="btn btn-add-product"
+                        (click)="addProduct()">
+                        {{'BTN_ADD_NEW_PRODUCT' | translate}}
+                    </button>
+                    <button
+                            class="btn btn-add-product btn_from_catalog"
+                            (click)="addProductFromCatalog()">
+                        {{'BTN_ADD_FROM_CATALOG' | translate}}
+                    </button>
+                </div>
+            </div>
+            <hr/>
+            <section class="products">
+                    <app-full-page-spinner *ngIf="isLoading"></app-full-page-spinner>
+                    <div class="productList" *ngIf="singleShowroom.products && !isLoading">
+                        <div class="productInfo" *ngFor="let product of singleShowroom.products; let i = index">
+                                <div class="menu_icon">
+                                    <img src="../../../assets/images/small-menu.svg" alt=""
+                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <ul class="seller_product_menu dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <div class="triangle"></div>
+                                    <li class="edit">
+                                        <a href="javascript:void(0);"
+                                            (click)="productEditOne(product.id)">
+                                               {{'BTN_EDIT' | translate}}
+                                        </a>
+                                    </li>
+                                    <li class="delete">
+                                        <a href="javascript:void(0);"
+                                            (click)="productArchive(product.id); hideme[i] = !hideme[i]">
+                                            {{'BTN_ARCHIVE' | translate}}
+                                        </a>
+                                    </li>
+                                    <li class="add_catalog">
+                                        <a href="javascript:void(0);"
+                                        (click)="addToCatalog(product.id); hideme[i] = !hideme[i]">
+                                            {{'BTN_PUBLIC_CATALOG' | translate}}
+                                        </a>
+                                    </li>
+                                    <li class="add_catalog">
+                                        <a href="javascript:void(0);"
+                                        (click)="openModal('custom-modal-4', product); hideme[i] = !hideme[i]">
+                                            {{'BTN_ANOTHER_SHOWROOM' | translate}}
+                                        </a>
+                                    </li>
+                                    <li class="copy_showroom"
+                                        *ngIf="!product.has_discount && !product.is_hidden || 
+                                        (product.discount_end_date && !product.is_hidden && !checkDiscountDate(product.discount_end_date))">
+                                        <a href="javascript:void(0);"
+                                            (click)="productMakePromo(product.id); hideme[i] = !hideme[i]">
+                                            {{'BTN_PROMO' | translate}}
+                                        </a>
+                                    </li>
+                                    <li class="copy_showroom"
+                                        *ngIf="product.discount_end_date && checkDiscountDate(product.discount_end_date)">
+                                        <a href="javascript:void(0);"
+                                            (click)="removeFromPromo(product.id); hideme[i] = !hideme[i]">
+                                            {{'BTN_REMOVE_PROMO' | translate}}
+                                        </a>
+                                    </li>
+                                    <li class="move_showroom">
+                                        <a href="javascript:void(0);"
+                                            (click)="onMakeBlank(product.id); hideme[i] = !hideme[i]">
+                                            {{'BTN_DRAFT' | translate}}
+                                        </a>
+                                    </li>
+                                </ul>
+                                </div>
+                            <div class="discount-label"
+                                *ngIf="product.has_discount && checkDiscountDate(product.discount_end_date)">
+                               {{ (100-100*product.discount_price/product.price > 1)?
+                               (-(100-100*product.discount_price/product.price | number : '1.0-0')) :  ('<1')
+                               }}%
+                           </div>
+                            <div class="productImage">
+                                <a href="javascript:void(0);">
+                                    <img *ngIf="!product.default_image.thumbnail_200" src="{{product.default_image.url}}">
+                                    <img *ngIf="product.default_image.thumbnail_200" src="{{product.default_image.thumbnail_200}}">
+                                </a>
+                            </div>
+                            <hr/>
+                            <div class="productDesc">
+                                    <div class="productPrice discount" *ngIf="product.has_discount &&
+                                    checkDiscountDate(product.discount_end_date)">
+                                        <p class="discount-price">{{product.discount_price | number:'0.2'}} {{product.currency}}</p>
+                                        <div *ngIf="product.price">
+                                            <div class="strikethrough">
+                                                {{product.price | number:'0.2'}} {{product.currency}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="productPrice"
+                                        *ngIf="product.price && !product.discount_price || !checkDiscountDate(product.discount_end_date)">
+                                        {{product.price | number:'0.2'}} {{product.currency}}
+                                    </div>
+                                    <p class="productShortDesc">{{product.title}}</p>
+                                    <p class="productShortSize">{{product.min_size_eu}} - {{product.max_size_eu}}</p>
+                                    <div class="productRef">
+                                        Ref. {{product.ref_number}}
+                                    </div>
+                                    <div class="customerRef">
+                                        CRef. {{product.customer_ref_number ? product.customer_ref_number : '-'}}
+                                    </div>
+                            </div>
+                        </div> 
+                    </div>
+            </section>
+</div>
+<footer></footer>
+
+<modal id="promo">
+        <div class="modal">
+            <div class="modal-body showroom-modal promo_modal">            
+                <button (click)="closeModal('promo');"
+                        class="closeModal">
+                    <img src="../../../assets/images/close_btn.svg" alt="">
+                </button>
+                <div class="content">
+                    <h1 class="modal_promo_title">{{'MODAL_ADD_PROMO' | translate}}</h1>
+                    <form [formGroup]="form_group">
+                        <div class="row price_container">
+                            <div class="form-group discount_price">
+                                <app-input-number label="{{'SET_DSC' | translate}}" placeholder="Tap new price here" step="0.01"
+                                                  min="0" formControlName="discount_price" class="modal_discount">
+    
+                                </app-input-number>
+                            </div>
+                            <div class="form-group discount_date">
+                                <app-data-picker
+                                        label="{{'SET_DSC_DATE' | translate}}"
+                                        formControlName="discount_end_date">
+                                </app-data-picker>
+                            </div>
+                        </div>
+                        <div class="showroom-modal-control">
+                            <button
+                                    class="btn cancel"
+                                    (click)="closeModal('promo')">
+                                {{'BTN_CANCEL' | translate}}
+                            </button>
+                            <button 
+                                    class="btn add"
+                                    type="submit"
+                                    (click)="addPromotion()">
+                                {{'BTN_SAVE' | translate}}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+         
+        <div class="modal-background"></div>
+    </modal>
+    <modal id="custom-modal-4">
+            <div class="modal">
+                <div class="modal-body showroom-modal">            
+                    <button (click)="closeModal('custom-modal-4');"
+                            class="closeModal">
+                        <i class="fa fa-close"></i>
+                    </button>
+                    <div class="content">
+                        <h1>{{'MODAL_ADD_SHOWROOM' | translate}}</h1>
+                        <form [formGroup]="form_group">
+                            <div class="select">
+                                <app-select
+                                        label="{{'LABEL_SELECT_SHOWROOM' | translate}}"
+                                        formControlName="showroom"
+                                        [listArray]="showrooms">
+                                </app-select>
+                            </div>
+                            <div class="showroom-modal-control">
+                                <button
+                                        class="btn cancel"
+                                        (click)="closeModal('custom-modal-4')">
+                                    {{'BTN_CANCEL' | translate}}
+                                </button>
+                                <button
+                                        class="btn add"
+                                        type="submit"
+                                        (click)="addToShowroom()">
+                                    {{'BTN_ADD' | translate}}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+             
+            <div class="modal-background"></div>
+        </modal>

@@ -1,0 +1,25 @@
+﻿export * from './buyer/buyer.component';
+export * from './buyer/buyerCart.component';
+export * from './buyer/buyerMakeOrder.component';
+export * from './buyer/buyerAccount.component';
+export * from './buyer/buyerAccountCompany.component';
+export * from './buyer/buyerAccountPassword.component';
+export * from './buyer/buyerSingleProduct.component';
+export * from './buyer/buyerSearch.component';
+export * from './seller/seller.component';
+// export * from './seller/sellerBrands.component';
+export * from './seller/sellerDrafts.component';
+export * from './seller/sellerArchive.component';
+export * from './seller/sellerPrepacks.component';
+export * from './seller/sellerAccount.component';
+// export * from './seller/sellerAccountSI.component';
+export * from './seller/sellerAccountCompany.component';
+export * from './seller/sellerAccountPassword.component';
+export * from './seller/sellerSingleProduct.component';
+export * from './seller/sellerPreviewProduct.component';
+export * from './seller/sellerPreviewEditProduct.component';
+export * from './seller/sellerEdit.component';
+export * from './seller/sellerProductAdd.component';
+export * from './seller/sellerSearch.component';
+export * from './seller/searchVisitor.component';
+

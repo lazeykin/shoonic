@@ -1,0 +1,129 @@
+.visitor_wrapper {
+    position: relative;
+}
+
+.pagi_navi {
+    position: absolute;
+    right: 68px;
+    bottom: -90px;
+}
+.spinner {
+    width: 100%;
+    text-align: center;
+}
+
+.searchResultTitle {
+    position: absolute;
+    top: -70px;
+    margin-left: 27px;
+    /* left: 117px; */
+}
+
+#dropdownMenuButton {
+    display: flex;
+}
+.headerRight {
+    text-align: right;
+    /*padding-top: 20px;*/
+    position: relative;
+    display: flex;
+}
+.headerRight .avatarLink, .headerRight .userLink {
+    padding-bottom: 0;
+    display: inline;
+}
+
+.headerRight .ordersLink,
+.headerRight .mesLink,
+.headerRight .bookmarkLink,
+.headerRight .cartLink,
+.headerRight .avatarLink {
+    padding-top: 22px;
+}
+
+.headerRight .cartLink {
+    position: relative;
+    top: -10px;
+}
+
+.cartLink:hover {
+    border-bottom: none !important;
+}
+.topSearch input[type=search] {
+    height: 36px;
+}
+
+.topSearch .btn {
+    height: 36px;
+}
+
+.discount-label {
+    background-color: #eb6774;
+    padding: 0 10px;
+    height: 26px;
+    width: 57px;
+    box-sizing: border-box;
+    font-size: 12px;
+    font-weight: 600;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #ffffff;
+    line-height: 26px;
+    position: absolute;
+    left: 0;
+    top: 38px;
+    cursor: default;
+}
+
+.discount-price {
+    color: #eb6774;
+}
+.productPrice {
+    margin-bottom: 9px !important;
+}
+
+.productPrice.discount {
+    margin-bottom: 1px !important;
+}
+.productPrice .discount-price {
+    display: inline-block;
+    margin-right: 3px;
+}
+
+.productPrice div {
+    display: inline-block;
+}
+
+.productPrice div .strikethrough {
+    font-size: 12px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.67;
+    letter-spacing: 1px;
+}
+.discount-end {
+    font-size: 12px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    letter-spacing: normal;
+    color: #232323;
+    margin-bottom: 3px;
+}
+.catalog .bestProduct {
+    min-width: 188px;
+    width: 188px;
+    height: 290px;
+    margin: 0 16px 14px 0;
+}
+.catalog .bestProduct .productShortSize {
+    bottom: -2px;
+}
+.catalog .bestProduct .productButton {
+    width: 90%;
+}

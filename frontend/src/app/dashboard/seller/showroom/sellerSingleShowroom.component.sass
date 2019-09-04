@@ -1,0 +1,620 @@
+
+.seller_wrapper  
+    padding-bottom: 80px 
+ 
+.container  
+    width: 1260px 
+    width: 100%
+    padding: 0 
+ 
+.products  
+    position: relative 
+    width: 100% 
+    margin: 0 auto 
+ 
+.productList  
+    display: flex 
+    flex-wrap: wrap 
+    flex-direction: row 
+    align-content: space-between 
+    margin-bottom: 22px 
+    width: 100% 
+    min-height: 500px 
+ 
+.productImage  
+    border-radius: 2px 
+    height: 206px 
+    width: 185px 
+    position: relative 
+    margin: 0 auto 
+    //padding-top: 22px
+    padding: 20px 0 
+    overflow: hidden 
+    img  
+        height: 100%
+        width: 100%
+        object-fit: contain
+        display: block 
+        margin: 0 auto 
+
+.productInfo 
+    .productDesc  
+        padding: 10px 
+    .productShortDesc  
+        font-weight: normal 
+        font-style: normal 
+        font-stretch: normal 
+        line-height: 1.33 
+        letter-spacing: normal 
+        color: #4a4a4a 
+        overflow: hidden 
+        word-break: normal
+        width: 100% 
+        text-overflow: ellipsis
+        white-space: nowrap
+        font-size: 12px
+        height: 30px
+
+    .productPrice  
+        font-style: normal 
+        font-stretch: normal 
+        line-height: 1.11 
+        letter-spacing: 1.5px 
+        color: #50e3c2 
+        margin-bottom: 10px 
+        font-size: 18px
+        font-weight: 600 
+        height: 19px !important
+    .productPrice, .productShortDesc, .productShortSize  
+        margin-bottom: 6px !important
+    .productRef 
+        font-size: 10px
+        font-weight: normal
+        font-style: normal
+        font-stretch: normal
+        line-height: normal
+        letter-spacing: normal
+        color: #4a4a4a
+    .productShortSize 
+        font-size: 12px
+        font-weight: 600
+        color: #4a4a4a
+        position: absolute
+        bottom: 16px
+ 
+.showroomName  
+    font-size: 18px 
+    font-weight: 600 
+    font-style: normal 
+    font-stretch: normal 
+    line-height: 1.11 
+    letter-spacing: 1.5px 
+    color: #33333a 
+    margin-bottom: 4px 
+
+hr  
+    margin: 32px 0 
+ 
+.wrapper  
+    width: 100% 
+    height: 100% 
+    background-color: #ffffff 
+ 
+.contactGroupList  
+    display: flex  
+    width: 100% 
+    flex-wrap: wrap 
+ 
+.contactGroup  
+    //margin-bottom: 30px 
+    margin-right: 30px 
+    .contactImg  
+        height: 34px 
+        width: 34px 
+        border-radius: 100% 
+
+.showroomPreview  
+    display: flex 
+    flex-direction: row 
+    flex-wrap: wrap 
+    align-content: space-between 
+    padding-top: 37px 
+ 
+.productInfo  
+    width: 188px 
+    height: 325px 
+    border-radius: 2px 
+    box-shadow: 0 2px 6px 0 rgba(184, 191, 211, 0.5) 
+    background-color: #ffffff 
+    margin-bottom: 22px 
+    margin-right: 22px 
+    position: relative 
+    &:nth-child(5n)  
+        //margin-right: 0 
+ 
+.productInfo hr  
+    margin: 0 
+
+.showroomPreviewInfo  
+    flex: 1 
+    margin-right: 50px 
+    max-width: 580px
+    white-space: normal
+    span  
+        font-size: 16px 
+        font-weight: 600 
+        font-style: normal 
+        font-stretch: normal 
+        line-height: normal 
+        letter-spacing: 2.7px 
+        text-align: justify 
+        color: #33333a 
+    .contactGroup 
+        display: inline-block
+        max-width: 500px
+        overflow: hidden 
+        text-overflow: ellipsis
+        white-space: nowrap
+        .contactGroupName  
+            font-size: 14px 
+    .showroomDesc  
+        padding: 0 
+        font-size: 12px 
+        font-weight: normal 
+        font-style: normal 
+        font-stretch: normal 
+        line-height: normal 
+        letter-spacing: 0px 
+        color: #505363 
+        margin: 20px 0 
+        word-wrap: break-word
+        white-space: pre-wrap
+h1
+    &.showroomName  
+        font-size: 24px 
+        font-weight: 600 
+        font-style: normal 
+        font-stretch: normal 
+        line-height: normal 
+        letter-spacing: 4px 
+        text-align: justify 
+        color: #33333a 
+        margin-bottom: 20px 
+        text-overflow: ellipsis
+        max-width: 100%
+        overflow: hidden
+
+.showroomImg  
+    width: 490px 
+    flex: 1 
+    height: 285px 
+    overflow: hidden 
+    display: flex 
+    justify-content: flex-end
+    app-full-page-spinner 
+        margin-left: auto
+        margin-right: 150px
+        margin-top: 50px
+    img  
+        width: 100% 
+        //height: 100%
+        align-self: center
+        object-fit: contain
+
+.controlButtons  
+    flex-basis: 100% 
+    .btn  
+        margin-right: 23px 
+        width: auto
+        height: 37px 
+        border-radius: 2px 
+        font-size: 12px 
+        font-style: normal 
+        font-stretch: normal 
+        line-height: normal 
+        letter-spacing: 2px 
+        text-align: center 
+        color: #ffffff 
+        text-transform: uppercase 
+        transition: all .2s ease 
+        background-color: #4099d5
+        font-weight: 600
+        &:hover  
+            cursor: pointer 
+            background-color: #277db6 !important 
+ 
+.menu_icon  
+    width: 40px 
+    height: 20px 
+    cursor: pointer 
+    position: absolute 
+    top: 0px 
+    left: 10px 
+    z-index: 5 
+    img  
+        width: auto 
+        height: 100% 
+ 
+.seller_product_menu  
+    width: 203px 
+    box-shadow: 0 0 6px 0 rgba(184, 191, 211, 0.5) 
+    background-color: #ffffff 
+    border-radius: 3px 
+    position: absolute 
+    left: -27px !important
+    top: 25px 
+    padding: 20px 20px 20px 20px 
+    list-style: none 
+    text-transform: uppercase 
+    z-index: 5
+    box-sizing: content-box
+    li 
+        a 
+            font-size: 12px
+            font-weight: 600
+            font-style: normal
+            font-stretch: normal
+            line-height: normal
+            letter-spacing: 2px
+            text-align: justify
+            color: #33333a
+ 
+.edit:before  
+    //content: url("../../../../assets/images/1187791.svg") 
+    width: 10px 
+    height: 10px 
+ 
+
+.archive:before  
+    content: url("../../../../assets/images/2631221.svg") 
+    width: 10px 
+    height: 10px 
+ 
+.showroom:before  
+    content: url("../../../../assets/images/add1.svg") 
+    width: 10px 
+    height: 10px 
+ 
+.edit, .archive, .add_to_top, .showroom, .delete, .add_catalog
+    a
+        color: #000 
+        &:hover 
+            color: #4099d5 
+            fill: #4099d5 
+
+.triangle  
+    position: absolute 
+    top: -7px 
+    left: 30px 
+    width: 12px 
+    height: 12px 
+    background-color: #fff 
+    transform: rotate(45grad) 
+    border-left: 1px solid rgba(184, 191, 211, 0.5) 
+    border-top: 1px solid rgba(184, 191, 211, 0.5) 
+
+@media screen and (max-width: 1250px)
+    .productList
+        width: 90% !important
+        margin: 0 auto
+    .productInfo
+        margin-right: 22px !important
+        &:nth-child(4n)
+            margin-right: 0
+
+.price_container 
+    font-size: 18px
+    /*font-weight: normal */
+    /*font-style: normal */
+    /*font-stretch: normal */
+    /*letter-spacing: 0.7px */
+    color: #515356
+    margin-left: 0
+    display: flex
+    flex-direction: row
+    width: 100%
+    justify-content: space-between
+
+.promo_modal  
+    width: 526px !important 
+    height: 348px !important 
+ 
+
+.promo_modal .modal-body  
+    padding: 35px 55px 
+ 
+.modal .promo_modal .modal_promo_title  
+    text-align: left !important 
+    font-size: 24px 
+    font-weight: 600 
+    font-style: normal 
+    font-stretch: normal 
+    line-height: normal 
+    letter-spacing: 2.4px 
+    color: #33333a 
+    margin-bottom: 42px 
+ 
+.discount_price  
+    min-width: 178px 
+    margin-right: 20px 
+ 
+.discount_date  
+    min-width: 178px 
+
+.showroom-modal .showroom-modal-control  
+    display: flex 
+    justify-content: flex-end 
+    margin-top: 30px 
+    width: 100% 
+ 
+.showroom-modal .showroom-modal-control .btn  
+    width: 33% 
+    height: 35px 
+    color: white 
+    font-size: 14px 
+    text-transform: uppercase 
+    letter-spacing: 1.3px 
+    line-height: normal 
+ 
+
+.showroom-modal .showroom-modal-control .cancel  
+    background-color: #CE1D24 
+    margin-right: 30px 
+ 
+
+.showroom-modal .showroom-modal-control .add  
+    background-color: #449AD2 
+ 
+.modal .promo_modal .showroom-modal-control  
+    margin-top: 50px 
+    padding-right: 7px 
+ 
+.modal .promo_modal .showroom-modal-control .add  
+    width: 129px 
+    height: 31px 
+    border-radius: 2px 
+    background-color: #3f99d4 
+    font-weight: 600 
+    font-style: normal 
+    font-stretch: normal 
+    letter-spacing: 2px 
+    text-align: center 
+    font-size: 12px 
+    color: #ffffff 
+ 
+.modal .promo_modal .showroom-modal-control .cancel  
+    width: 129px 
+    height: 31px 
+    border-radius: 2px 
+    border: solid 1px #d0021b 
+    font-size: 12px 
+    font-weight: 600 
+    font-style: normal 
+    font-stretch: normal 
+    letter-spacing: 2px 
+    text-align: center 
+    color: #d0021b 
+    background-color: #fff 
+ 
+.remove_discount  
+    width: 179px 
+    height: 40px 
+    border-radius: 2px 
+    border: solid 1px #eb6774 
+    font-size: 12px 
+    font-weight: 600 
+    font-style: normal 
+    font-stretch: normal 
+    letter-spacing: 2px 
+    text-align: center 
+    color: #eb6774 
+    line-height: 40px 
+    text-transform: uppercase 
+    cursor: pointer 
+    margin-right: 25px 
+ 
+
+.discount-label 
+    background-color: #eb6774 
+    padding: 0 10px 
+    height: 26px 
+    width: 57px 
+    box-sizing: border-box 
+    font-size: 12px 
+    font-weight: 600 
+    font-style: normal 
+    font-stretch: normal 
+    line-height: normal 
+    letter-spacing: normal 
+    text-align: center 
+    color: #ffffff 
+    line-height: 26px 
+    position: absolute 
+    left: 0 
+    top: 68px 
+    cursor: default 
+    z-index: 3
+
+.productPrice.discount  
+    margin-bottom: 1px !important 
+ 
+.productPrice .discount-price  
+    display: inline-block 
+    margin-right: 3px 
+ 
+
+.productPrice div  
+    display: inline-block 
+ 
+
+.productPrice div .strikethrough  
+    font-size: 12px 
+    font-weight: normal 
+    font-style: normal 
+    font-stretch: normal 
+    line-height: 1.67 
+    letter-spacing: 1px 
+ 
+.discount-price 
+    color: #eb6774
+
+.showroom-modal h1  
+    font-size: 24px 
+    font-weight: 600 
+    line-height: normal 
+    letter-spacing: normal 
+    margin-bottom: 30px 
+    letter-spacing: 1.4px 
+ 
+
+.showroom-modal .select label  
+    font-size: 18px 
+    font-weight: 500px 
+    line-height: normal 
+    letter-spacing: normal 
+    margin-bottom: 10px 
+    text-align: left 
+    float: left 
+ 
+
+.showroom-modal .select select  
+    padding: 10px 
+    width: 100% 
+    font-size: 12px 
+    height: 40px 
+    color: #000000 
+ 
+.showroom-modal .select select:hover  
+    cursor: pointer 
+ 
+.showroom-modal .select select:focus,
+.showroom-modal .select select:active  
+    outline: none 
+ 
+.showroom-modal .select option  
+    height: 40px 
+    color: #000000 
+    font-size: 12px 
+ 
+.showroom-modal .showroom-modal-control  
+    display: flex 
+    justify-content: flex-end 
+    margin-top: 30px 
+    width: 100% 
+ 
+.showroom-modal .showroom-modal-control .btn  
+    width: 33% 
+    height: 35px 
+    color: white 
+    font-size: 14px 
+    text-transform: uppercase 
+    letter-spacing: 1.3px 
+    line-height: normal 
+ 
+
+.showroom-modal .showroom-modal-control .cancel  
+    background-color: #CE1D24 
+    margin-right: 30px 
+ 
+
+.showroom-modal .showroom-modal-control .add  
+    background-color: #449AD2 
+ 
+
+.showroom-modal .showroom-modal-control .btn:active,
+.showroom-modal .showroom-modal-control .btn:focus  
+    outline: none 
+ 
+
+.showroom-modal .showroom-modal-control .btn:hover  
+    cursor: pointer 
+ 
+
+modal .modal .modal-body.showroom-modal .content  
+    text-align: left 
+ 
+
+.modal .showroom-modal h1  
+    text-align: center !important 
+ 
+
+@media (min-width: 1920px)  
+    .container  
+        max-width: 1535px 
+    .productInfo 
+        //width: 15.2%
+     
+ 
+
+@media (min-width: 2048px)  
+    .container  
+        max-width: 1779px 
+     
+
+    .container.top  
+        padding-right: 30px 
+    .productInfo 
+        //width: 13%
+        margin-right: 22px
+     
+ 
+
+@media (min-width: 2560px)  
+    .container  
+        max-width: 2300px 
+     
+    .catalog .bestProduct .productInfo .productRef  
+        margin-top: 6px 
+     
+    .container.top  
+        padding-right: 140px 
+    .productInfo 
+        //width: 10%
+        margin-right: 22px 
+     
+ 
+
+@media (min-width: 3200px)  
+    .container  
+        max-width: 2500px 
+     
+
+ 
+@media (min-width: 4096px)  
+    .container  
+        max-width: 2937px 
+     
+    .catalog .bestProduct .productButton  
+        max-width: 270px 
+     
+ 
+.customerRef  
+    font-size: 10px 
+    font-weight: 300 
+    font-style: italic 
+    font-stretch: normal 
+    line-height: normal 
+    letter-spacing: normal 
+    color: #33333a 
+    bottom: 6px 
+    position: absolute 
+    overflow: hidden 
+    text-overflow: ellipsis 
+    white-space: nowrap 
+    width: 90%
+ 
+.productRef 
+    bottom: 42px
+    position: absolute
+.controlButtons .btn_from_catalog
+    width: auto
+    background-color: #ffffff
+    color: #4099d5
+    border: 1px solid #4099d5
+    border-radius: 2px
+
+.controlButtons .btn_from_catalog:hover
+    color: #fff
+
+
+

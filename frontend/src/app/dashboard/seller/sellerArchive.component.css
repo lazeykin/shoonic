@@ -1,0 +1,584 @@
+.seller_wrapper {
+    position: relative;
+}
+
+.pagi_navi {
+    position: absolute;
+    right: 15px;
+    bottom: -90px;
+}
+.spinner {
+    width: 100%;
+    text-align: center;
+}
+.bestProduct {
+    min-width: 188px;
+    width: 188px;
+    /* height: 295px; */
+    height: 317px;
+    margin: 0 16px 14px 0;
+}
+.catalog .bestProduct .productInfoArchive .productImage {
+   /* width: 128px;
+   height: 126.3px; */
+   width: 145px;
+   height: 140px;
+   display: flex;
+   justify-content: center;
+   align-content: center;
+   overflow: hidden;
+   margin: 0 auto;
+   border-radius: 2px;
+   margin-bottom: 7px;
+   margin-top: 25px;
+}
+
+.catalog .bestProduct .productInfoArchive .productImage img {
+    object-fit: contain;
+    margin-bottom: 0;
+    padding: 0;
+    padding-top: 5px;
+}
+
+.catalog .bestProduct .productDesc::before {
+    content: none;
+}
+.catalog .bestProduct .productDesc {
+    /* padding: 10px 10px 20px 10px; */
+}
+
+.catalog .bestProduct .productInfoArchive {
+    box-shadow: 0 2px 6px 0 rgba(184, 191, 211, 0.5);
+    border-bottom: 0;
+    position: relative;
+    background: #fff;
+    padding: 0 10px;
+    width: 100%;
+    height: 100%;
+    border-radius: 2px;
+}
+.catalog .bestProduct .productButton {
+    bottom: 15px;
+}
+
+.catalog .bestProduct .productInfoArchive .productRef {
+    color: #4a4a4a;
+    font-size: 10px;
+    position: relative;
+    top: 7px;
+    left: 15px;
+    margin-bottom: 4px;
+    position: absolute;
+    top: 20px;
+}
+
+.bestProduct .productInfoArchive .productBookmark {
+    position: absolute;
+    top: 5px;
+    right: 0;
+    width: 20px;
+    height: 20px;
+    /*border-radius: 50%;*/
+    /*border: 1px solid #b8bfd3;*/
+}
+.bestProduct .productPrice {
+    font-size: 18px;
+    font-weight: 600;
+    font-style: normal;
+    font-stretch: normal;
+    color: #4099d5;
+    margin-bottom: 0px;
+    word-break: break-word;
+    line-height: 1.11;
+    letter-spacing: 0.5px;
+}
+
+.bestProduct .productPrice > p {
+    margin-bottom: 4px;
+}
+.bestProduct .productShortDesc {
+    font-size: 12px;
+    font-weight: 600;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.56;
+    letter-spacing: normal;
+    color: #4a4a4a;
+    margin-bottom: 0;
+    word-break: break-word;
+}
+
+.bestProduct .productInfoArchive .productShortSize {
+    font-size: 12px;
+    font-weight: 600;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #4a4a4a;
+    bottom: 24px;
+    position: absolute;
+}
+.bestProduct .productSize {
+    font-size: 12px;
+    font-weight: 600;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #4a4a4a;
+}
+
+.bestProduct .productBookmart {
+    margin-right: 5px;
+}
+.border_bottom {
+    display: block;
+    width: 100%;
+    margin-top: 7px;
+    opacity: 0.5;
+    border-top: solid 1px #edeff4;
+}
+
+.bestProduct .control-buttons {
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    width: 100%;
+    padding: 0 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.bestProduct .control-buttons .btn {
+    height: 30px;
+    border-radius: 2px;
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: 600;
+    font-style: normal;
+    font-stretch: normal;
+    letter-spacing: 2px;
+    text-align: center;
+    margin: 0;
+    cursor: pointer;
+    padding: 0;
+    line-height: 30px;
+    outline: none;
+}
+
+.bestProduct .control-buttons .btn.restore {
+    background-color: #4099d5;
+    color: #fff;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    padding: 0 5px;
+}
+
+.bestProduct .control-buttons .btn.restore:hover {
+    background-color: #277db6;
+}
+
+.bestProduct .control-buttons .btn.delete {
+    background-color: #fff;
+    border: solid 1px #d0021b;
+    color: #d0021b;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.bestProduct .control-buttons .btn.delete:hover {
+    background-color: rgba(208, 2, 27, 0.1);
+}
+.main {
+    padding-bottom: 0 !important;
+}
+
+.container.main {
+    min-height: 140vh;
+}
+.pagi_navi {
+    bottom: 80px;
+}
+app-filters {
+    margin-bottom: 40px;
+    max-width: 260px;
+}
+
+app-pagination.pagi_navi {
+    position: relative;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-right: 20px;
+}
+.menu_icon {
+    width: 40px;
+    height: 20px;
+    cursor: pointer;
+    position: relative;
+    top: 10px;
+    left: 5px;
+    position: absolute;
+    top: 5px;
+}
+.seller_product_menu {
+    /*width: 157px;*/
+    /*height: 125px;*/
+    box-shadow: 0 0 6px 0 rgba(184, 191, 211, 0.5);
+    background-color: #ffffff;
+    border-radius: 3px;
+    position: absolute;
+    left: -16px !important;
+    top: 33px;
+    padding: 20px 20px 20px 20px;
+    list-style: none;
+    text-transform: uppercase;
+    box-sizing: content-box;
+    min-width: 170px;
+    box-sizing: border-box;
+}
+
+.triangle {
+    position: absolute;
+    top: -7px;
+    left: 30px;
+    width: 12px;
+    height: 12px;
+    background-color: #fff;
+    transform: rotate(45grad);
+    border-left: 1px solid rgba(184, 191, 211, 0.5);
+    border-top: 1px solid rgba(184, 191, 211, 0.5);
+}
+.bestProduct .archive:before {
+    /* content: url("../../../assets/images/2631221.svg"); */
+    width: 14.4px;
+    height: 11px;
+}
+.bestProduct .showroom:before {
+    /* content: url("../../../assets/images/add1.svg"); */
+    width: 15px;
+    height: 14px;
+}
+.bestProduct .edit a, .archive a, .add_to_top a, .showroom a {
+    font-size: 12px;
+    font-weight: 600;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: 2px;
+    text-align: justify;
+    color: #33333a;
+}
+.bestProduct .edit a:hover, .archive a:hover, .add_to_top a:hover, .showroom a:hover {
+    color: #4099d5;
+    fill: #4099d5;
+}
+
+.total {
+    width: 100%; 
+    box-shadow: 0 -2px 4px 0 rgba(184, 191, 211, 0.5);
+    padding: 20px 0;
+    height: 80px;
+    background-color: #fff;
+    position: sticky;
+    z-index: 10;
+    bottom: 0;
+}
+
+.total .container {
+    display: flex;
+    flex-direction: row; 
+    justify-content: space-between;
+    align-content: center;
+    height: 100%;
+}
+.total span {
+    font-size: 18px;
+    font-weight: 600; 
+    font-style: normal; 
+    font-stretch: normal; 
+    line-height: normal; 
+    letter-spacing: 1.8px; 
+    color: #515356; 
+    text-transform: uppercase;
+    align-self: center;
+}
+
+.total .control-buttons {
+    bottom: 0;
+    height: 100%;
+}
+.total .control-buttons button {
+    height: 40px;
+    border: 1px solid #4099d5;
+    border-radius: 2px;
+    color: #4099d5;
+    line-height: 1.67;
+    letter-spacing: 2px; 
+    font-weight: 600;
+    text-transform: uppercase;
+    background-color: #fff;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: 2px;
+    transition: .2s all ease;
+}
+
+.total .control-buttons button:disabled {
+    background-color: #edeff4 !important;
+    color: #fff !important;
+    border: none !important;
+}
+.total .control-buttons button:focus {
+    outline: none;
+}
+.total .control-buttons button:disabled:hover {
+    cursor: auto !important;
+    background-color: #edeff4 !important;
+}
+.total .control-buttons button.delete {
+    min-width: 106px;
+    margin-right: 24px;
+    border: solid 1px #d0021b;
+    color: #d0021b;
+}
+
+.total .control-buttons button.publish {
+    min-width: 170px;
+    background-color: #4099d5;
+    color: #fff;
+}
+
+.total .control-buttons button.showroom {
+    min-width: 189px;
+    border-radius: 2px;
+    border: solid 1px #4099d5;
+    color: #4099d5;
+    margin-right: 22px;
+}
+
+.total .control-buttons button.restore {
+    width: auto;
+    margin: 0;
+    width: 170px;
+    margin-right: 22px;
+}
+
+.total .control-buttons button.blank {
+    min-width: 170px;
+    margin-right: 22px;
+}
+
+.total .control-buttons button.showroom:hover,
+.total .control-buttons button.blank:hover,
+.total .control-buttons button.restore:hover {
+    background-color: #e6f2fa;
+}
+
+.total .control-buttons button.publish:hover {
+    background-color: #277db6;
+}
+
+#custom-modal-4 .closeModal {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    height: 20px;
+    width: 20px;
+    background-image: url('../../../assets/images/close.svg');
+    background-repeat: no-repeat;
+    background-size: contain;
+    opacity: 0.5;
+}
+
+.showroom-modal .showroom-modal-control {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 50px;
+    width: 100%;
+}
+.showroom-modal .showroom-modal-control .btn {
+    width: 33%;
+    height: 35px;
+    color: white;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1.3px;
+    line-height: normal;
+}
+
+.showroom-modal .showroom-modal-control .cancel {
+    background-color: #CE1D24;
+    margin-right: 30px;
+}
+
+.showroom-modal .showroom-modal-control .add {
+    background-color: #449AD2;
+}
+
+.showroom-modal .showroom-modal-control .btn:active,
+.showroom-modal .showroom-modal-control .btn:focus {
+    outline: none;
+}
+
+.showroom-modal .showroom-modal-control .btn:hover {
+    cursor: pointer;
+}
+
+modal .modal .modal-body.showroom-modal .content {
+    text-align: left;
+}
+
+.showroom-modal h1 {
+    font-size: 24px;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: normal;
+    margin-bottom: 30px;
+    letter-spacing: 1.4px;
+}
+
+.showroom-modal .select label {
+    font-size: 12px;
+    font-weight: 500px;
+    line-height: normal;
+    letter-spacing: normal;
+    margin-bottom: 10px;
+    text-align: left;
+    float: left;
+}
+
+.showroom-modal .select select {
+    padding: 10px;
+    width: 100%;
+    font-size: 12px;
+    height: 40px;
+    color: #000000;
+}
+.showroom-modal .select select:hover {
+    cursor: pointer;
+}
+.showroom-modal .select select:focus,
+.showroom-modal .select select:active {
+    outline: none;
+}
+.showroom-modal .select option {
+    height: 40px;
+    color: #000000;
+    font-size: 12px;
+}
+
+#custom-modal-4 .modal .modal-body {
+    font-size: 16px;
+}
+
+@media (min-width: 1920px) {
+    .container {
+        max-width: 1535px;
+    }
+
+    .seller_container > .container {
+        padding-right: 50px;
+    }
+
+    .bestProduct {
+        width: 15.4%;
+    }
+}
+
+@media (min-width: 2048px) {
+    .container {
+        max-width: 1779px;
+    }
+    .seller_container > .container {
+        /* padding-right: 85px; */
+    }
+    .bestProduct {
+        width: 13.2%;
+    }
+}
+
+@media (min-width: 2560px) {
+    .container {
+        max-width: 2300px;
+    }
+    .catalog .bestProduct .productInfo .productRef {
+        /* margin-top: 6px; */
+        bottom: 3px;
+    }
+    .seller_container > .container {
+        /* padding-right: 200px; */
+    }
+
+    .container.top {
+        padding-right: 70px;
+    }
+
+    .bestProduct .productDesc {
+        height: 96px;
+    }
+    .bestProduct {
+        width: 10%;
+    }
+    
+}
+
+@media (min-width: 3200px) {
+    .container {
+        max-width: 2500px;
+    }
+}
+@media (min-width: 4096px) {
+    .container {
+        max-width: 2937px;
+    }
+
+    .catalog .bestProduct .productButton {
+        max-width: 270px;
+    }
+}
+
+.customerRef {
+    font-size: 10px;
+    font-weight: 300;
+    font-style: italic;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #33333a;
+    bottom: 6px;
+    position: absolute;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+}
+
+.custom-control.fill-checkbox .fill-control-indicator {
+    border: 1px solid #b8bfd3 !important;
+    height: 20px;
+    width: 20px;
+}
+
+.custom-control.fill-checkbox .fill-control-input:checked ~ .fill-control-indicator {
+    border-color: #43b05c !important;
+}
+
+section.col-9 {
+    max-width: 100%;
+    flex: 1;
+}
+.ref_container {
+    display: flex;
+    position: absolute;
+    bottom: 6px;
+}

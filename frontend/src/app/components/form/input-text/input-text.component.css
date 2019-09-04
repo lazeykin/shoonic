@@ -1,0 +1,45 @@
+span {
+    display: block;
+}
+
+.date {
+    width: 150px !important;
+    padding: 2px 2px;
+}
+
+div > label > span {
+    margin-bottom: 9px;
+    line-height: normal;
+}
+
+.row {
+    margin-bottom: 20px;
+}
+
+input::placeholder {
+    color: #a6aebc;
+}
+
+.pad_left {
+    padding-left: 96px;
+}
+.small_label {
+    font-size: 12px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: 0.5px;
+    color: #515356;
+}
+.pos_relative {
+    position: relative;
+    margin: 0 !important;
+}
+.url_title {
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: 14px;
+    padding: 10.5px 0 8px 12px;
+}

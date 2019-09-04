@@ -1,0 +1,188 @@
+﻿<header></header>
+<div *ngIf="productEdit" class="container alert_pad">
+    <alert></alert>
+    <!-- <div class="row">
+        <div class="col">
+            <section class="dashboardNavBuyer">
+                <a class="previous catalogBack" (click)="backToCatalog()" href="javascript:void(0);"> &lt; Back to
+                    {{showroomId ? 'showroom' : 'catalog'}}</a>
+            </section>
+        </div>
+    </div> -->
+</div>
+<div *ngIf="productEdit" class="container">
+    <div class="row">
+        <div class="col">
+            <div class="titleTypoEdit">
+                {{'TITLE_EDIT_PRODUCT' | translate}}
+            </div>
+        </div>
+
+    </div>
+</div>
+<main role="main"
+      class="main pb-5">
+    <div class="container">
+        <form name="form"
+              class="form addProdcutForm"
+              (ngSubmit)="addProductStep()"
+              [formGroup]="form_group"
+              class="form w-100"
+              validate>
+            <div [ngClass]="productEdit ? 'show_step':'hide_step'">
+            <tabs class="editProduct">
+                <tab tabTitle="{{'MENU_ITEM_BASIC_INFO' | translate}}" #firstStep>
+                    <div class="row">
+                        <div class="col">
+                            <div class="titleTypo">
+                                {{'MENU_ITEM_BASIC_INFO' | translate}}
+                            </div>
+                        </div>
+                    </div>
+                    <form name="form"
+                          class="form addProdcutForm"
+                          validate>
+                        <app-add-edit-product-one [countries]="countries"
+                                                  [sales]="sales" [group]="form_group" edit="true">
+                        </app-add-edit-product-one>
+                    </form>
+                </tab>
+                <tab tabTitle="{{'MENU_ITEM_PRODUCT_INFO' | translate}}" #secondStep>
+                    <div class="row">
+                        <div class="col">
+                            <div class="titleTypo">
+                                {{'MENU_ITEM_PRODUCT_INFO' | translate}}
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <form name="form"
+                        validate>
+                    <app-add-edit-product-two [group]="form_group"
+                                              [genders]="genders"
+                                              [styles]="styles"
+                                              [colors]="colors"
+                                              [brands]="brands"
+                                              [product]="product"
+                                              [prepacks]="prepacks"
+                                              [currencies]="currencies"
+                                              [composition_inner]="composition_inner"
+                                              [composition_outer]="composition_outer">
+                    </app-add-edit-product-two>
+                        </form>
+                    </div>
+                </tab>
+                <tab tabTitle="{{'MENU_ITEM_OPTIONAL_INFO' | translate}}" #thirdStep>
+                    <app-add-edit-product-three [group]="form_group"
+                                                [packingType]="packingType">
+                    </app-add-edit-product-three>
+                </tab>
+            </tabs>
+            <div class="row pr-3 pl-3">
+                <div class="form-group w-100">
+                    <div *ngIf="displayErorQuantity"
+                                 style="color:red; font-size: 14px;">
+                    Please, choose one size at least
+                </div>
+                    <div *ngIf="displayErorDuplicatePrepacks"
+                         style="color:red; font-size: 14px;">
+                        Please, choose only unique prepacks and delete duplicates
+                    </div>
+                    <div *ngIf="displayErorDuplicateNamesPrepacks"
+                         style="color:red; font-size: 14px;">
+                        Please, choose only unique name for prepacks
+                    </div>
+                    <div *ngIf="emptyPrepack"
+                         class="form-control-feedback">
+                        <span style="color:red; font-size: 14px;">Please choose prepack, it can't be empty</span>
+                    </div>
+                    <div *ngIf="emptyCustomPrepack"
+                         class="form-control-feedback">
+                        <span style="color:red; font-size: 14px;">Please fill you custom prepack, it can't be empty</span>
+                    </div>
+                    <div class="edit_save">
+                    <button class="btn btn-lg btn-primary btn-block account saveButton "
+                            type="submit" [disabled]="form_group.disabled">
+                        {{'BTN_SAVE' | translate}}
+                        <img class="form_spinner" *ngIf="isLoading" src="./../../../assets/images/Spinner-form.svg"
+                             alt="">
+                    </button>
+                    <a class="previewButton"
+                       href="javascript:void(0);"
+                       (click)="previewProduct()">
+                        {{'BTN_PREVIEW' | translate}}
+                    </a>
+                    </div>
+                </div>
+            </div>
+            </div>
+            <div *ngIf="productPreview">
+                <app-seller-preview [product]="product"></app-seller-preview>
+                <div class="preview_button">
+                    <div class="row">
+                        <a *ngIf="draft" class="previewButton"
+                           href="javascript:void(0);"
+                           (click)="addDraft()"
+                           style="display:inline-block; width: 160px; height: 40px; margin-right: 24px;
+                               font-weight: 600; letter-spacing: 2px">
+                            {{'BTN_SAVE_DRAFT' | translate}}
+                            <img class="form_spinner" *ngIf="isLoading"
+                                 src="./../../../assets/images/Spinner-form.svg" alt="">
+                        </a>
+                        <div class="form-group">
+                            <button style="display:inline-block; float: right; width: 160px; margin-left:20px"
+                                    type="submit" class="btn btn-primary btn-block account saveButton">
+                                <img class="form_spinner" *ngIf="isLoading"
+                                     src="./../../../assets/images/Spinner-form.svg" alt="">
+                                {{draft ? ('BTN_PUBLISH' | translate) : ('BTN_SAVE' | translate)}}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</main>
+<footer></footer>
+<modal id="custom-modal-2">
+    <div class="modal">
+        <div class="modal-body">            
+            <button (click)="closeModal('custom-modal-2');"
+                    class="closeModal">
+                <i class="fa fa-close"></i>
+            </button>
+            <div class="content">
+                <div class="image">
+                    <img src="assets/images/sucess.png"
+                         alt="logo">
+                </div>
+                <div>
+                    {{'MODAL_PROD_UPDATED' | translate}}
+                </div>
+            </div>
+        </div>
+    </div>
+     
+    <div class="modal-background"></div>
+</modal>
+<modal id="custom-modal-3">
+    <div class="modal">
+        <div class="modal-body">            
+            <button (click)="closeModal('custom-modal-3');"
+                    class="closeModal">
+                <i class="fa fa-close"></i>
+            </button>
+            <div class="content">
+                <div class="image">
+                    <img src="assets/images/sucess.png"
+                         alt="logo">
+                </div>
+                <div>
+                    {{'MODAL_PRODUCT_SAVED_DRAFT' | translate}}
+                </div>
+            </div>
+        </div>
+    </div>
+     
+    <div class="modal-background"></div>
+</modal>

@@ -1,0 +1,34 @@
+<div class="row"
+     [ngClass]="{ 'has-danger':control.invalid && !control.pristine ||
+     controlContainer.control.hasError(('invalidDiscount')) && formControlName === 'discount_price' ||
+     controlContainer.control.hasError(('invalidMinPrice')) && formControlName === 'minimal_price' ||
+     controlContainer.control.hasError(('invalidRecomRetailPrice')) && formControlName === 'recommended_retail_price' ||
+     controlContainer.control.hasError(('invalidDiscountPrice')) && formControlName === 'discount_price'}">
+
+  <label
+          class="col col-form-label">
+    <span>{{label}}</span>
+    <input type="number"
+           class="form-control"
+           [ngClass]="class"
+           [(ngModel)]="inputText"
+           [placeholder]="placeholder"
+           [min]="min"
+           [max]="max"
+           [step]="step"
+           (input)="onInputChange()"
+           [disabled]="control.disabled"
+    />
+    <span *ngIf="control.invalid && !control.pristine">
+      <span *ngIf="control.hasError('required')">{{'ERR_REQUIRED' | translate}}</span>
+      <span *ngIf="control.hasError('maxlength')">{{'ERR_MAX' | translate}} - {{control.errors.maxlength.requiredLength}}</span>
+      <span *ngIf="control.hasError(('invalidZip'))">{{'ERR_ZIP' | translate}}</span>
+      <span  *ngIf="control.hasError(('notPositive'))">{{'ERR_POS' | translate}}</span>
+      <span *ngIf="control.errors.message">{{control.errors.message}}</span>
+    </span>
+    <span *ngIf="controlContainer.control.hasError(('invalidDiscount')) && formControlName === 'discount_price'">{{'ERR_DISCOUNT' | translate}}</span>
+    <span *ngIf="controlContainer.control.hasError(('invalidMinPrice')) && formControlName === 'minimal_price'">{{'ERR_MIN_PRICE' | translate}}</span>
+    <span *ngIf="controlContainer.control.hasError(('invalidRecomRetailPrice')) && formControlName === 'recommended_retail_price'">{{'ERR_RECOM_RET_PRICE' | translate}}</span>
+    <span *ngIf="controlContainer.control.hasError(('invalidDiscountPrice')) && formControlName === 'discount_price'">{{'ERR_PROMO_PRICE' | translate}}</span>
+  </label>
+</div>

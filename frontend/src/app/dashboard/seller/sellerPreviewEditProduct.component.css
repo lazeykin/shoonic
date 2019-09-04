@@ -1,0 +1,117 @@
+.size-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+span.size {
+    width:43px; 
+    height: 32px;  
+    vertical-align: middle;
+    border: solid 1px #eef0f2; 
+    background-color: #eef0f2;
+    border-right: none; 
+    outline:none; 
+    text-align: center;
+    font-size: 16px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 32px;
+    letter-spacing: normal;
+    color: #4099d5;
+    margin: 0;
+    overflow: hidden;
+}
+
+.productTitle {
+    word-break: break-word;
+    margin-bottom: 0 !important;
+}
+
+.shopUrl {
+    display: block;
+    text-align: left;
+    text-overflow: ellipsis;
+    cursor: pointer;
+    text-decoration: underline;
+    font-weight: 500;
+    margin-top: 3px;
+    color: #4099d5;
+}
+
+.shopUrl:hover {
+    text-decoration: none;
+}
+
+.sales_identity {
+    font-weight: 600 !important;
+}
+.productSubTitle {
+    font-size: 16px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    letter-spacing: normal;
+    color: #b8bfd3;
+    word-break: break-word;
+    padding-right: 10px;
+    line-height: 1.88;
+}
+
+span.quantity {
+    width:43px; 
+    height: 23px;  
+    border: solid 2px #eef0f2;
+    background-color: white;
+    outline:none; 
+    margin: 0;
+    font-size: 16px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #45454b;
+    text-align: center;
+    overflow: hidden;
+}
+
+.customerRef  {
+    font-size: 10px;
+    font-weight: 300; 
+    font-style: italic; 
+    font-stretch: normal; 
+    line-height: normal; 
+    letter-spacing: normal; 
+    color: #33333a; 
+    margin-top: 1px;
+    position: relative;
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    white-space: nowrap; 
+    width: 100%; 
+}
+
+
+.user-rating {
+    display: inline-block;
+    width: 44px;
+    height: 20px;
+    border-radius: 11.5px;
+    background-color: #33333a;
+    line-height: 20px; 
+    font-size: 12px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    letter-spacing: normal;
+    color: #ffffff;
+    text-align: center;
+}
+
+.user-rating i {
+    font-size: 10px;
+    position: relative;
+    display: inline-block;
+    top: -1px;
+}

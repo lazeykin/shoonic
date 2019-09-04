@@ -1,0 +1,171 @@
+<div [formGroup]="form_group">
+      <div class="form-group small_select" *ngIf="!edit && !disableShowroom">
+        <app-select
+                    label="*{{'LABEL_SHOWROOM_OR_CATALOG' | translate}}" 
+                    formControlName="destination"
+                    [listArray]="destinations">
+        </app-select>
+      </div>
+      <ng-container *ngIf="toShowroom">
+        <div class="form-group add_product_form">
+            <app-select label="*{{'LABEL_SELECT_SHOWROOM' | translate}}" formControlName="showroom"
+                        [listArray]="showrooms">
+            </app-select>
+          </div>
+      </ng-container>
+    <div class="form-group add_product_form" *ngIf="!edit">
+        <app-input-text label="{{'LABEL_CUSTOMER_REF_NUM' | translate}}"
+                        placeholder="{{'LABEL_CUSTOMER_REF_NUM' | translate}}" formControlName="customer_ref_number">
+        </app-input-text>
+    </div>
+      <div class="form-group add_photo_form">
+        <app-add-photo [control]="form_group.controls['images']" [edit]="edit">
+
+        </app-add-photo>
+      </div>
+
+        <div class="form-group add_product_form">
+          <app-input-text label="*{{'LABEL_PRODUCT_NAME' | translate}}" placeholder="{{'LABEL_PRODUCT_NAME' | translate}}"
+                          formControlName="title">
+          </app-input-text>
+        </div>
+
+
+      <div class="form-group add_product_form">
+        <app-input-textarea label="{{'LABEL_PRODUCT_DESCRIPTION' | translate}}" placeholder="{{'LABEL_PRODUCT_DESCRIPTION' | translate}}"
+                            formControlName="description" [styles]="styles">
+        </app-input-textarea>
+      </div>
+      <div class="form-group add_product_form">
+        <app-select label="*{{'LABEL_COUNTRY_ORIGIN' | translate}}" formControlName="country_of_origin"
+                    [listArray]="countries">
+        </app-select>
+      </div>
+      <div class="form-group add_product_form">
+        <app-select label="*{{'LABEL_SALES_IDENTITY' | translate}}" info="{{'ADRESS_INFO_DETAIL'}}" formControlName="sales_identity"
+                    [listArray]="sales" (valueChange)="onSelectSI($event)">
+        </app-select>
+      </div>
+</div>
+<modal id="modal-add-si" (click)="onBgClick('modal-add-si', $event)">
+    <div class="modal">
+        <div class="modal-body">
+            <button (click)="closeModal('modal-add-si');"
+                class="closeModal">
+            </button>
+            <div class="content">
+                <h4>{{'MODAL_TITLE_ADD_SALES_IDENTITY' | translate}}</h4>
+                <form name="form"
+                    class="form companyForm"
+                    (ngSubmit)="saveSI()"
+                    [formGroup]="form_si"
+                    validate>
+                    <div class="row">
+                        <div class="form-wrapper">
+                            <div class="row">
+                                <div class="col-4">
+                                    <app-input-text label="*{{'LABEL_COMPANY_NAME' | translate}}" placeholder="{{'PLACEHOLDER_COMPANY_NAME' | translate}}"
+                                                    formControlName="name">
+                                    </app-input-text>
+                                </div>
+                                <div class="col-4 row" formGroupName="address">
+                                    <div class="col-6">
+                                        <app-input-text label="*{{'LABEL_STREETNUM' | translate}}"
+                                                        placeholder=""
+                                                        formControlName="street_number">
+                                        </app-input-text>
+                                    </div>
+                                    <div class="col-6">
+                                        <app-input-text label="{{'LABEL_BUS' | translate}}"
+                                                        placeholder=""
+                                                        formControlName="bus">
+                                        </app-input-text>
+                                    </div>
+                                </div>
+                                <div class="col-4 address">
+                                    <div formGroupName="address">
+                                        <app-select [listArray]="countries"
+                                                    label="*{{'LABEL_COUNTRY' | translate}}"
+                                                    formControlName="country">
+                                        </app-select>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                        <app-input-text label="*{{'LABEL_VAT' | translate}}"
+                                                        placeholder="{{'PLACEHOLDER_VAT' | translate}}"
+                                                        formControlName="vat_number">
+                                        </app-input-text>
+                                </div>
+                                <div class="col-4" formGroupName="address">
+                                    <app-input-text label="*{{'LABEL_ZIP' | translate}}"
+                                                    placeholder="{{'PLACEHOLDER_ZIP' | translate}}"
+                                                    formControlName="zip">
+                                    </app-input-text>
+                                </div>
+                                <div class="col-4">
+                                    <app-input-text label="{{'LABEL_CONTACT_PERSON' | translate}}"
+                                                    placeholder="{{'PLACEHOLDER_CONTACT_PERSON' | translate}}"
+                                                    formControlName="contact_person">
+                                    </app-input-text>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <app-input-text label="{{'LABEL_COMPANY_WEB' | translate}}"
+                                                    placeholder="https://example.com"
+                                                    formControlName="website_address">
+                                    </app-input-text>
+                                </div>
+                                <div class="col-4" formGroupName="address">
+                                    <app-input-text label="*{{'LABEL_CITY' | translate}}"
+                                                    placeholder="{{'PLACEHOLDER_CITY' | translate}}"
+                                                    formControlName="city">
+                                    </app-input-text>
+                                </div>
+                                <div class="col-4">
+                                    <app-input-text label="*{{'LABEL_PHONE_NUM' | translate}}"
+                                                    placeholder="{{'PLACEHOLDER_PHONE_NUM' | translate}}"
+                                                    formControlName="phone_number" phone="true">
+                                    </app-input-text>
+                                </div>
+                            </div>
+                            <div class="row">
+                                    <div class="col-4" formGroupName="address">
+                                        <app-input-text label="*{{'LABEL_STREETNAME' | translate}}"
+                                                        placeholder="{{'PLACEHOLDER_STREETNAME' | translate}}"
+                                                        formControlName="street_name">
+                                        </app-input-text>
+                                    </div>
+                                    <div class="col-4" formGroupName="address">
+                                        <app-input-text label="{{'LABEL_STATE' | translate}}"
+                                                        placeholder="{{'PLACEHOLDER_STATE' | translate}}"
+                                                        formControlName="state">
+                                        </app-input-text>
+                                    </div>
+                                    <div class="col-4 email">
+                                        <app-input-email label="*{{'LABEL_EMAIL' | translate}}"
+                                                        placeholder="{{'PLACEHOLDER_EMAIL' | translate}}"
+                                                        formControlName="email"
+                                                        [styles]="emailStyle">
+                                        </app-input-email>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="buttons">
+                        <button type="button" (click)="closeModal('modal-add-si')" class="cancel">{{'BTN_CANCEL' | translate}}</button>
+                        <button
+                            class="btn btn-lg btn-primary btn-block login add"
+                            type="submit">
+                            {{'BTN_ADD' | translate}}
+                        </button>
+                    </div>
+                </form>
+                </div>
+            </div>
+        </div>
+    <div class="modal-background"></div>
+</modal>

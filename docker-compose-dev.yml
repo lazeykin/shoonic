@@ -1,0 +1,96 @@
+version: '3'
+
+services:
+  postgres_db:
+    image: postgres:9.6-alpine
+    restart: always
+    environment:
+    - POSTGRES_USER=shoenic_user
+    - POSTGRES_PASSWORD=shoenic
+    - POSTGRES_DB=shoenic_db
+    volumes:
+    - ./data/pg_data:/var/lib/postgresql/data:z
+  router:
+    image: gitlab.dev.tseh20.com:4567/shoonic/shoonic/router:latest
+    restart: always
+    volumes:
+    - ./data/router/logs:/data/logs
+    networks:
+    - with_sd
+    - default
+  backend_app:
+    image: gitlab.dev.tseh20.com:4567/shoonic/shoonic/backend:backend-dev
+    restart: always
+    environment:
+      - APP_MODE=web
+      - DEBUG=True
+      - SECRET_KEY=YOUR_SECURITY_KEY_12345
+      - HOST=shoonic.dev.tseh20.com
+      - DATABASE_URL=postgres://shoenic_user:shoenic@postgres_db:5432/shoenic_db
+      - EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
+      - EMAIL_USE_TLS=True
+      - EMAIL_HOST=smtp.gmail.com
+      - EMAIL_PORT=587
+      - EMAIL_HOST_USER=${EMAIL_HOST_USER}
+      - EMAIL_HOST_PASSWORD=${EMAIL_HOST_PASSWORD}
+      - REDIS_CONNECTION_STRING=redis://redis_db:6379
+    volumes:
+      - ./data/media:/app/data/media
+      - ./data/web_logs:/app/data/logs
+  notifications_app:
+    image: gitlab.dev.tseh20.com:4567/shoonic/shoonic/backend:backend-dev
+    restart: always
+    environment:
+      - APP_MODE=notifications
+      - DEBUG=True
+      - SECRET_KEY=YOUR_SECURITY_KEY_12345
+      - HOST=shoonic.dev.tseh20.com
+      - DATABASE_URL=postgres://shoenic_user:shoenic@postgres_db:5432/shoenic_db
+      - EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
+      - EMAIL_USE_TLS=True
+      - EMAIL_HOST=smtp.gmail.com
+      - EMAIL_PORT=587
+      - EMAIL_HOST_USER=${EMAIL_HOST_USER}
+      - EMAIL_HOST_PASSWORD=${EMAIL_HOST_PASSWORD}
+      - REDIS_CONNECTION_STRING=redis://redis_db:6379
+    volumes:
+      - ./data/media:/app/data/media
+      - ./data/notifications_logs:/app/data/logs
+    networks:
+      - with_sd
+      - default
+  celery_app:
+    image: gitlab.dev.tseh20.com:4567/shoonic/shoonic/backend:backend-dev
+    restart: always
+    environment:
+      - APP_MODE=celery
+      - DEBUG=True
+      - SECRET_KEY=YOUR_SECURITY_KEY_12345
+      - HOST=shoonic.dev.tseh20.com
+      - DATABASE_URL=postgres://shoenic_user:shoenic@postgres_db:5432/shoenic_db
+      - EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
+      - EMAIL_USE_TLS=True
+      - EMAIL_HOST=smtp.gmail.com
+      - EMAIL_PORT=587
+      - EMAIL_HOST_USER=${EMAIL_HOST_USER}
+      - EMAIL_HOST_PASSWORD=${EMAIL_HOST_PASSWORD}
+      - REDIS_CONNECTION_STRING=redis://redis_db:6379
+    volumes:
+      - ./data/media:/app/data/media
+      - ./data/celery_logs:/app/data/logs
+    networks:
+      - with_sd
+      - default
+  frontend_app:
+    image: gitlab.dev.tseh20.com:4567/shoonic/shoonic/frontend:frontend-dev
+    restart: always
+    environment:
+    - PORT=80
+    - API_SERVER=backend_app
+  redis_db:
+    image: redis:5-alpine
+    restart: always
+
+networks:
+  with_sd:
+    external: True

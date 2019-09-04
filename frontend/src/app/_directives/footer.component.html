@@ -1,0 +1,115 @@
+﻿<div class="footer__wrapper">
+    <div class="footer">
+
+        <div class="container">
+            <div class="left_wrapper">
+            <div class="topHeader">
+                <div class="dropdown">
+                    <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                        <img src="assets/images/{{currentLanguage}}.png"
+                             alt="flag">
+                        <span class="language_name">{{getCurrentLanguage()}}</span>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a *ngFor="let lang of languages" 
+                            href="javascript:void(0);"
+                            (click)="selectLanguage(lang.code)">
+                            <img src="assets/images/{{lang.code}}.png"
+                                 alt="flag">
+                            <span>{{lang.name}}</span></a>
+                    </div>
+                </div>
+
+            </div>
+                <ul class="about_container">
+                    <li>
+                        <a href="javascript:void(0);">
+                            {{'FOOTER_ABOUT' | translate}}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0);">
+                            {{'FOOTER_LICENSE' | translate}}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0);">
+                            {{'FOOTER_AGREEMENT' | translate}}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0);">
+                            {{'FOOTER_CONTACTS' | translate}}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0);">
+                            {{'FOOTER_FAQ' | translate}}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div *ngIf="!isHomePage" class="subscribe_wrapper">
+                <form name="form"
+                      class="formSubscribe"
+                      (ngSubmit)="onSunscribe()"
+                      [formGroup]="form_group"
+                      validate>
+                    <div class="footer_subscribe_container">
+
+                        <app-input-email
+                                class="footer_subscribe" label="" placeholder="{{'PLACEHOLDER_ENTER_EMAIL' | translate}}"
+                                formControlName="email">
+                        </app-input-email>
+                        <button class="subscribe"
+                                type="submit">
+                            {{'BTN_SUBSCRIBE' | translate}}
+                        </button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+<modal id="custom-modal-1">
+    <div class="modal">
+        <div class="modal-body">            
+            <button (click)="closeModal('custom-modal-1');" class="closeModal">
+                <i class="fa fa-close"></i>
+            </button>
+            <div class="content">
+                <div class="image">
+                    <img src="assets/images/sucess.png"
+                         alt="logo">
+                </div>
+                <div>
+                    {{'MODAL_SUBSCRIPTION' | translate}}
+                </div>
+            </div>
+        </div>
+    </div> 
+    <div class="modal-background"></div>
+</modal>
+<modal id="custom-modal-2">
+    <div class="modal">
+        <div class="modal-body">            
+            <button (click)="closeModal('custom-modal-2');"
+                    class="closeModal">
+                <i class="fa fa-close"></i>
+            </button>
+            <div class="content">
+                <div class="image">
+                    <img src="assets/images/sucess.png"
+                         alt="logo">
+                </div>
+                <div>
+                    {{'MODAL_BUY_PRO' | translate}}
+                </div>
+            </div>
+        </div>
+    </div>
+     
+    <div class="modal-background"></div>
+</modal>

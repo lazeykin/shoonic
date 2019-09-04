@@ -1,0 +1,305 @@
+﻿<header></header>
+<main role="main"
+      class="main pb-5 makeOrder">
+    <div class="container">
+        <div class="row">
+            <section class="col">
+                <div class="emptyCart"
+                     *ngIf="!orderQuantity">
+                    Your order is empty.<br>
+                    <a [routerLink]="['/dashboard/buyer/cart']">Back to the cart.</a>
+                </div>
+                <div *ngIf="orderQuantity">
+                    <table class="orderItemsTable w-100"
+                           *ngFor="let items of finalProducts; let i = index">
+                        <tr class="orderItemsTableHead">
+                            <td></td>
+                            <td class="sellerName" colspan="2">Seller:
+                                <span>{{(items[0].product.company.name.length>12)?
+                                (items[0].product.company.name | slice:0:12)+'..':(items[0].product.company.name)}}
+                            </span>
+                            </td>
+                            <td>Quantity of sizes</td>
+                            <td>Pair cost</td>
+                            <td>Discount</td>
+                            <td>Total cost</td>
+                            <td></td>
+                        </tr>
+                        <tr *ngFor="let item of items; let j = index" class="box_shadow">
+                            <td>
+                            <span *ngFor="let item of errorIndex; let k= index;">
+                                <span class="error_message" *ngIf="k === j && orderNumber === i">
+                                    <span *ngIf="chekForObject(item)">
+                                    <span *ngFor="let key of Object.keys(item)">
+                                          {{item[key]}}</span>
+                                    </span>
+                                    <span *ngIf="!chekForObject(item)">
+                                            {{item}}
+                                    </span>
+                                    </span>
+                            </span>
+                            </td>
+                             <td class="itemImage">
+                                 <img (click)="productLink(item.product.id)" [src]="item.product.default_image.url">
+                             </td>
+                             <td class="itemInfo">
+                                 <div class="itemRefNumber">
+                                     Ref: {{item.product.ref_number}}
+                                 </div>
+                                 <div class="itemTitle" (click)="productLink(item.product.id)">
+                                     {{item.product.title}}
+                                 </div>
+                                 <div *ngIf="item.product.company"
+                                      class="itemCompanyTitle">
+                                     {{item.product.company.name}}
+                                 </div>
+                             </td>
+                             <td class="itemSizes"
+                                 *ngIf="item.size_quantities">
+                                 <div *ngIf="edit[i][j].edit">
+                                 <div>
+                                     <div>
+                                         <span>{{sumOfPairs(item.size_quantities)}} pairs | {{item.size_quantities.length}} {{item.size_quantities.length === 1 ? "size" : "sizes"}}</span>
+                                     </div>
+                                 </div>
+                                 </div>
+                                 <!--<div *ngIf="!edit[i][j].edit">-->
+                                     <!--<div style="display: inline-block" *ngFor="let size of item.size_quantities; let i = index" class="updateInput">-->
+                                            <!--<div class="sizeNumber">-->
+                                                <!--{{size.key}}-->
+                                            <!--</div>-->
+                                            <!--<input type="text"-->
+                                                    <!--class="sizeValue"-->
+                                                    <!--[(ngModel)]="size.value"-->
+                                                    <!--(keypress)="_keyPress($event)"-->
+                                                    <!--[ngModelOptions]="{standalone: true}">-->
+                                     <!--</div>-->
+                                 <!--</div>-->
+                                 <!--<div *ngIf="displayErorQuantity[i]"-->
+                                      <!--style="color:red; font-size: 14px;">-->
+                                     <!--Please, choose one size at least-->
+                                 <!--</div>-->
+                             </td>
+                             <td class="itemSizes"
+                                 *ngIf="item.prepack">
+                                 Prepack quantity: <span *ngIf="edit[i][j].edit">{{item.quantity}}</span>
+                                 <!--<div *ngIf="!edit[i][j].edit">-->
+                                     <!--<input-->
+                                             <!--type="text"-->
+                                             <!--class="form-control w-50 updateInput"-->
+                                             <!--name="prepacksQuantity_{{i}}"-->
+                                             <!--id="prepacksQuantity_{{i}}"-->
+                                             <!--(keypress)="_keyPress($event)"-->
+                                             <!--[(ngModel)]="item.quantity"-->
+                                             <!--#name="ngModel"/>-->
+                                 <!--</div>-->
+                                 <div *ngIf="displayErorPrepackQuantity[i]"
+                                      style="color:red; font-size: 14px;">
+                                     Please, enter quantity of pre-pack
+                                 </div>
+                             </td>
+                             <td class="itemPrice">
+                                 {{item.product.price | number}} {{item.product.currency}}
+                             </td>
+                             <td class="itemDiscount">
+                                <div *ngIf="item.product.is_bidding_allowed" class="input-group disountInput">
+                                    <span class="input-group-btn">
+                                      <button type="button" (click)="onDiscountMinus(item, i, items)"
+                                              class="btn btn-default btn-number btnMinus"
+                                              [disabled]="item.discount_percent === 0 || edit[i][j].edit">
+                                        <i class="fa fa-minus" aria-hidden="true"></i>
+                                      </button>
+                                    </span>
+                                    <input type="text"
+                                           name="itemDiscount_{{j}}"
+                                           [(ngModel)]="item.product.discount"
+                                           (keypress)="_keyPress($event)"
+                                           [disabled]="edit[i][j].edit"
+                                           class="form-control input-number">
+                                    <span class="input-group-btn">
+                                      <button type="button" (click)="onDiscountPlus(item, i, items)" class="btn btn-default btn-number btnPlus"
+                                              [disabled]="item.discount_percent === 100 || edit[i][j].edit">
+                                        <i class="fa fa-plus" aria-hidden="true"></i>
+                                      </button>
+                                    </span>
+                                </div>
+                                <div *ngIf="!item.product.is_bidding_allowed" class="input-group disountInput">
+                                    -
+                                </div>
+                                <div class="displayErorDiscount"
+                                     *ngIf="displayErorDiscount[item.id]">
+                                    Your discount can't be more than 100%
+                                </div>
+                             </td>
+                             <td class="itemPrice">
+                                 <div *ngIf="item.total_price !== item.total_price_with_discount"> {{item.total_price_with_discount | number}} {{item.product.currency}}</div>
+                                 <div [ngClass]="{'oldPrice':  item.total_price !== item.total_price_with_discount}"> {{item.total_price | number}} {{item.product.currency}}</div>
+                             </td>
+                             <td class="itemButtons">
+                                 <div *ngIf="edit[i][j].edit">
+                                     <div class="itemLinks">
+                                         <button
+                                            style="width: 70px;"
+                                            [disabled]="disabledMakeOrder"
+                                            (click)="editItem(i,j, item)"
+                                            class="editItem"
+                                            [ngClass]="{'disable': disabledMakeOrder}">
+                                             <img src="assets/images/edit-icon.svg" alt="edit icon"> edit
+                                         </button>
+                                         <button
+                                            style="width: 100px;"
+                                            [disabled]="disabledMakeOrder"
+                                            (click)="removeItem(items, item, i, j)"
+                                            class="removeItem"
+                                            [ngClass]="{'disable': disabledMakeOrder}">
+                                             <img src="assets/images/deleteIconSimple.png" class="delete_icon" alt="delete icon"> delete
+                                         </button>
+                                     </div>
+                                 </div>
+                                 <div *ngIf="!edit[i][j].edit">
+                                     <div class="itemLinks">
+                                         <button (click)="updateItem(item, i, j)" class="updateItem">
+                                             <img class="updateButton" src="assets/images/accepted-icon.svg"> Change
+                                         </button>
+                                         <button (click)="cancelUpdateItem(item, i, j)" class="resetItem">
+                                             <img class="updateButton" src="assets/images/decline-icon.svg"> Reset
+                                         </button>
+                                     </div>
+                                 </div>
+                             </td>
+                        </tr>
+                        <tr class="box_shadow">
+                            <td class="productsLength product_number" colspan="4">{{items.length}} Products</td>
+                            <td class="itemDiscount">
+                                <!--<div class="input-group disountInput"-->
+                                     <!--[ngClass]="{'disable': disabledMakeOrder}"-->
+                                     <!--*ngIf="discount[i].display">-->
+                                    <!--<span class="input-group-btn">-->
+                                      <!--<button type="button" (click)="onDiscountGroupMinus(items, i)" class="btn btn-default btn-number btnMinus" [disabled]="discount[i].value === 0">-->
+                                        <!--<i class="fa fa-minus" aria-hidden="true"></i>-->
+                                      <!--</button>-->
+                                    <!--</span>-->
+                                    <!--<input type="text"-->
+                                           <!--name="itemsDiscount_{{i}}"-->
+                                           <!--[(ngModel)]="discount[i].discount"-->
+                                           <!--[disabled]="disabledMakeOrder"-->
+                                           <!--(keypress)="_keyPress($event)"-->
+                                           <!--(ngModelChange)="onDiscountGroupChange($event, items, i)"-->
+                                           <!--class="form-control input-number">-->
+                                    <!--<span class="input-group-btn">-->
+                                      <!--<button type="button" (click)="onDiscountGroupPlus(items, i)" class="btn btn-default btn-number btnPlus" [disabled]="discount[i].value === 100">-->
+                                        <!--<i class="fa fa-plus" aria-hidden="true"></i>-->
+                                      <!--</button>-->
+                                    <!--</span>-->
+                                <!--</div>-->
+                                <!--<div class="displayErorDiscount"-->
+                                     <!--*ngIf="discount[i].error">-->
+                                    <!--Your discount can't be more than 100%-->
+                                <!--</div>-->
+                            </td>
+                             <td class="itemPrice">
+                                 <div *ngIf="discount[i].sumTotal">
+                                     <div *ngIf="discount[i].sumTotalDiscount !== discount[i].sumTotal">{{discount[i].sumTotalDiscount | number}} {{discount[i].sumTotalCurrency}}</div>
+                                     <div [ngClass]="{'oldPrice':  discount[i].sumTotalDiscount !== discount[i].sumTotal}"> {{discount[i].sumTotal | number}} {{discount[i].sumTotalCurrency}}</div>
+                                 </div>
+                             </td>
+                            <td></td>
+                             <td class="itemButtons">
+                               <button (click)="makeOrder(items, i)" [disabled]="disabledMakeOrder" class="btn btn-lg btn-primary btn-block login"
+                                    type="submit">
+                                send
+                            </button>
+                             </td>
+                        </tr>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </div>
+</main>
+<footer></footer>
+<modal id="custom-modal-3">
+    <div class="modal">
+        <div class="modal-body">            
+            <button (click)="closeModal('custom-modal-3');"
+                    class="closeModal">
+                <i class="fa fa-close"></i>
+            </button>
+            <div class="content">
+                <div class="image">
+                    <img src="assets/images/sucess.png"
+                         alt="logo">
+                </div>
+                <div>
+                    Your order have been created.
+                </div>
+            </div>
+        </div>
+    </div>
+     <div class="modal-background"></div>
+</modal>
+<modal id="custom-modal-10">
+    <div class="modal">
+        <div class="modal-body">            
+            <button (click)="closeModal('custom-modal-10');"
+                    class="closeModal">
+                <i class="fa fa-close"></i>
+            </button>
+            <div class="content">
+               <h4 class="quantity_title"> Edit quantity</h4>
+                <span class="bottom_line_modal"></span>
+                <table *ngFor="let items of finalProducts; let i = index">
+                    <tr *ngFor="let item of items; let j = index">
+
+                <td class="itemSizes"
+                    *ngIf="item.size_quantities">
+                    <div *ngIf="!edit[i][j].edit">
+                        <p class="size_quantity">Size/Quantity</p>
+                        <div style="display: inline-block" *ngFor="let size of onSortSizes(item.size_quantities); let i = index" class="updateInput">
+                            <div class="sizeNumber">
+                                {{size.key}}
+                            </div>
+                            <input type="text"
+                                   class="sizeValue modal_size"
+                                   [(ngModel)]="size.value"
+                                   (keypress)="_keyPress($event)"
+                                   (input)="onCheckForError(item.size_quantities)"
+                                   [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div *ngIf="displayErorQuantity"
+                         style="color:red; font-size: 14px;">
+                        Please, choose one size at least
+                    </div>
+                </td>
+                <td class="itemSizes"
+                    *ngIf="item.prepack">
+                    <div *ngIf="!edit[i][j].edit">
+                        <p class="size_quantity">Prepack quantity</p>
+                        <input
+                                type="text"
+                                class="form-control w-50 updateInput"
+                                name="prepacksQuantity_{{i}}"
+                                id="prepacksQuantity_{{i}}"
+                                (keypress)="_keyPress($event)"
+                                [(ngModel)]="item.quantity"
+                                (input)="onCheckForError(item.quantity)"
+                                #name="ngModel"/>
+                    </div>
+                    <div *ngIf="displayErorPrepackQuantity"
+                         style="color:red; font-size: 14px;">
+                        Please, enter quantity of pre-pack
+                    </div>
+                </td>
+                    </tr>
+                </table>
+                <div class="modal_button_container">
+                    <button class="modal_send_button" (click)="onInputSizes()"
+                            [disabled]="displayErorQuantity || displayErorPrepackQuantity">
+                        Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+     <div class="modal-background"></div>
+</modal>

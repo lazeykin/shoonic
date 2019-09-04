@@ -1,0 +1,21 @@
+.optional_info {
+    /* width: 125px; */
+    height: 29px;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: -0.8px;
+    color: #33333a;
+    margin-bottom: 30px;
+}
+.add_product_form {
+    width: 434px;
+}
+.form-group {
+    margin-bottom: 0 !important;
+}
+.margin_btm {
+    margin-top: 4px;
+}

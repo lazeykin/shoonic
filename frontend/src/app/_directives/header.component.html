@@ -1,0 +1,496 @@
+﻿<div class="header">
+
+    <div class="header__buyer" *ngIf="scope =='buyer' || scope == 'notRegistered'">
+
+        <div class="logo">
+            <a href="/dashboard/buyer">
+                <img src="assets/images/logo.png"
+                     alt="logo">
+            </a>
+        </div>
+        <div class="header__menu">
+            <div *ngIf="scope === 'buyer'" class="topSearch">
+                <form name="form"
+                      class="form w-100"
+                      (ngSubmit)="searchBuyer()"
+                      #searchTop="ngForm"
+                      validate>
+                    <input class="form-control py-2"
+                           type="search"
+                           placeholder="{{'PLACEHOLDER_SEARCH_PROD' | translate | uppercase}}"
+                           name="staticEmail"
+                           id="example-search-input"
+                           [(ngModel)]="searchInput"
+                           #search="ngModel"
+                           maxlength="120">
+                    <span class="topSearch__icon">
+                             <button class="btn btn-secondary" type="submit">
+                                
+                            </button>
+                        </span>
+                </form>
+            </div>
+            <div *ngIf="scope === 'notRegistered'" class="topSearch">
+                <form name="form"
+                      class="form w-100"
+                      (ngSubmit)="searchVisitor($event)"
+                      #searchTop="ngForm"
+                      validate>
+                    <input class="form-control py-2"
+                           type="search"
+                           placeholder="{{'PLACEHOLDER_SEARCH_PROD' | translate | uppercase}}"
+                           name="staticEmail"
+                           id="example-search-input"
+                           [(ngModel)]="searchInput"
+                           #search="ngModel"
+                           maxlength="120">
+                    <span class="topSearch__icon">
+                             <button class="btn btn-secondary" type="submit">
+
+                            </button>
+                        </span>
+                </form>
+            </div>
+            <div class="headerRight">
+                <div class="avatarLink">
+                    <a id="dropdownMenuButton"
+                       data-toggle="dropdown"
+                       aria-haspopup="true"
+                       aria-expanded="false"
+                       href="javascript:void(0);"
+                       class="dropdown_menu_button">
+                        <div *ngIf="dataUser.first_name"
+                             class="avatar_settings" [ngClass]="{long_with: dataUser.first_name.length > 15}">
+                                <span *ngIf="(dataUser.first_name + dataUser.last_name).length > 20">
+                                    {{dataUser.first_name | slice:0:12}}
+                                      <span *ngIf="dataUser.first_name.length > 12">...</span>
+                                    {{dataUser.last_name | slice:0:12}}
+                                    <span *ngIf="dataUser.last_name.length > 12">...</span>
+                                </span>
+                                <span *ngIf="(dataUser.first_name + dataUser.last_name).length < 20">
+                                    {{dataUser.first_name}} {{dataUser.last_name}}
+                                </span>
+                        </div>
+                        <div *ngIf="scope === 'notRegistered'" class="avatar_settings">
+                            {{'USER_VISITOR' | translate}}
+                        </div>
+                        <div class="avatar-wrapper">
+                            <img class="avtr" *ngIf="url && !dataUser.photo.thumbnail_200" [src]="dataUser.photo.url">
+                            <img class="avtr" *ngIf="url && dataUser.photo.thumbnail_200" [src]="dataUser.photo.thumbnail_200">
+                            <img class="avtr" *ngIf="!url" src="assets/images/avatar-icon.png">
+                        </div>
+                    </a>
+                    <div class="dropdown-menu"
+                         aria-labelledby="dropdownMenuButton">
+                        <a (click)="onAccountLink(scope, 'account')">
+                            {{'MENU_ITEM_ACCOUNT_SETTINGS' | translate}}
+                        </a>
+                        <a (click)="onAccountLink(scope, 'company')">
+                            {{'MENU_ITEM_COMPANY' | translate}}
+                        </a>
+                        <a href="javascript:void(0);"
+                           (click)="onAccountLink(scope, 'logout')">
+                           {{'MENU_ITEM_LOGOUT' | translate}}
+                        </a>
+                    </div>
+                </div>
+                <div *ngIf="scope === 'buyer'" class="mesLink" [ngClass]="{'active': router.url.startsWith('/dashboard/messenger')}">
+                    <a [routerLink]="['/dashboard/messenger']" >
+                        <img src="assets/images/comment-light.svg">
+                    </a>
+                    <div class="circle" *ngIf="unread_messages_count">
+                        {{ unread_messages_count }}
+                    </div>
+                </div>
+                <div *ngIf="scope === 'notRegistered'" class="mesLink" [ngClass]="{'active': router.url.startsWith('/dashboard/messenger')}">
+                    <a (click)="onAccountLink(scope)" >
+                        <img src="assets/images/comment-light.svg">
+                    </a>
+                    <div class="circle" *ngIf="unread_messages_count">
+                        {{ unread_messages_count }}
+                    </div>
+                </div>
+                <!--<div class="bookmarkLink">-->
+                    <!--<a href="javascript:void(0);">-->
+                        <!--<img src="assets/images/star-light.svg">-->
+                    <!--</a>-->
+                <!--</div>-->
+                <div class="notifications">
+                    <a href="javascript:void(0)">
+                        <img src="assets/images/bell-light.svg" (click)="isNotificationWindowOpened = !isNotificationWindowOpened; readNotifications()">
+                    </a>
+                    <div class="circle" [ngClass]="{'active': areNotificationsNotRead }"></div>
+                    <div class="notification-wrapper" [ngClass]="{'open': isNotificationWindowOpened}" *ngIf="isNotificationWindowOpened && scope === 'buyer'">
+                        <h3>{{'TEXT_NOTIFICATIONS' | translate}}</h3>
+                        <p *ngIf="!notifications.length">{{'ERR_NO_NOTIF' | translate}}</p>
+                        <ul class="notification-list">
+                            <li [ngClass]="{'unread': !n.is_read}" 
+                                *ngFor="let n of notifications; let i = index"
+                                (click)="getNotificationLink(n)">
+                                    <i *ngIf="n.type.indexOf('order') > -1" class="fa fa-clipboard"></i>
+                                    <i *ngIf="n.type.indexOf('dialog') > -1" class="fa fa-comment"></i>
+                                    <i *ngIf="n.type.indexOf('product') > -1" class="fa fa-shopping-bag"></i>
+                                    <i *ngIf="n.type.indexOf('zip') > -1" class="fa fa-folder"></i>
+                                        {{notificationMsg.get(n.type) | translate}}
+                                    <span class="date">{{n.date_received | date : 'dd/MM/yyyy\'\n\'HH:mm'}}</span>
+                                </li>
+                        </ul>
+                    </div>
+                </div>
+                <div *ngIf="scope === 'buyer'" class="cartLink"
+                     [ngClass]="{'active': router.url === '/dashboard/buyer/cart'}"
+                     [routerLink]="['/dashboard/buyer/cart']">
+                    <div class="cartItems"
+                         *ngIf="cartQuntity()"
+                         [innerHtml]="cartQuntity()">
+                    </div>
+                </div>
+                <div *ngIf="scope === 'notRegistered'" class="cartLink"
+                     [ngClass]="{'active': router.url === '/dashboard/buyer/cart'}"
+                     (click)="onAccountLink(scope)">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="header__seller" *ngIf="scope =='seller'">
+        <div class="logo">
+            <a [routerLink]="['/dashboard/seller']">
+                <img src="assets/images/logo.png"
+                     alt="logo">
+            </a>
+        </div>
+        <div class="header__menu">
+            <div class="topSearch">
+                <form name="form"
+                      class="form w-100"
+                      (ngSubmit)="searchSeller()"
+                      #searchTop="ngForm"
+                      validate>
+                        <input *ngIf="router.url === '/dashboard/seller/products' || router.url.indexOf('/dashboard/products/search/') > -1"
+                                class="form-control py-2"
+                                type="search"
+                                placeholder="{{'PLACEHOLDER_SEARCH_SHOONIC' | translate}}"
+                                name="staticEmail"
+                                id="example-search-input"
+                                [(ngModel)]="searchInput"
+                                #search="ngModel"
+                                maxlength="120">
+                        <input *ngIf="router.url !== '/dashboard/seller/products' && router.url.indexOf('/dashboard/products/search/') === -1"
+                                class="form-control py-2"
+                                type="search"
+                                placeholder="{{'PLACEHOLDER_SEARCH_MY_PROD' | translate}}"
+                                name="staticEmail"
+                                id="example-search-input"
+                                [(ngModel)]="searchInput"
+                                #search="ngModel"
+                                maxlength="120">
+                    <span class="topSearch__icon">
+                             <button class="btn btn-secondary" type="submit">
+                                
+                            </button>
+                        </span>
+                </form>
+            </div>
+            <div class="headerRight">
+                <div class="avatarLink">
+                    <a id="dropdownMenuButton"
+                       data-toggle="dropdown"
+                       aria-haspopup="true"
+                       aria-expanded="false"
+                       href="javascript:void(0);"
+                       class="dropdown_menu_button">
+                        <div *ngIf="dataUser.first_name"
+                             class="avatar_settings" [ngClass]="{long_with: dataUser.first_name.length > 15}">
+                                    <span *ngIf="(dataUser.first_name + dataUser.last_name).length > 20">
+                                    {{dataUser.first_name | slice:0:12}}
+                                        <span *ngIf="dataUser.first_name.length > 12">...</span>
+                                        {{dataUser.last_name | slice:0:12}}
+                                        <span *ngIf="dataUser.last_name.length > 12">...</span>
+                                    </span>
+                            <span *ngIf="(dataUser.first_name + dataUser.last_name).length < 20">
+                                {{dataUser.first_name}} {{dataUser.last_name}}
+                            </span>
+                        </div>
+                        <div class="avatar-wrapper">
+                            <img class="avtr" *ngIf="url && !dataUser.photo.thumbnail_200" [src]="dataUser.photo.url">
+                            <img class="avtr" *ngIf="url && dataUser.photo.thumbnail_200" [src]="dataUser.photo.thumbnail_200">
+                            <img class="avtr" *ngIf="!url" src="assets/images/avatar-icon.png">
+                        </div>
+                    </a>
+                    <div class="dropdown-menu"
+                         aria-labelledby="dropdownMenuButton">
+                        <!--/dashboard/seller/account - doesn't work -->
+                        <a [routerLink]="['/dashboard/seller/account']">
+                            {{'MENU_ITEM_ACCOUNT_SETTINGS' | translate}}
+                        </a>
+                        <a [routerLink]="['/dashboard/seller/account/company']">
+                            {{'MENU_ITEM_COMPANY' | translate}}
+                        </a>
+                        <a href="javascript:void(0);"
+                           (click)="logout()">
+                           {{'MENU_ITEM_LOGOUT' | translate}}
+                        </a>
+                    </div>
+                </div>
+                <div class="mesLink" [ngClass]="{'active': router.url.startsWith('/dashboard/messenger')}">
+                    <a [routerLink]="['/dashboard/messenger']" >
+                        <img src="assets/images/comment-light.svg">
+                    </a>
+                    <div class="circle" *ngIf="unread_messages_count">
+                        {{ unread_messages_count }}
+                    </div>
+                </div>
+                <div class="notifications">
+                    <a href="javascript:void(0)">
+                        <img src="assets/images/bell-light.svg" (click)="isNotificationWindowOpened = !isNotificationWindowOpened; readNotifications()">
+                    </a>
+                    <div class="circle" [ngClass]="{'active': areNotificationsNotRead }"></div>
+                    <div class="notification-wrapper" [ngClass]="{'open': isNotificationWindowOpened}" *ngIf="isNotificationWindowOpened">
+                        <h3>{{'TEXT_NOTIFICATIONS' | translate}}</h3>
+                        <p *ngIf="!notifications.length">{{'ERR_NO_NOTIF' | translate}}</p>
+                        <ul class="notification-list">
+                            <li [ngClass]="{'unread': !n.is_read}" 
+                                *ngFor="let n of notifications; let i = index"
+                                (click)="getNotificationLink(n)">
+                                    <i *ngIf="n.type.indexOf('order') > -1" class="fa fa-clipboard"></i>
+                                    <i *ngIf="n.type.indexOf('dialog') > -1" class="fa fa-comment"></i>
+                                    <i *ngIf="n.type.indexOf('product') > -1" class="fa fa-shopping-bag"></i>
+                                    <i *ngIf="n.type.indexOf('zip') > -1" class="fa fa-folder"></i>
+                                        {{notificationMsg.get(n.type) | translate}}
+                                    <span class="date">{{n.date_received | date : 'dd/MM/yyyy\'\n\'HH:mm'}}</span>
+                                </li>
+                        </ul>
+                    </div>
+                </div>
+                <div *ngIf="scope =='buyer'" class="cartLink"
+                     (click)="openModal()">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="topMenu">
+    <ul class="nav"
+        [ngClass]="{'buyer_menu': scope =='buyer' || scope == 'notRegistered'}">
+        <li class="nav-item"
+            *ngIf="scope =='buyer'"
+            [ngClass]="{'active': router.url === '/dashboard/buyer'}">
+            <a class="nav-link"
+               [routerLink]="['/dashboard/buyer/']">
+               {{'MENU_ITEM_PRODUCTS' | translate}}
+            </a>
+        </li>
+        <li class="nav-item"
+            *ngIf="scope =='buyer'">
+            <a class="nav-link buyer_promo"
+               [routerLink]="['/dashboard/buyer/promotions']">
+                {{'ROUTE_PROMOTIONS' | translate}}
+            </a>
+        </li>
+        <li class="nav-item"
+            *ngIf="scope =='seller'"
+            [ngClass]="{'active': router.url === '/dashboard/seller'}">
+            <a class="nav-link"
+               [routerLink]="['/dashboard/seller/']">
+               {{'MENU_ITEM_PRODUCTS' | translate}}
+            </a>
+        </li>
+        <li class="nav-item"
+            *ngIf="scope =='notRegistered'">
+            <a class="nav-link" (click)="register()">
+                {{'MENU_ITEM_PRODUCTS' | translate}}
+            </a>
+        </li>
+        <li class="nav-item"
+            *ngIf="scope=='buyer'"
+            [ngClass]="{'active': router.url.indexOf('/dashboard/buyer/showrooms') > -1}">
+            <a class="nav-link"
+               [routerLink]="['/dashboard/buyer/showrooms']">
+               {{'MENU_ITEM_SHOWROOMS' | translate}}
+            </a>
+        </li>
+        <li class="nav-item"
+            *ngIf="scope=='seller'"
+            [ngClass]="{'active': router.url === '/dashboard/seller/public-catalog'}">
+            <a class="nav-link"
+                [routerLink]="['/dashboard/seller/public-catalog']">
+                {{'MENU_ITEM_PUBLIC_CATALOG' | translate}}
+            </a>
+        </li>
+        <li class="nav-item"
+            *ngIf="scope=='seller'"
+            [ngClass]="{'active': router.url.indexOf('/dashboard/seller/showrooms') > -1 
+                        || router.url === '/dashboard/seller/showrooms/archive'
+                        || router.url === '/dashboard/seller/showrooms/add' }">
+            <a class="nav-link"
+                [routerLink]="['/dashboard/seller/showrooms/private']">
+                {{'MENU_ITEM_SHOWROOMS' | translate}}</a>
+                <ul class="drop__menu wide">
+                    <li class="nav-item"
+                        [ngClass]="{'active': router.url === '/dashboard/seller/showrooms/private'}">
+                        <a class="nav-link"
+                        [routerLink]="['/dashboard/seller/showrooms/private']">
+                        {{'MENU_ITEM_PRIVATE_SHOWROOMS' | translate}}
+                        </a>
+                    </li>
+                    <li class="nav-item"
+                        [ngClass]="{'active': router.url === '/dashboard/seller/showrooms/public'}">
+                        <a class="nav-link"
+                            [routerLink]="['/dashboard/seller/showrooms/public']"
+                           href="javascript:void(0);">
+                           {{'MENU_ITEM_PUBLIC_SHOWROOMS' | translate}}
+                        </a>
+                    </li>
+                </ul>
+        </li>
+        <li class="nav-item"
+            *ngIf="scope =='notRegistered'">
+            <a class="nav-link" (click)="register()">
+                {{'MENU_ITEM_SHOWROOMS' | translate}}
+            </a>
+        </li>
+        <li class="nav-item"
+            *ngIf="scope =='buyer'"
+            [ngClass]="{'active': router.url.indexOf('dashboard/messenger') > -1}"
+            >
+            <a class="nav-link"
+               href="javascript:void(0);"
+               [routerLink]="['/dashboard/messenger']">
+               {{'MENU_ITEM_CUSTOMER_CENTER' | translate}}
+            </a>
+            <ul class="drop__menu">
+                <li class="nav-item"
+                    [ngClass]="{'active': router.url === '/dashboard/messenger/products'}">
+                    <a class="nav-link"
+                    [routerLink]="['/dashboard/messenger/products']">
+                    {{'MENU_ITEM_DIALOGS' | translate}}
+                    </a>
+                </li>
+                <li class="nav-item"
+                    [ngClass]="{'active': router.url === '/dashboard/messenger/contacts'}">
+                    <a class="nav-link"
+                        [routerLink]="['/dashboard/messenger/contacts']"
+                       href="javascript:void(0);">
+                       {{'MENU_ITEM_CONTACTS' | translate}}
+                    </a>
+                </li>
+                <li class="nav-item"
+                    [ngClass]="{'active': router.url === '/dashboard/messenger/orders'}">
+                    <a class="nav-link"
+                        [routerLink]="['/dashboard/messenger/orders']"
+                        href="javascript:void(0);">
+                        {{'MENU_ITEM_ORDERS' | translate}}
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="nav-item"
+            *ngIf="scope =='notRegistered'"
+            [ngClass]="{'active': router.url.indexOf('dashboard/messenger') > -1}"
+        >
+            <a class="nav-link"
+               href="javascript:void(0);">
+               {{'MENU_ITEM_CUSTOMER_CENTER' | translate}}
+            </a>
+            <ul class="drop__menu">
+                <li class="nav-item"
+                    [ngClass]="{'active': router.url === '/dashboard/messenger/products'}">
+                    <a class="nav-link"
+                       (click)="register()">
+                       {{'MENU_ITEM_DIALOGS' | translate}}
+                    </a>
+                </li>
+                <li class="nav-item"
+                    [ngClass]="{'active': router.url === '/dashboard/messenger/contacts'}">
+                    <a class="nav-link"
+                       (click)="register()"
+                       href="javascript:void(0);">
+                       {{'MENU_ITEM_CONTACTS' | translate}}
+                    </a>
+                </li>
+                <li class="nav-item"
+                    [ngClass]="{'active': router.url === '/dashboard/orders'}">
+                    <a class="nav-link"
+                       (click)="register()"
+                       href="javascript:void(0);">
+                       {{'MENU_ITEM_ORDERS' | translate}}
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="nav-item"
+            *ngIf="scope =='seller'"
+            [ngClass]="{'active': router.url.indexOf('dashboard/messenger') > -1}">
+            <a class="nav-link"
+               href="javascript:void(0);"
+               [routerLink]="['/dashboard/messenger']">
+               {{'MENU_ITEM_CUSTOMER_CENTER' | translate}}
+            </a> 
+            <ul class="drop__menu">
+                <li class="nav-item"
+                    [ngClass]="{'active': router.url === '/dashboard/messenger/products'}">
+                    <a class="nav-link"
+                    [routerLink]="['/dashboard/messenger/products']">
+                    {{'MENU_ITEM_DIALOGS' | translate}}
+                    </a>
+                </li>
+                <li class="nav-item"
+                    [ngClass]="{'active': router.url === '/dashboard/messenger/groups'}">
+                    <a class="nav-link"
+                        [routerLink]="['/dashboard/messenger/groups']"
+                       href="javascript:void(0);">
+                       {{'MENU_ITEM_CONTACT_GROUPS' | translate}}
+                    </a>
+                </li>
+                <li class="nav-item"
+                    [ngClass]="{'active': router.url === '/dashboard/messenger/orders'}">
+                    <a class="nav-link"
+                        [routerLink]="['/dashboard/messenger/orders']"
+                        href="javascript:void(0);">
+                        {{'MENU_ITEM_ORDERS' | translate}}
+                    </a>
+                </li>
+                <li class="nav-item"
+                    [ngClass]="{'active': router.url === '/dashboard/messenger/brands'}">
+                    <a class="nav-link" [routerLink]="['/dashboard/messenger/brands']">
+                        {{'MENU_ITEM_BRANDS' | translate}}
+                    </a>
+                </li>
+                <li class="nav-item"
+                    [ngClass]="{'active': router.url === '/dashboard/messenger/sales-identity'}">
+                    <a class="nav-link"
+                       [routerLink]="['/dashboard/messenger/sales-identity']">
+                       {{'MENU_ITEM_SALES_IDENTITY' | translate}}
+                    </a>
+                </li>
+                <li class="nav-item"
+                    [ngClass]="{'active': router.url === '/dashboard/messenger/prepacks'}">
+                    <a class="nav-link" [routerLink]="['/dashboard/messenger/prepacks']">
+                        {{'MENU_ITEM_PREPACKS' | translate}}
+                    </a>
+                </li>
+                <li class="nav-item"
+                    [ngClass]="{'active': router.url === '/dashboard/messenger/upload-history'}">
+                    <a class="nav-link"
+                       [routerLink]="['/dashboard/messenger/upload-history']">
+                       {{'MENU_ITEM_UPLOAD_HISTORY' | translate}}
+                    </a>
+                </li>
+                <li class="nav-item"
+                    [ngClass]="{'active': router.url === '/dashboard/messenger/documents'}">
+                    <a class="nav-link"
+                        [routerLink]="['/dashboard/messenger/documents']">
+                        {{'MENU_ITEM_DOCUMENTS' | translate}}
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="nav-item"
+            *ngIf="scope =='seller'"
+            [ngClass]="{'active':  router.url === '/dashboard/my-shop'}">
+            <a  [routerLink]="['/dashboard/my-shop']" class="nav-link">{{'MENU_ITEM_MYWEBSITE' | translate}}</a>
+        </li>
+    </ul>
+
+</div>

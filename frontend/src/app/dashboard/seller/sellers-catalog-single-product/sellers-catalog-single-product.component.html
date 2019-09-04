@@ -1,0 +1,273 @@
+<header></header>
+<div class="wrapper">
+    <div class="container">
+    </div>
+</div>
+<main role="main"
+      class="main pb-5 main_seller">
+    <div class="container">
+        <div class="row singleProduct single_product_seller">
+            <div class="product_wrapper">
+                <div *ngIf="singleImage" class="single-image">
+                    <img class="card-img-top" src="{{product.default_image.url}}">
+                </div>
+                <div *ngIf="!productChoises">
+                    <img src="./../../../assets/images/Spinner-product.svg" alt="Loading...">
+                </div>
+                <div *ngIf="!singleImage">
+                    <ngx-gallery [options]="galleryOptions"
+                                 [images]="galleryImages">
+                    </ngx-gallery>
+                </div>
+            </div>
+            <div class="col-6 product_wrapper">
+                <div class="productRef"
+                     *ngIf="product.ref_number">
+                    Ref. {{product.ref_number}}
+                </div>
+                <div class="productTitle"
+                     *ngIf="product.title">
+                    {{product.title}}
+                </div>
+                <div class="customerRef">
+                    CRef. {{product.customer_ref_number ? product.customer_ref_number : '-'}}
+                </div>
+                <div class="productSubTitle" *ngIf="product.sub_title">
+                    {{product.sub_title}}
+                </div>
+                <div class="productPrice"  *ngIf="product.has_discount &&
+                                checkDiscountDate(product.discount_end_date)">
+                    {{product.discount_price | number:'0.2'}} {{product.currency}}
+                    <div *ngIf="product.price" class="discount_price">
+                        <div class="strikethrough">
+                            {{product.price | number:'0.2'}} {{product.currency}}
+                        </div>
+                        <span class="discount_end_date"> {{'TEXT_DUE' | translate}} {{product.discount_end_date | date: 'dd.MM.yyyy'}}</span>
+                    </div>
+                </div>
+                <div class="productPrice"
+                     *ngIf="product.price && !product.discount_price || !checkDiscountDate(product.discount_end_date)">
+                    {{product.price | number:'0.2'}} {{product.currency}}
+                </div>
+                <div class="productTags"
+                     *ngIf="product.tags">
+                    <div class="singleTag"
+                         *ngFor="let tag of product.tags; let i = index">
+                        {{tag}}
+                    </div>
+                </div>
+                <p class="preview_spec">
+                    {{'PROD_SPECIFICATION_TEXT' | translate}}
+                </p>
+                <table class="table w-100 productTable mt-3" style="margin-left: 15px;">
+                    <tr *ngIf="seller" class="row">
+                        <td class="col-4">
+                            <b>{{'PROD_SPECIFICATION_SELLER' | translate}}</b>
+                        </td>
+                        <td class="col-4 sales_identity">
+                            {{product.sales_identity.name}}
+                            <a class="shopUrl" *ngIf="product.webshop_url" target="_blank" [routerLink]="['/', product.webshop_url]">{{'BTN_SEE_MORE_SELLER' | translate}}</a>
+                        </td>
+                    </tr>
+                    <tr *ngIf="location_country" class="row">
+                        <td class="col-4">
+                            <b>{{'PROD_SPECIFICATION_LOCATION' | translate}}</b>
+                        </td>
+                        <td class="col-4">
+                            {{location_country.name}}
+                        </td>
+                    </tr>
+                    <tr *ngIf="country_of_origin" class="row">
+                        <td class="col-4">
+                            <b>{{'PROD_SPECIFICATION_ORIGIN' | translate}}</b>
+                        </td>
+                        <td class="col-4">
+                            {{country_of_origin.name}}
+                        </td>
+                    </tr>
+                    <tr *ngIf="product.customer_ref_number" class="row">
+                        <td class="col-4">
+                            <b>{{'PROD_SPECIFICATION_CUSTOMER_REF' | translate}}</b>
+                        </td>
+                        <td class="col-4 customer_ref_number">
+                            {{product.customer_ref_number}}
+                        </td>
+                    </tr>
+                    <!-- <tr *ngIf="product.minimal_price" class="row">
+                        <td class="col-4">
+                            <b>{{'PROD_SPECIFICATION_MINIMAL_PRICE' | translate}}</b>
+                        </td>
+                        <td class="col-4 recommended_retail_price">
+                            {{product.minimal_price | rounding}} {{product.currency}}
+                        </td>
+                    </tr> -->
+                    <tr *ngIf="product.recommended_retail_price" class="row">
+                        <td class="col-4">
+                            <b>{{'PROD_SPECIFICATION_RETAIL_PRICE' | translate}}</b>
+                        </td>
+                        <td class="col-4 recommended_retail_price">
+                            {{product.recommended_retail_price | rounding}} {{product.currency}}
+                        </td>
+                    </tr>
+                    <tr *ngIf="product.gender" class="row">
+                        <td class="col-4">
+                            <b>{{'PROD_SPECIFICATION_GENDER' | translate}}</b>
+                        </td>
+                        <td class="col-4">
+                            {{gender.name}}
+                        </td>
+                    </tr>
+                    <tr *ngIf="product.brand" class="row">
+                        <td class="col-4">
+                            <b>{{'PROD_SPECIFICATION_BRAND' | translate}}</b>
+                        </td>
+                        <td class="col-4 brand">
+                            {{product.brand.name}}
+                        </td>
+                    </tr>
+                    <tr *ngIf="packing_type" class="row">
+                        <td class="col-4">
+                            <b>{{'PROD_SPECIFICATION_PACKING' | translate}}</b>
+                        </td>
+                        <td class="col-4">
+                            {{packing_type.name}}
+                        </td>
+                    </tr>
+                    <tr *ngIf="product.style && style" class="row">
+                        <td class="col-4">
+                            <b>{{'PROD_SPECIFICATION_STYLE' | translate}}</b>
+                        </td>
+                        <td class="col-4">
+                            {{style.name}}
+                        </td>
+                    </tr>
+                    <tr *ngIf="product.color" class="row">
+                        <td class="col-4">
+                            <b>{{'PROD_SPECIFICATION_COLOR' | translate}}</b>
+                        </td>
+                        <td class="col-4">
+                            <div style="width: 20px;  height: 20px;  border-radius: 2px; border: 1px solid #b8bfd3;"
+                                 [style.background-color]="product.color.name"></div>
+                        </td>
+                    </tr>
+                    <tr *ngIf="upper" class="row">
+                        <td class="col-4">
+                            <b>{{'PROD_SPECIFICATION_UPPER' | translate}}</b>
+                        </td>
+                        <td class="col-7">
+                            {{upper.name}}
+                        </td>
+                    </tr>
+                    <tr *ngIf="lining" class="row">
+                        <td class="col-4">
+                            <b>{{'PROD_SPECIFICATION_LINING' | translate}}</b>
+                        </td>
+                        <td class="col-7">
+                            {{lining.name}}
+                        </td>
+                    </tr>
+                    <tr *ngIf="sock" class="row">
+                        <td class="col-4">
+                            <b>{{'PROD_SPECIFICATION_SOCK' | translate}}</b>
+                        </td>
+                        <td class="col-7">
+                            {{sock.name}}
+                        </td>
+                    </tr>
+                    <tr *ngIf="outer_sole" class="row">
+                        <td class="col-4">
+                            <b>{{'PROD_SPECIFICATION_OUTER' | translate}}</b>
+                        </td>
+                        <td class="col-7">
+                            {{outer_sole.name}}
+                        </td>
+                    </tr>
+                </table>
+                <div class="productDescription description"
+                     *ngIf="product.description">
+                    <div class="productDescttitle">
+                        {{'TEXT_DESCRIPTION' | translate}}
+                    </div>
+                    <div *ngIf="!seeMoreDescr"
+                         class="seeMoreDesc">
+                        {{product.description | slice:0:30}}
+                        <a href="javascript:void(0);"
+                           (click)="seeMoreDesc()">
+                            {{'BTN_SEE_MORE' | translate}}
+                        </a>
+                    </div>
+                    <div *ngIf="seeMoreDescr"
+                         class="seeFullDesc">
+                        {{product.description}}
+                        <a href="javascript:void(0);"
+                           (click)="seeLessDesc()">
+                            {{'BTN_SEE_LESS' | translate}}
+                        </a>
+                    </div>
+                </div>
+                <!--<div *ngIf="prepacks" class="row">-->
+                    <!--<div class="singlePrepack col-10"-->
+                         <!--style="margin-top: 25px;"-->
+                         <!--*ngFor="let prepack of prepacks; let i = index">-->
+                        <!--<div style="font-size: 16px; margin-bottom: 10px;">-->
+                            <!--<b> {{prepack.name}} </b>-->
+                        <!--</div>-->
+                        <!--<div class="singlePrepackSizes"-->
+                             <!--style="border-radius: 4px; background-color: #e6f2fa; padding: 12px;">-->
+                            <!--<div style="font-size: 16px; margin-bottom: 10px;">-->
+                                <!--Size/Quantity-->
+                            <!--</div>-->
+                            <!--<div class="row">-->
+                                <!--<div *ngFor="let size of prepack.sizes; let i = index"-->
+                                     <!--class="col-2"-->
+                                     <!--style="text-align:center; display: inline-block">-->
+                                    <!--<span style="color: #4099d5;">{{size.key}}</span>/{{size.value}}-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+                <!--<div *ngIf="outputSizes">-->
+                    <!--<div style="display: inline-block">-->
+                        <!--<div style="padding:10px; padding-left: 0; width:150px;">-->
+                            <!--Size/Quantity-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div style="display: flex; flex-wrap: wrap; width: 500px">-->
+                        <!--<div *ngFor="let size of outputSizes; let i = index"-->
+                             <!--style="text-align:center; display: block">-->
+                            <!--<div style="color: #4099d5; border: 1px solid #e1e4e8;-->
+                                <!--border-radius: 5px; height: 40px; width: 70px; text-align: center; padding: 7px;-->
+                                <!--margin: 0 15px 10px 0;">{{size.key}}<span style="color: #000">/{{size.value}}</span>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+            </div>
+        </div>
+    </div>
+</main>
+<footer></footer>
+<modal id="custom-modal-2">
+    <div class="modal">
+        <div class="modal-body">            
+            <button (click)="closeModal('custom-modal-2');"
+                    class="closeModal">
+                <i class="fa fa-close"></i>
+            </button>
+            <div class="content">
+                <div class="image">
+                    <img src="assets/images/sucess.png"
+                         alt="logo">
+                </div>
+                <div>
+                    {{'MODAL_BUY_PRO' | translate}}
+                </div>
+            </div>
+        </div>
+    </div>
+     
+    <div class="modal-background"></div>
+</modal>

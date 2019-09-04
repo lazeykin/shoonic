@@ -1,0 +1,309 @@
+.main.makeOrder {
+    position: relative;
+    background: rgba(184, 191, 211, 0.25);
+    min-height: 75vh;
+    height: auto;
+}
+.orderItemsTable {
+    margin-top: 25px;
+    /*box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);*/
+}
+.emptyCart {
+    margin-top: 25px;
+    margin-bottom: 200px;
+}
+.orderItemsTable .orderItemsTableHead td {
+    font-size: 12px;
+    font-weight: 600;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #33333a;
+    background-color: rgba(184, 191, 211, -0.85);
+    border-bottom: none;
+    box-shadow: none;
+    text-transform: uppercase;
+}
+.orderItemsTable .orderItemsTableHead td.sellerName,
+.orderItemsTable td.productsLength{
+    font-size: 18px;
+    font-weight: 600;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: 1.8px;
+    color: #515356;
+}
+.orderItemsTable .orderItemsTableHead td.sellerName span {
+    text-decoration: underline;
+    word-break: break-word;
+}
+.orderItemsTable td {
+    border-bottom: solid 1px #b8bfd3;
+    padding: 10px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    background: #fff;
+}
+.orderItemsTable .sellerName {
+    width: 350px;
+    max-width: 350px;
+    overflow: hidden;
+}
+.orderItemsTable .itemImage {
+    width: 120px;
+    height: 120px;
+}
+.orderItemsTable .itemImage img {
+    width: 106px;
+    height: 106px;
+    border-radius: 2px;
+    object-fit: contain;
+    cursor: pointer;
+    border: solid 1px rgba(184, 191, 211, 0.5);
+}
+.orderItemsTable .itemInfo {
+    width: 170px;
+}
+
+.orderItemsTable .itemInfo div, .orderItemsTable .itemInfo a {
+    display: block;
+    max-width: 200px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.orderItemsTable .itemInfo .itemRefNumber {
+    font-size: 12px;
+    font-weight: 300;
+    color: #33333a;
+}
+.orderItemsTable .itemInfo .itemTitle {
+    font-size: 18px;
+    font-weight: 600;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.67;
+    letter-spacing: normal;
+    color: #030303;
+    cursor: pointer;
+    text-decoration: underline;
+}
+.orderItemsTable .itemInfo .itemCompanyTitle {
+    font-size: 12px;
+    font-weight: 400;
+    color: #33333a;
+    letter-spacing: 1.2px;
+}
+.orderItemsTable .itemInfo .itemTitle:hover {
+    text-decoration: none;
+}
+.orderItemsTable .itemSizes {
+    font-size: 14px;
+    font-weight: 300;
+    color: #33333a;
+    font-size: 16px;
+    font-weight: 600;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: justify;
+}
+.orderItemsTable .itemSizes span {
+    padding: 0;
+    border-bottom: 1px solid rgb(182, 182, 182);
+}
+.orderItemsTable .itemPrice {
+    font-size: 18px;
+    font-weight: 600;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.67;
+    letter-spacing: normal;
+    color: #33333a;
+    text-align: center;
+}
+.orderItemsTable .itemPrice .oldPrice {
+    font-size: 12px;
+    text-decoration: line-through;
+}
+.orderItemsTable .itemDiscount .disountInput {
+    width: 130px;
+    height: 36px;
+}
+.orderItemsTable .itemDiscount .displayErorDiscount {
+    font-size: 12px;
+    color: red;
+    width: 150px;
+}
+.orderItemsTable .itemDiscount .disountInput input {
+    border: 1px solid #4099d5;
+    font-size: 18px;
+    font-weight: 600;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: 1.8px;
+    text-align: center;
+    color: #33333a;
+    padding: 5px;
+}
+.orderItemsTable .itemDiscount .disountInput .input-group-btn
+.btnPlus {
+    width: 36px;
+    border-radius: 2px;
+    background-color: #4099d5;
+    border: 1px solid #4099d5;
+    color: #fff;
+    font-size: 20px;
+    text-align: center;
+    cursor: pointer;
+    padding: 0;
+    outline: none;
+}
+.orderItemsTable .itemDiscount .disountInput .input-group-btn button.btnMinus {
+    width: 36px;
+    border-radius: 2px;
+    border: 1px solid #4099d5;
+    background-color: #fff;
+    color: #4099d5;
+    font-size: 20px;
+    text-align: center;
+    cursor: pointer;
+    padding: 0;
+    outline: none;
+}
+.orderItemsTable .itemButtons {
+    padding-left: 0;
+}
+.orderItemsTable .itemButtons .itemLinks {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+}
+.orderItemsTable .itemButtons .itemLinks .removeItem,
+.orderItemsTable .itemButtons .itemLinks .updateItem,
+.orderItemsTable .itemButtons .itemLinks .resetItem,
+.orderItemsTable .itemButtons .itemLinks .editItem {
+    background: none;
+    border: none;
+    outline: none;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 600;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: 2px;
+    text-align: justify;
+    color: #4099d5;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+.orderItemsTable .itemButtons button:disabled ,
+.orderItemsTable .itemDiscount input:disabled,
+.orderItemsTable .itemDiscount input:disabled:hover,
+.orderItemsTable .itemButtons button:disabled:hover {
+    opacity: 0.3;
+    text-decoration: none;
+    cursor: not-allowed;
+}
+.orderItemsTable .itemButtons .itemLinks button {
+    text-align: left;
+}
+
+.orderItemsTable .itemButtons .itemLinks img {
+    width:13.1px;
+    vertical-align: middle;
+}
+.orderItemsTable .btn-primary.disabled,
+.orderItemsTable .btn-primary:disabled {
+    background-color: #e9e9e9;
+    border-color: #e9e9e9;
+    opacity: 1;
+}
+.orderItemsTable .itemSizes .updateButton {
+    cursor: pointer;
+    display: inline-block;
+    margin-left: 10px;
+}
+.orderItemsTable .itemSizes .updateButtonSizes {
+    cursor: pointer;
+    display: inline-block;
+    margin-left: 40px;
+    margin-top: -45px;
+}
+.orderItemsTable .itemSizes .cancelUpdateButton {
+    cursor: pointer;
+    display: inline-block;
+    margin-left: 6px;
+    margin-top: 2px;
+    width: 11px;
+}
+.orderItemsTable .itemSizes .updateInput {
+    display: inline-block;
+}
+
+.orderItemsTable .itemSizes .updateInput {
+    display: inline-block;
+}
+.itemSizes .updateInput .sizeNumber {
+    width:43px; 
+    height: 32px;  
+    vertical-align: middle;
+    border: solid 1px #eef0f2; 
+    background-color: #eef0f2;
+    border-right: none; 
+    outline:none; 
+    text-align: center;
+    font-size: 16px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 32px;
+    letter-spacing: normal;
+    color: #4099d5;
+    margin: 0;
+}
+.itemSizes .updateInput .sizeValue{
+    width:43px; 
+    height: 23px;  
+    border: solid 2px #eef0f2;
+    background-color: white;
+    outline:none; 
+    margin: 0;
+    font-size: 16px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #45454b;
+    text-align: center;
+}
+.orderItemsTable tr:last-child td {
+    border-bottom: none;
+}
+.error_message {
+    color: #d0021b;
+}
+.box_shadow {
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+}
+.delete_icon {
+    width: 12.2px !important;
+    height: 15.4px;
+}
+button.login {
+    width: 170px;
+    height: 30px;
+    border-radius: 2px;
+    background-color: #4099d5;
+    margin: auto;
+}
+.product_number {
+    padding-left: 37px !important;
+}

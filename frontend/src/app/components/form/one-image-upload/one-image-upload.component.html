@@ -1,0 +1,45 @@
+<div *ngIf="!isShop">
+    <img *ngIf="url" [src]="url">
+    <img *ngIf="!url" src="assets/images/group-2.svg">
+    <div id="hide" class="uploadPhoto">
+        <label class="hand-cursor">
+            <input type="file"
+                   (change)="readUrl($event)"
+                   [disabled]="control.disabled">
+            <span class="photo_text hidden-xs">
+      <img src="assets/images/photoIcon.svg"
+           alt="account icon"> {{formControlName === 'logo' ? ('BTN_UPLOAD_LOGO' | translate) : ('BTN_UPLOAD_PHOTO' | translate)}}
+    </span>
+        </label>
+        <div class="error_wrapper">
+            <span style="color: red" *ngIf="control.hasError('required')">{{'ERR_NO_IMAGE' | translate}}</span>
+            <span style="color: red" *ngIf="control.hasError('heavyImage')">{{'ERR_FILE_WEIGHT' | translate}} 2MB</span>
+            <span style="color: red" *ngIf="control.hasError('invalidImage')">
+            {{'ERR_FILE_FORMAT' | translate}}: jpg, png, gif, jpeg</span>
+            <span *ngIf="control.invalid && !control.pristine">
+                <span style="color: red" *ngIf="control.errors.message">{{control.errors.message}}</span>
+            </span>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="isShop">
+    <img class="photo" *ngIf="url" [src]="url">
+    <div id="hide" class="uploadOnePhoto">
+        <label class="hand-cursor">
+            <input type="file"
+                   (change)="readUrl($event)"
+                   [disabled]="control.disabled">
+            <span class="photo_text hidden-xs">
+      <img src="assets/images/document-plus.svg"
+           alt="account icon"> {{formControlName === 'logo' ? ('BTN_UPLOAD_LOGO' | translate) : ('BTN_UPLOAD_PHOTO' | translate)}}
+    </span>
+        </label>
+        <div class="error_wrapper">
+            <span style="color: red" *ngIf="control.hasError('required')">{{'ERR_NO_IMAGE' | translate}}</span>
+            <span style="color: red" *ngIf="control.hasError('heavyImage')">{{'ERR_FILE_WEIGHT' | translate}} 2MB</span>
+            <span style="color: red; width: 460px" *ngIf="control.hasError('invalidImage')">
+        {{'ERR_FILE_FORMAT' | translate}}: jpg, png, gif, jpeg</span>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,20 @@
+<app-full-page-spinner *ngIf="isLoading"></app-full-page-spinner>
+<div *ngIf="!isLoading" class="image">
+    <img *ngIf="url" [src]="url">
+    <!--<img *ngIf="!url" src="assets/images/showroom.png">-->
+</div>
+<div id="hide" class="uploadPhoto">
+    <label class="hand-cursor">
+        <input type="file"
+               (change)="readUrl($event)"
+               accept="image/png, image/jpg, image/jpeg, image/gif">
+        <span class="photo_text hidden-xs">
+      {{'BTN_ADD_PHOTO' | translate}}
+    </span>
+    </label>
+</div>
+<br/>
+<div class="error_wrapper">
+        <span  style="color: red" *ngIf="control.hasError('invalidImage')">
+            {{'ERR_FILE_FORMAT' | translate}}: jpg, png, gif, jpeg</span>
+    </div>

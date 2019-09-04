@@ -1,0 +1,197 @@
+.seller_wrapper  
+    padding-bottom: 80px 
+ 
+button.add  
+    border: none 
+    width: 170px 
+    height: 30px 
+    border-radius: 2px 
+    background-color: #43b05c 
+    font-size: 12px 
+    font-weight: 500 
+    font-style: normal 
+    font-stretch: normal 
+    line-height: 1.67 
+    letter-spacing: 2px 
+    text-align: center 
+    color: #ffffff 
+    text-transform: uppercase 
+    float: right 
+    top: 15px 
+    right: 15px 
+    position: absolute 
+    z-index: 2 
+    padding: 6px 0 
+    &:hover 
+        cursor: pointer 
+    &:hocus, &:active
+        outline: none
+
+.main 
+    min-height: calc(100vh - 134px)
+.container  
+    width: 100%
+    max-width: 1260px 
+    padding: 0 
+ 
+.showrooms  
+    position: relative 
+    max-width: 1260px 
+    margin: 0 auto 
+    min-height: 600px 
+
+.showroom
+    margin-right: 22px
+    display: flex
+    justify-content: center
+    &:nth-child(5n)
+        margin-right: 0
+
+.showroomList  
+    display: flex 
+    flex-wrap: wrap 
+    flex-direction: row 
+    align-content: space-between 
+    //justify-content: space-between 
+    margin-bottom: 22px 
+    width: 100%
+ 
+.showroomInfo  
+    //margin-right: 22px 
+    width: 234px 
+    height: 286px 
+    border-radius: 2px 
+    box-shadow: 0 2px 6px 0 rgba(184, 191, 211, 0.5) 
+    background-color: #ffffff 
+    margin-bottom: 22px 
+    position: relative 
+
+.showroomImages  
+    justify-content: center 
+    align-content: center 
+    display: flex  
+    flex-wrap: wrap 
+    height: 204px 
+    width: 234px
+    overflow: hidden 
+    img 
+        min-width: 100%
+        height: 100%
+        object-fit: cover
+ 
+.showroomDesc  
+    padding: 10px 
+ 
+.showroomName  
+    font-size: 18px 
+    font-weight: 600 
+    font-style: normal 
+    font-stretch: normal 
+    line-height: 1.11 
+    letter-spacing: 1.5px 
+    color: #33333a 
+    margin-bottom: 4px 
+    max-width: 230px 
+    white-space: nowrap
+    text-overflow: ellipsis
+    overflow: hidden
+ 
+.numOfItems, .date, .shared  
+    font-size: 12px 
+    font-weight: normal 
+    font-style: normal 
+    font-stretch: normal 
+    line-height: 1.33 
+    letter-spacing: normal 
+    color: #4a4a4a 
+    margin-bottom: 4px 
+ 
+.date  
+    margin-bottom: 12px 
+
+hr  
+    margin: 0 
+    margin-bottom: 5px 
+
+.wrapper  
+    width: 100% 
+    height: 100% 
+    background-color: #edeff4 
+ 
+.wrapper > .container  
+     margin-bottom: 78px
+ 
+.pagi_navi  
+    position: absolute 
+    right: 15px 
+    bottom: -90px
+
+app-sort-selector
+    position: absolute
+    width: 100%
+    right: -41px
+
+.small_sort
+    width: 58.5%
+    margin-top: 17px
+ 
+@media screen and (max-width: 1250px)
+    .showroomList
+        width: 90% !important
+        margin: 0 auto
+    .showroom
+        margin-right: 22px !important
+        &:nth-child(4n)
+            margin-right: 0
+
+.dashboardNavBuyer 
+    top: 15px
+    padding: 0 15px
+
+.accountNavTop li a 
+    padding-bottom: 8px
+.non_display
+    display: none
+
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px)
+    .showrooms
+        padding-top: 7px
+
+    .showroomInfo
+        width: 147px
+        height: 152px
+        margin-bottom: 8px
+
+    .showroomImages
+        width: 147px
+        height: 79px
+    .showroomList
+        width: 320px !important
+        padding: 0 8px
+        align-content: flex-start
+    .showroom
+        margin-right: 5px !important
+    .showroomName
+        font-size: 12px
+        font-weight: 600
+        font-style: normal
+        font-stretch: normal
+        line-height: normal
+        letter-spacing: normal
+        color: #33333a
+    .numOfItems, .date, .shared
+        font-size: 10px
+        font-weight: normal
+        font-style: normal
+        font-stretch: normal
+        line-height: normal
+        letter-spacing: normal
+        color: #33333a
+    .scroll_div
+        max-height: 100vh
+        overflow: scroll
+        height: 100vh
+        position: relative
+    main
+        padding-bottom: 0 !important
+

@@ -1,0 +1,26 @@
+.form-control {
+    height: 107px;
+    max-height: 300px;
+}
+
+.form-control.brands {
+    height: 84px;
+}
+div > label > span {
+    display: block;
+    margin-bottom: 9px;
+    line-height: normal;
+}
+
+textarea::placeholder {
+    color: #a6aebc;
+}
+.small_label {
+    font-size: 12px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: 0.5px;
+    color: #515356;
+}

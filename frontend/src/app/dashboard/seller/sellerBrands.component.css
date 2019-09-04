@@ -1,0 +1,57 @@
+.invalid__form {
+background-color: #c9cacc;
+border-color: #9b9b9b;
+}
+.nav_link_container {
+    margin-top: 30px;
+}
+
+.titleTypo {
+    margin-top: 32px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    margin-bottom: 19px;
+}
+
+.editRow {
+    padding: 0;
+}
+
+.addBrand a {
+    min-width: 90px;
+    width: auto;
+    display: inline-block;
+    padding: 0 10px;
+}
+.editRowValue {
+    padding-top: 13px;
+    padding-bottom: 14px;
+    display: flex;
+}
+
+.editColValue {
+    font-size: 16px;
+}
+.editLink {
+    font-size: 12px;
+    font-weight: 600;
+    align-self: center;
+    top: 2px;
+}
+
+.editLink a {
+    font-size: 12px;
+}
+.editLink.edit img {
+    height: 16px;
+    width: 16px;
+}
+
+.col-5 {
+    max-width: 392px !important;
+}
+
+.btn.login {
+    width: 362px;
+    margin-top: 10px;
+}

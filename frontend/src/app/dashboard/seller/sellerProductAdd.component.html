@@ -1,0 +1,248 @@
+﻿<header>
+</header>
+<section *ngIf="!productPreview" class="registrationSteps">
+    <div id="crumbs">
+        <ul>
+            <li [ngClass]="{active: stepOne}"><span>{{'PRODUCT_STEP' | translate}} 1</span></li>
+            <li [ngClass]="{active: stepTwo}"><span>{{'PRODUCT_STEP' | translate}} 2</span></li>
+            <li [ngClass]="{active: stepThree}"><span>{{'PRODUCT_STEP' | translate}} 3</span></li>
+        </ul>
+    </div>
+</section>
+<main role="main"
+      class="main pb-5">
+    <div class="container add_product_wrapper">
+        <alert></alert>
+        <h3 *ngIf="stepOne">{{'TITLE_ADD_PRODUCT' | translate}}</h3>
+        <form name="form"
+              class="form addProdcutForm"
+              (ngSubmit)="addProductStep()"
+              [formGroup]="form_group"
+              class="form w-100"
+              validate>
+            <div [ngClass]="productAdd ? 'show_step':'hide_step'">
+
+                <div [ngClass]="stepOne ? 'show_step':'hide_step'">
+                    <form *ngIf="!disableShowroom" class="addProdcutForm">
+                        <div class="form-group small_select">
+                            <app-select [disabled]="isTemplateUploading"
+                                [listArray]="[{'name':('TEXT_ONE_PRODUCT' | translate), 'value': false},
+                                {'name':('TEXT_SEVERAL' | translate), 'value':true}]" (valueChange)="onOneOrMultipleChanged($event)" label="{{'LABEL_ADD_ONE_OR_SEVERAL' | translate}}"></app-select>
+                        </div>
+
+                        <div *ngIf="isAddingMultiple" class="add-multiple-holder">
+                            <ol>
+                                <li><span>{{'TEXT_DOWNLOAD_SEVERAL' | translate}}
+                                    <a href="/api/v1/data-importer/template" target="_blank"
+                                       (click)="onClickDownloadTemplate($event)">{{'TEXT_DOWNLOAD' | translate}}</a> {{'TEXT_EXCEL_TEMPLATE' | translate}}
+                                </span></li>
+                                <li><span>{{'TEXT_FILL_TEMPLATE' | translate}}</span></li>
+                                <li><span>{{'TEXT_UPLOAD_ZIP' | translate}}
+                                    <div class="button" [ngClass]="{'disabled': isTemplateUploading}">{{'BTN_UPLOAD_ZIP' | translate}}
+                                        <input type="file"
+                                               (change)="onChangeFileTemplateUpload($event)"
+                                               [disabled]="isTemplateUploading"
+                                               accept="application/zip,application/x-zip,application/x-zip-compressed, .xlsx, .xls, .csv"
+                                               multiple/>
+                                    </div>
+                                </span></li>
+                            </ol>
+                            <div class="progress-bar" *ngIf="isTemplateUploading">
+                                <div class="progress-value" [ngStyle]="{'width': data.message + '%'}">
+                                    <span>{{filesUploaded}}/{{filesToUpload.length}} {{'TEXT_FILES' | translate}}</span>
+                                </div>
+                            </div>
+                            <button [disabled]="!areFilesUploaded" class="next" [routerLink]="['/dashboard/messenger/upload-history']">{{'BTN_NEXT' | translate}}</button>
+                            <span class="error-wrapper" *ngIf="isWrongExtension">
+                                {{'ERR_FILE_FORMAT' | translate}} .zip, .xls and .xlsx
+                            </span>
+                        </div>
+                    </form>
+                    <form name="form"
+                          class="form addProdcutForm"
+                          [formGroup]="form_group"
+                          validate
+                          *ngIf="!isAddingMultiple"
+                        >
+                        <app-add-edit-product-one [countries]="countries"
+                                                  [sales]="sales" [group]="form_group"
+                                                  [destinations]="destinations"
+                                                  [showrooms]="toShowroom ? showrooms : null"
+                                                  [disableShowroom]="disableShowroom"
+                                                  >
+                        </app-add-edit-product-one>
+                        <button class="btn btn-lg btn-primary btn-block account"
+                                type="submit" (click)="onNext()">
+                            {{'BTN_NEXT' | translate}}
+                        </button>
+                    </form>
+                </div>
+                <div [ngClass]="stepTwo ? 'show_step':'hide_step'">
+                    <form name="form"
+                          validate>
+                        <app-add-edit-product-two [group]="form_group"
+                                                  [genders]="genders"
+                                                  [styles]="styles"
+                                                  [colors]="colors"
+                                                  [brands]="brands"
+                                                  [product]="product"
+                                                  [prepacks]="prepacks"
+                                                  [currencies]="currencies"
+                                                  [composition_inner]="composition_inner"
+                                                  [composition_outer]="composition_outer">
+                        </app-add-edit-product-two>
+                    </form>
+                </div>
+                <div [ngClass]="stepThree ? 'show_step':'hide_step'">
+                    <app-add-edit-product-three [group]="form_group"
+                                                [packingType]="packingType">
+                    </app-add-edit-product-three>
+                </div>
+                <div *ngIf="stepTwo || stepThree">
+                    <div class="row form-group button_container">
+                        <div>
+                            <button *ngIf="!toShowroom" class="btn btn-block draft_button" [disabled]="form_group.disabled"
+                                    type="button" (click)="addDraft()">
+                                {{'BTN_CONCEPT' | translate}}
+                            </button>
+                        </div>
+                        <div>
+                            <button class="draft_button" type="button" (click)="previewProduct()">
+                                {{'BTN_PREVIEW' | translate}}
+                            </button>
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-lg btn-primary btn-block account save_button"
+                                    type="submit" [disabled]="form_group.disabled">
+                                {{'BTN_SAVE' | translate}}
+                                <img class="form_spinner" *ngIf="isLoading"
+                                     src="./../../../assets/images/Spinner-form.svg" alt="">
+                            </button>
+                        </div>
+                    </div>
+                    <div class="prev_next_button">
+                        <a (click)="onPreviousStep()" href="javascript:void(0);" class="previous"> < {{'BTN_PREV_STEP' | translate}}</a>
+                        <a *ngIf="stepTwo" (click)="onNextStep()" href="javascript:void(0);" class="previous">{{'BTN_NEXT_STEP' | translate}} ></a>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="productPreview" class="preview_container">
+                <app-seller-preview [product]="product"></app-seller-preview>
+                <div class="preview_button">
+                    <div class="row">
+                        <div class="form-group butt_container">
+                            <a *ngIf="!toShowroom" class="previewButton"
+                               href="javascript:void(0);"
+                               (click)="addDraft()"
+                               style="display:inline-block; width: 160px; height: 40px; margin-right: 24px;
+                               font-weight: 600; letter-spacing: 2px">
+                                {{'BTN_SAVE_DRAFT' | translate}}
+                                <img class="form_spinner" *ngIf="isLoading"
+                                     src="./../../../assets/images/Spinner-form.svg" alt="">
+                            </a>
+                            <button style="display:inline-block; float: right; width: 160px;
+                            margin-top: 24px; height: 40px"
+                                    type="submit" class="btn btn-primary btn-block account saveButton">
+                                <img class="form_spinner" *ngIf="isLoading"
+                                     src="./../../../assets/images/Spinner-form.svg" alt="">
+                                {{'BTN_SAVE' | translate}}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</main>
+<footer></footer>
+
+<modal id="custom-modal-2">
+    <div class="modal">
+        <div class="modal-body">    
+            <div class="verification">
+                {{'TITLE_VERIFICATION' | translate}}
+            </div>
+                   
+            <div class="content">
+
+                <div>
+                    {{'MODAL_PROD_VERIFICATION' | translate}}
+                </div>
+                <button (click)="closeModal('custom-modal-2');"
+                        class="btn btn-lg btn-primary btn-block account okButton">
+                    {{'BTN_OK' | translate}}
+                </button>
+            </div>
+        </div>
+    </div>
+     
+    <div class="modal-background"></div>
+</modal>
+<modal id="custom-modal-3">
+    <div class="modal">
+        <div class="modal-body">            
+            <button (click)="closeModal('custom-modal-3');"
+                    class="closeModal">
+                <i class="fa fa-close"></i>
+            </button>
+            <div class="content">
+                <div class="image">
+                    <img src="assets/images/sucess.png"
+                         alt="logo">
+                </div>
+                <div>
+                    {{'MODAL_PROD_SAVED_CONCEPT' | translate}}
+                </div>
+            </div>
+        </div>
+    </div>
+     
+    <div class="modal-background"></div>
+</modal>
+
+<modal id="custom-modal-products-imported-ok">
+    <div class="modal">
+        <div class="modal-body">            
+            <button [routerLink]="['/dashboard/messenger/upload-history']"
+                    class="closeModal">
+                <i class="fa fa-close"></i>
+            </button>
+            <div class="content">
+                <div>
+                    <div class="title"><img class="mark" src="../../../assets/images/success-mark.svg" alt="success" /> {{'TEXT_FILES_UPLOADED' | translate}}</div>
+                    <!-- For details download the <a download="import_results.xlsx" [href]="productImportInfo.result_file_url" target="_blank">result file</a>. -->
+                </div>
+                <div class="control-buttons">
+                    <button [routerLink]="['/dashboard/messenger/upload-history']">{{'BTN_OK' | translate}}</button>
+                </div>
+            </div>
+        </div>
+    </div>  
+    <div class="modal-background"></div>
+</modal>
+
+<modal id="custom-modal-products-imported-bad">
+    <div class="modal">
+        <div class="modal-body">            
+            <button (click)="modalService.close('custom-modal-products-imported-bad');"
+                    class="closeModal">
+                <i class="fa fa-close"></i>
+            </button>
+            <div class="content">
+                <div>
+                    <div class="title"><img class="mark" src="../../../assets/images/exclamation-mark.svg" alt="error" /> {{'TEXT_UPLOAD_ERROR' | translate}}</div>
+                    {{errorCounter}} {{'TEXT_FILES_WERE' | translate}} {{'TEXT_FILES_NOT_UPLOADED' | translate}}: 
+                    <br/><span *ngFor="let msg of errorMsg">{{msg}}</span><br/>
+                    {{'ERR_CHECK_FILE_ERRORS' | translate}}
+                </div>
+                <div class="control-buttons">
+                    <button [routerLink]="['/dashboard/messenger/upload-history']">{{'BTN_HISTORY' | translate}}</button>
+                    <button (click)="modalService.close('custom-modal-products-imported-bad');">{{'BTN_OK' | translate}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+     
+    <div class="modal-background"></div>
+</modal>
